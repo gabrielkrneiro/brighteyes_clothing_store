@@ -1,9 +1,7 @@
-import express from 'express'
+import { App, IApp } from "@src/app"
 
-const app = express()
-
-app.get('/', (request, response) => {
-    return response.json({ message: 'Hello world' })
-})
-
-app.listen(3333)
+(async function () {
+    const app: IApp = new App()
+    await app.init()
+    app.start()
+})()
