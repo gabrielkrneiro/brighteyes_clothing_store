@@ -1,7 +1,8 @@
-import { App, IApp } from "@src/app"
+import { App } from '@src/app'
 
-(async function () {
-    const app: IApp = new App()
-    await app.init()
-    app.start()
-})()
+async function runServer () {
+  const app = new App()
+  await app.init()
+  app.start()
+}
+runServer()
