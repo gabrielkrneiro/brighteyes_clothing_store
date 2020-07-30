@@ -1,7 +1,15 @@
+import 'reflect-metadata'
 import { App } from '@src/app'
-
-(async function () {
+;(async function () {
   const app = new App()
   await app.init()
   app.start()
 })()
+
+/**
+ * 1) TODO: Eliminar outros paths e permanecer somente com @src
+ *
+ *
+ *
+ *
+ */
