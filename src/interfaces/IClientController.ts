@@ -1,6 +1,7 @@
-import { Request, Response } from 'express'
+import { Request, Response, Router } from 'express'
 
 export interface IClientController {
+  init(route: Router): Promise<void>
   list(request: Request, response: Response): Promise<Response>
   listOne(request: Request, response: Response): Promise<Response>
   create(request: Request, response: Response): Promise<Response>

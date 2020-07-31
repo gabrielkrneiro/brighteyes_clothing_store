@@ -1,9 +1,21 @@
 import cors from 'cors'
-import express from 'express'
+import express, { Router } from 'express'
 
-import { IApp, IDb } from '@src/interfaces'
+import { IDb } from '@src/interfaces'
+
+import { ClientStatusController } from '@controllers/ClientStatusController'
+
+import { ClientController } from '@controllers/ClientController'
+
 import { Db } from '@src/common'
-import route from '@src/routes'
+
+export interface IApp {
+  init(): Promise<void>
+  start(): void
+  initDatabase(): Promise<void>
+  initMiddlewares(): void
+  initControllers(): void
+}
 
 export class App implements IApp {
   application: express.Application
@@ -14,8 +26,8 @@ export class App implements IApp {
 
   async init(): Promise<void> {
     this.initMiddlewares()
-    this.initDatabase()
-    this.initRoutes()
+    await this.initDatabase()
+    await this.initControllers()
   }
 
   initMiddlewares(): void {
@@ -27,13 +39,20 @@ export class App implements IApp {
   async initDatabase(): Promise<void> {
     const db: IDb = new Db()
     await db.init()
+    this.application.set('db', db.getInstance())
     console.log('- Successfully loaded Database')
   }
 
-  initRoutes(): void {
-    this.application.get('/', (_, response) => response.json({ message: 'Hello world' }))
+  async initControllers(): Promise<void> {
+    const route = Router()
+    const clientStatusController = new ClientStatusController()
+    await clientStatusController.init(route)
+
+    const clientController = new ClientController()
+    await clientController.init(route)
+
     this.application.use(route)
-    console.log('- Successfully loaded Routes')
+    console.log('- Successfully loaded Controllers')
   }
 
   start(): void {
