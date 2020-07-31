@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
 
-export interface IClientStatusController {
+export interface IController {
   init(route: Router): Promise<void>
   list(request: Request, response: Response): Promise<Response>
   listOne(request: Request, response: Response): Promise<Response>
@@ -8,3 +8,7 @@ export interface IClientStatusController {
   update(request: Request, response: Response): Promise<Response>
   remove(request: Request, response: Response): Promise<Response>
 }
+
+export interface IClientStatusController extends IController {}
+
+export interface IClientController extends IController {}

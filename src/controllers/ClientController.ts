@@ -1,14 +1,25 @@
 import { Request, Response, Router } from 'express'
 
 import { IClientController } from '@src/interfaces'
+import { Repository } from 'typeorm'
+import { Client } from '@src/models/Client'
+import { DTOController } from './DTOController'
 
 export class ClientController implements IClientController {
-  async init(route: Router): Promise<void> {
-    route.get('/clients', this.list)
-    route.post('/clients', this.create)
-    route.get('/clients/:id', this.listOne)
-    route.put('/clients/:id', this.update)
-    route.delete('/clients/:id', this.remove)
+  route: Router
+  repository: Repository<Client>
+
+  constructor({ route, repository }: DTOController<Client>) {
+    this.route = route
+    this.repository = repository
+  }
+
+  async init(): Promise<void> {
+    this.route.get('/clients', this.list)
+    this.route.post('/clients', this.create)
+    this.route.get('/clients/:id', this.listOne)
+    this.route.put('/clients/:id', this.update)
+    this.route.delete('/clients/:id', this.remove)
   }
 
   async list(_: Request, response: Response): Promise<Response> {
