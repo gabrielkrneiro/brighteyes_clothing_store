@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+
 import { ClientStatus } from '@models/ClientStatus'
 
 @Entity()
@@ -19,7 +20,8 @@ export class Client {
   birthdate: string
 
   @ManyToOne(() => ClientStatus, (clientStatus) => clientStatus.id)
-  clientStatus: number
+  @JoinColumn({ name: 'client_status_id' })
+  status: number
 
   @Column()
   photo: string

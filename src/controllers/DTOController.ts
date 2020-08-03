@@ -1,8 +1,4 @@
 import { Router } from 'express'
-import { Connection } from 'typeorm'
-
-export interface DTOController<T> {
+export interface DTOController {
   route: Router
-  // repository: Repository<T>
-  db: Connection
 }

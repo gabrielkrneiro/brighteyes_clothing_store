@@ -1,23 +1,19 @@
 import cors from 'cors'
-import express, { Router } from 'express'
+import express, { Response, Router } from 'express'
 
 import { IDb } from '@src/interfaces'
 
-import { ClientStatusController } from '@controllers/ClientStatusController'
-
 import { Db } from '@src/common'
-import { Connection } from 'typeorm'
+
+import { DTOController } from '@controllers/DTOController'
+import { ClientController } from '@controllers/ClientController'
+import { ClientStatusController } from '@controllers/ClientStatusController'
 
 export interface IApp {
   init(): Promise<void>
   start(): void
-  initDatabase(): Promise<Connection>
+  initDatabase(): Promise<void>
   initMiddlewares(): void
-}
-
-interface ControllerConfigs {
-  route: Router
-  db: Connection
 }
 
 export class App implements IApp {
@@ -29,47 +25,37 @@ export class App implements IApp {
 
   async init(): Promise<void> {
     this.initMiddlewares()
-    const db = await this.initDatabase()
-    console.log('- Successfully loaded Database')
-
+    await this.initDatabase()
     const route = Router()
-    const controllerConfigs: ControllerConfigs = { route, db }
 
-    const clientStatusController = new ClientStatusController(controllerConfigs)
-    await clientStatusController.init()
-    this.application.use(route)
+    route.get('/', (_, response: Response) => {
+      response.json({
+        message: 'Server is running on port 3333',
+        modules: {
+          client: 'http://127.0.0.1:3333/clients/',
+          'client-status': 'http://127.0.0.1:3333/client-status/',
+        },
+      })
+    })
+
+    await this.initModule(ClientStatusController, route)
+    await this.initModule(ClientController, route)
   }
 
-  async initDatabase(): Promise<Connection> {
+  async initModule(ControllerClassName: any, route: Router): Promise<void> {
+    const controller = new ControllerClassName({
+      route,
+    } as DTOController)
+    await controller.init()
+    this.application.use(route)
+    console.log('- Successfully loaded module ' + controller.constructor.name)
+  }
+
+  async initDatabase(): Promise<void> {
     const db: IDb = new Db()
     await db.init()
-    return db.getInstance()
+    console.log('- Successfully loaded Database')
   }
-
-  // async buildModule({ route, db, ControllerClassName }: ControllerConfigs): Promise<any> {
-  //   const controller = new ControllerClassName({
-  //     route,
-  //     db,
-  //   })
-  //   await controller.init()
-  //   console.log('- Successfully loaded', controller.constructor.name)
-  //   return controller
-  // }
-
-  // async buildModule({
-  //   route,
-  //   db,
-  //   ControllerClassName,
-  //   ModelClassName,
-  // }: DTOInitModule): Promise<void> {
-  //   const repository = db.getRepository(ModelClassName)
-  //   const controller = new ControllerClassName({
-  //     route,
-  //     repository,
-  //   })
-  //   await controller.init()
-  //   console.log('- Successfully loaded', controller.constructor.name)
-  // }
 
   initMiddlewares(): void {
     this.application.use(express.json())

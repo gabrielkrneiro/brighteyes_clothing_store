@@ -1,45 +1,112 @@
-import { IClientStatusController } from '@src/interfaces'
 import { Request, Response, Router } from 'express'
-import { DTOController } from '@controllers/DTOController'
+import { getRepository } from 'typeorm'
+
+import { IClientStatusController } from '@src/interfaces'
+
 import { ClientStatus } from '@src/models'
-import { Connection, Repository } from 'typeorm'
+
+import { DTOController } from '@controllers/DTOController'
 
 export class ClientStatusController implements IClientStatusController {
   route: Router
-  db: Connection
-  repository: Repository<ClientStatus>
 
-  constructor({ route, db }: DTOController<ClientStatus>) {
+  constructor({ route }: DTOController) {
     this.route = route
-    this.db = db
-    this.repository = db.getRepository(ClientStatus)
   }
 
   async init(): Promise<void> {
-    this.route.get('/clients-status', this.list)
-    this.route.post('/clients-status', this.create)
-    this.route.get('/clients-status/:id', this.listOne)
-    this.route.put('/clients-status/:id', this.update)
-    this.route.delete('/clients-status/:id', this.remove)
+    this.route.get('/client-status', this.list)
+    this.route.post('/client-status', this.create)
+    this.route.get('/client-status/:id', this.listOne)
+    this.route.put('/client-status/:id', this.update)
+    this.route.delete('/client-status/:id', this.remove)
   }
 
   async list(_: Request, response: Response): Promise<Response> {
-    return response.json('Listing client status...')
+    try {
+      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusList = await clientStatusRepo.find()
+      return response.json(clientStatusList)
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json({
+        message: 'an error occurred',
+        error_message: error.message,
+      })
+    }
   }
 
-  async listOne(_: Request, response: Response): Promise<Response> {
-    return response.json('Listing one client status...')
+  async listOne(request: Request, response: Response): Promise<Response> {
+    try {
+      const clientStatusId = request.params.id
+      const clientStatusRepo = getRepository(ClientStatus)
+      const foundClient = await clientStatusRepo.findOneOrFail({
+        where: {
+          id: clientStatusId,
+        },
+      })
+      return response.json(foundClient)
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json({
+        message: 'an error occurred',
+        error_message: error.message,
+      })
+    }
   }
 
-  async create(_: Request, response: Response): Promise<Response> {
-    return response.json('Create client status...')
+  async create(request: Request, response: Response): Promise<Response> {
+    try {
+      const data = request.body
+      const clientStatusRepo = getRepository(ClientStatus)
+      const createdClientStatus = await clientStatusRepo.save(data)
+      return response.json({
+        message: 'Client status created',
+        data: createdClientStatus,
+      })
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json({
+        message: 'An error occurred',
+        error_message: error.message,
+      })
+    }
   }
 
-  async update(_: Request, response: Response): Promise<Response> {
-    return response.json('Update client status...')
+  async update(request: Request, response: Response): Promise<Response> {
+    try {
+      const data = request.body
+      const clientStatusId = request.params.id
+      const clientStatusRepo = getRepository(ClientStatus)
+      await clientStatusRepo.update(clientStatusId, data)
+      const updatedClientStatus = await clientStatusRepo.findOneOrFail({
+        where: { id: clientStatusId },
+      })
+      return response.json({
+        message: 'Client status updated',
+        data: updatedClientStatus,
+      })
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json({
+        message: 'An error occurred',
+        error_message: error.message,
+      })
+    }
   }
 
-  async remove(_: Request, response: Response): Promise<Response> {
-    return response.json('Remove client status...')
+  async remove(request: Request, response: Response): Promise<Response> {
+    try {
+      const clientStatusId = request.params.id
+      const clientStatusRepo = getRepository(ClientStatus)
+      const foundClientStatus = await clientStatusRepo.findOneOrFail(clientStatusId)
+      await clientStatusRepo.remove(foundClientStatus)
+      return response.json({
+        message: 'Client status removed',
+      })
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json(error)
+    }
   }
 }

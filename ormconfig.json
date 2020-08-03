@@ -4,7 +4,7 @@
   "type": "sqlite",
   "database": "./data/data.db",
   "entities": ["src/models/**/*.ts"],
-  "migrations": ["src/migration/**/*.ts"],
+  "migrations": ["src/common/database/migration/**/*.ts"],
   "subscribers": ["src/subscriber/**/*.ts"],
   "cli": {
     "entitiesDir": "src/entity",
