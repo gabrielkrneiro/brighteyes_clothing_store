@@ -1,9 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import {
-  ClientStatus,
-  EmployeeClientStatus,
-} from '@src/modules/employee_client_status/EmployeeClientStatus'
+import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
 
 @Entity()
 export class Client {

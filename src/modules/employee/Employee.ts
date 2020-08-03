@@ -1,23 +1,25 @@
-// import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-// @Entity()
-// export class EmployeeStatus {
-//   @PrimaryGeneratedColumn()
-//   id: number
+import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
 
-//   @Column({ name: 'employee_title_id' })
-//   title: number
+@Entity()
+export class Employee {
+  @PrimaryGeneratedColumn()
+  id: number
 
-//   @ManyToOne(() => )
-//   @JoinColumn({ name: 'employee_status_id' })
-//   status: number
+  @Column({ name: 'employee_title_id' })
+  title: number
 
-//   @Column()
-//   name: string
+  @ManyToOne(() => EmployeeClientStatus, (employeeClientStatus) => employeeClientStatus.id)
+  @JoinColumn({ name: 'employee_status_id' })
+  status: number
 
-//   @Column()
-//   photo: string
+  @Column()
+  name: string
 
-//   @Column()
-//   birthdate: Date
-// }
+  @Column()
+  photo: string
+
+  @Column()
+  birthdate: Date
+}

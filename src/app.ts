@@ -1,12 +1,13 @@
 import cors from 'cors'
+import { config } from 'dotenv'
 import express, { Response, Router } from 'express'
 
 import { ClientController } from '@src/modules/client/ClientController'
-import { DTOController } from './common/dto/DTOController'
-import { IDb } from './common/database/IDb'
-import { Db } from './common/database/Db'
-import { config } from 'dotenv'
-import { EmployeeClientStatusController } from './modules/employee_client_status/EmployeeClientStatusController'
+import { DTOController } from '@src/common/dto/DTOController'
+import { IDb } from '@src/common/database/IDb'
+import { Db } from '@src/common/database/Db'
+import { EmployeeClientStatusController } from '@src/modules/employee_client_status/EmployeeClientStatusController'
+import { EmployeeController } from '@src/modules/employee/EmployeeController'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -31,6 +32,7 @@ export class App implements IApp {
         message: `Server is running on port ${process.env.PORT}`,
         modules: {
           clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
+          employees: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employees/`,
           'client-status': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
         },
       })
@@ -38,6 +40,7 @@ export class App implements IApp {
 
     await this.initModule(EmployeeClientStatusController, route)
     await this.initModule(ClientController, route)
+    await this.initModule(EmployeeController, route)
   }
 
   async initModule(ControllerClassName: any, route: Router): Promise<void> {
