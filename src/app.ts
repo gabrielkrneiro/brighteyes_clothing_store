@@ -8,6 +8,7 @@ import { IDb } from '@src/common/database/IDb'
 import { Db } from '@src/common/database/Db'
 import { EmployeeClientStatusController } from '@src/modules/employee_client_status/EmployeeClientStatusController'
 import { EmployeeController } from '@src/modules/employee/EmployeeController'
+import { EmployeeTitleController } from './modules/employee_title/EmployeeTitleController'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -32,8 +33,9 @@ export class App implements IApp {
         message: `Server is running on port ${process.env.PORT}`,
         modules: {
           clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
+          'employee-client-status': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
           employees: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employees/`,
-          'client-status': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
+          'employee-title': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-title/`,
         },
       })
     })
@@ -41,6 +43,7 @@ export class App implements IApp {
     await this.initModule(EmployeeClientStatusController, route)
     await this.initModule(ClientController, route)
     await this.initModule(EmployeeController, route)
+    await this.initModule(EmployeeTitleController, route)
   }
 
   async initModule(ControllerClassName: any, route: Router): Promise<void> {
