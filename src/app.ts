@@ -1,14 +1,12 @@
 import cors from 'cors'
 import express, { Response, Router } from 'express'
 
-import { IDb } from '@src/interfaces'
-
-import { Db } from '@src/common'
-
-import { DTOController } from '@controllers/DTOController'
-import { ClientController } from '@controllers/ClientController'
-import { ClientStatusController } from '@controllers/ClientStatusController'
-
+import { ClientController } from '@src/modules/client/ClientController'
+import { DTOController } from './common/dto/DTOController'
+import { IDb } from './common/database/IDb'
+import { Db } from './common/database/Db'
+import { config } from 'dotenv'
+import { EmployeeClientStatusController } from './modules/employee_client_status/EmployeeClientStatusController'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -30,15 +28,15 @@ export class App implements IApp {
 
     route.get('/', (_, response: Response) => {
       response.json({
-        message: 'Server is running on port 3333',
+        message: `Server is running on port ${process.env.PORT}`,
         modules: {
-          client: 'http://127.0.0.1:3333/clients/',
-          'client-status': 'http://127.0.0.1:3333/client-status/',
+          clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
+          'client-status': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
         },
       })
     })
 
-    await this.initModule(ClientStatusController, route)
+    await this.initModule(EmployeeClientStatusController, route)
     await this.initModule(ClientController, route)
   }
 
@@ -58,6 +56,7 @@ export class App implements IApp {
   }
 
   initMiddlewares(): void {
+    config()
     this.application.use(express.json())
     this.application.use(cors())
     console.log('- Successfully loaded Middlewares')

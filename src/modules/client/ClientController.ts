@@ -1,13 +1,11 @@
 import { Request, Response, Router } from 'express'
 import { getRepository, Repository } from 'typeorm'
 
-import { IClientController } from '@src/interfaces'
+import { Client } from '@src/modules/client/Client'
+import { IController } from '@src/interfaces/IControllers'
+import { DTOController } from '@src/common/dto/DTOController'
 
-import { Client } from '@src/models/Client'
-
-import { DTOController } from '@controllers/DTOController'
-
-export class ClientController implements IClientController {
+export class ClientController implements IController {
   route: Router
   repository: Repository<Client>
 

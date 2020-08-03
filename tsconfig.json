@@ -16,12 +16,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"],
-      "@controllers/*": ["./src/controllers/*"],
-      "@models/*": ["./src/models/*"],
-      "@services/*": ["./src/services/*"],
-      "@common/*": ["./src/common/*"],
-      "@interfaces/*": ["./src/interfaces/*"]
+      "@src/*": ["./src/*"]
     },
     "strictPropertyInitialization": false,
     "declaration": false,

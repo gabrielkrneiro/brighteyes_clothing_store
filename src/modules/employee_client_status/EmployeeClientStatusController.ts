@@ -1,13 +1,10 @@
+import { DTOController } from '@src/common/dto/DTOController'
+import { IController } from '@src/interfaces/IControllers'
 import { Request, Response, Router } from 'express'
 import { getRepository } from 'typeorm'
+import { EmployeeClientStatus } from './EmployeeClientStatus'
 
-import { IClientStatusController } from '@src/interfaces'
-
-import { ClientStatus } from '@src/models'
-
-import { DTOController } from '@controllers/DTOController'
-
-export class ClientStatusController implements IClientStatusController {
+export class EmployeeClientStatusController implements IController {
   route: Router
 
   constructor({ route }: DTOController) {
@@ -15,16 +12,16 @@ export class ClientStatusController implements IClientStatusController {
   }
 
   async init(): Promise<void> {
-    this.route.get('/client-status', this.list)
-    this.route.post('/client-status', this.create)
-    this.route.get('/client-status/:id', this.listOne)
-    this.route.put('/client-status/:id', this.update)
-    this.route.delete('/client-status/:id', this.remove)
+    this.route.get('/employee-client-status', this.list)
+    this.route.post('/employee-client-status', this.create)
+    this.route.get('/employee-client-status/:id', this.listOne)
+    this.route.put('/employee-client-status/:id', this.update)
+    this.route.delete('/employee-client-status/:id', this.remove)
   }
 
   async list(_: Request, response: Response): Promise<Response> {
     try {
-      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusRepo = getRepository(EmployeeClientStatus)
       const clientStatusList = await clientStatusRepo.find()
       return response.json(clientStatusList)
     } catch (error) {
@@ -39,7 +36,7 @@ export class ClientStatusController implements IClientStatusController {
   async listOne(request: Request, response: Response): Promise<Response> {
     try {
       const clientStatusId = request.params.id
-      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusRepo = getRepository(EmployeeClientStatus)
       const foundClient = await clientStatusRepo.findOneOrFail({
         where: {
           id: clientStatusId,
@@ -58,7 +55,7 @@ export class ClientStatusController implements IClientStatusController {
   async create(request: Request, response: Response): Promise<Response> {
     try {
       const data = request.body
-      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusRepo = getRepository(EmployeeClientStatus)
       const createdClientStatus = await clientStatusRepo.save(data)
       return response.json({
         message: 'Client status created',
@@ -77,7 +74,7 @@ export class ClientStatusController implements IClientStatusController {
     try {
       const data = request.body
       const clientStatusId = request.params.id
-      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusRepo = getRepository(EmployeeClientStatus)
       await clientStatusRepo.update(clientStatusId, data)
       const updatedClientStatus = await clientStatusRepo.findOneOrFail({
         where: { id: clientStatusId },
@@ -98,7 +95,7 @@ export class ClientStatusController implements IClientStatusController {
   async remove(request: Request, response: Response): Promise<Response> {
     try {
       const clientStatusId = request.params.id
-      const clientStatusRepo = getRepository(ClientStatus)
+      const clientStatusRepo = getRepository(EmployeeClientStatus)
       const foundClientStatus = await clientStatusRepo.findOneOrFail(clientStatusId)
       await clientStatusRepo.remove(foundClientStatus)
       return response.json({

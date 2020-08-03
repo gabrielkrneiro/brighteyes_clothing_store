@@ -1,6 +1,6 @@
 import { Connection, createConnection } from 'typeorm'
 
-import { IDb } from '@src/interfaces/IDb'
+import { IDb } from '@src/common/database/IDb'
 
 export class Db implements IDb {
   private instance: Connection

@@ -8,7 +8,3 @@ export interface IController {
   update(request: Request, response: Response): Promise<Response>
   remove(request: Request, response: Response): Promise<Response>
 }
-
-export interface IClientStatusController extends IController {}
-
-export interface IClientController extends IController {}
