@@ -9,6 +9,10 @@ import { Db } from '@src/common/database/Db'
 import { EmployeeClientStatusController } from '@src/modules/employee_client_status/EmployeeClientStatusController'
 import { EmployeeController } from '@src/modules/employee/EmployeeController'
 import { EmployeeTitleController } from './modules/employee_title/EmployeeTitleController'
+import { ShoppingCartStatusController } from './modules/shopping_cart_status/ShoppingCartStatusController'
+import { ClothesStatusController } from './modules/clothes_status/ClothesStatusController'
+import { ClothesController } from './modules/clothes/ClothesController'
+import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -28,22 +32,34 @@ export class App implements IApp {
     await this.initDatabase()
     const route = Router()
 
+    await this.initApiSummarize(route)
+
+    await await this.initModule(ClientController, route)
+    await this.initModule(ClothesController, route)
+    await this.initModule(ClothesStatusController, route)
+    await this.initModule(EmployeeController, route)
+    await this.initModule(EmployeeClientStatusController, route)
+    await this.initModule(EmployeeTitleController, route)
+    await this.initModule(ShoppingCartStatusController, route)
+    await this.initModule(ShoppingCartController, route)
+  }
+
+  async initApiSummarize(route: Router): Promise<void> {
     route.get('/', (_, response: Response) => {
       response.json({
         message: `Server is running on port ${process.env.PORT}`,
         modules: {
           clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
-          'employee-client-status': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
+          clothes: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes/`,
+          clothes_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes-status/`,
           employees: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employees/`,
-          'employee-title': `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-title/`,
+          employee_client_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
+          employee_title: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-title/`,
+          shopping_cart_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart-status/`,
+          shopping_cart: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart/`,
         },
       })
     })
-
-    await this.initModule(EmployeeClientStatusController, route)
-    await this.initModule(ClientController, route)
-    await this.initModule(EmployeeController, route)
-    await this.initModule(EmployeeTitleController, route)
   }
 
   async initModule(ControllerClassName: any, route: Router): Promise<void> {

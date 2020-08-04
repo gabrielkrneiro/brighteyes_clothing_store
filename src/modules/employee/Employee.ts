@@ -16,6 +16,10 @@ export class Employee {
   @JoinColumn({ name: 'employee_status_id' })
   status: number
 
+  @ManyToOne(() => Employee)
+  @JoinColumn({ name: 'employee_hr_id' })
+  registeredBy: Employee
+
   @Column()
   name: string
 

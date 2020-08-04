@@ -19,7 +19,7 @@ export class Client {
   @Column()
   birthdate: string
 
-  @ManyToOne(() => EmployeeClientStatus, (employeeClientStatus) => employeeClientStatus.id)
+  @ManyToOne(() => EmployeeClientStatus)
   @JoinColumn({ name: 'client_status_id' })
   status: number
 
