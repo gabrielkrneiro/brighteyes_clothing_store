@@ -10,11 +10,11 @@ export class Employee {
 
   @ManyToOne(() => EmployeeTitle, (employeeTitle) => employeeTitle.id)
   @JoinColumn({ name: 'employee_title_id' })
-  title: number
+  title: EmployeeTitle
 
   @ManyToOne(() => EmployeeClientStatus, (employeeClientStatus) => employeeClientStatus.id)
   @JoinColumn({ name: 'employee_status_id' })
-  status: number
+  status: EmployeeClientStatus
 
   @ManyToOne(() => Employee)
   @JoinColumn({ name: 'employee_hr_id' })
@@ -28,4 +28,7 @@ export class Employee {
 
   @Column()
   birthdate: Date
+
+  @Column({ nullable: false })
+  password: string
 }

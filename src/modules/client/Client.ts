@@ -17,11 +17,11 @@ export class Client {
   cpf: string
 
   @Column()
-  birthdate: string
+  birthdate: Date
 
   @ManyToOne(() => EmployeeClientStatus)
   @JoinColumn({ name: 'client_status_id' })
-  status: number
+  status: EmployeeClientStatus
 
   @Column()
   photo: string

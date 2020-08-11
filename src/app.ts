@@ -15,6 +15,7 @@ import { ClothesController } from './modules/clothes/ClothesController'
 import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
 import { SeedRunner } from './common/seeds/SeedRunner'
 import { ClothesStatusSeeder } from './common/seeds/ClothesStatusSeeder'
+import { runSeeders } from './common/seeds/runSeeders'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -36,7 +37,7 @@ export class App implements IApp {
 
     await this.initApiSummarize(route)
 
-    await await this.initModule(ClientController, route)
+    await this.initModule(ClientController, route)
     await this.initModule(ClothesController, route)
     await this.initModule(ClothesStatusController, route)
     await this.initModule(EmployeeController, route)
@@ -47,12 +48,14 @@ export class App implements IApp {
   }
 
   async initApiSummarize(route: Router): Promise<void> {
-    route.get('/asdf', (_, response: Response) => {
-      const seedRunner = new SeedRunner()
-      const clothesStatusSeeder = new ClothesStatusSeeder()
-      seedRunner.addSedder(clothesStatusSeeder)
-      seedRunner.start()
-      return response.json({ message: 'Database seeded successfully' })
+    route.get('/run-seeders', (_, response: Response) => {
+      try {
+        runSeeders()
+        return response.json({ message: 'Database seeded successfully' })
+      } catch (error) {
+        console.error(error.message)
+        return response.json({ message: error.message })
+      }
     })
 
     route.get('/', (_, response: Response) => {
