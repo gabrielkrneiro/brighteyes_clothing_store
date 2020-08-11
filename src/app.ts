@@ -13,6 +13,8 @@ import { ShoppingCartStatusController } from './modules/shopping_cart_status/Sho
 import { ClothesStatusController } from './modules/clothes_status/ClothesStatusController'
 import { ClothesController } from './modules/clothes/ClothesController'
 import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
+import { SeedRunner } from './common/seeds/SeedRunner'
+import { ClothesStatusSeeder } from './common/seeds/ClothesStatusSeeder'
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -45,6 +47,14 @@ export class App implements IApp {
   }
 
   async initApiSummarize(route: Router): Promise<void> {
+    route.get('/asdf', (_, response: Response) => {
+      const seedRunner = new SeedRunner()
+      const clothesStatusSeeder = new ClothesStatusSeeder()
+      seedRunner.addSedder(clothesStatusSeeder)
+      seedRunner.start()
+      return response.json({ message: 'Database seeded successfully' })
+    })
+
     route.get('/', (_, response: Response) => {
       response.json({
         message: `Server is running on port ${process.env.PORT}`,
