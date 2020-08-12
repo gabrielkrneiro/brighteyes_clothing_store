@@ -13,8 +13,6 @@ import { ShoppingCartStatusController } from './modules/shopping_cart_status/Sho
 import { ClothesStatusController } from './modules/clothes_status/ClothesStatusController'
 import { ClothesController } from './modules/clothes/ClothesController'
 import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
-import { SeedRunner } from './common/seeds/SeedRunner'
-import { ClothesStatusSeeder } from './common/seeds/ClothesStatusSeeder'
 import { runSeeders } from './common/seeds/runSeeders'
 export interface IApp {
   init(): Promise<void>

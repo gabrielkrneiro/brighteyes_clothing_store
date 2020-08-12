@@ -29,6 +29,9 @@ export class Employee {
   @Column()
   birthdate: Date
 
-  @Column({ nullable: false })
+  @Column()
   password: string
+
+  @Column()
+  email: string
 }

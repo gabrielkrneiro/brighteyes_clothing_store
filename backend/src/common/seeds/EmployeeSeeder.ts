@@ -30,6 +30,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       password: 'senha123',
       title: humanResourceTitle,
       status: activatedStatus,
+      email: 'hr@brighteyes.com',
     }
 
     try {
@@ -53,6 +54,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
+        email: 'warehouse@brighteyes.com',
       },
       {
         name: 'Employee 3',
@@ -60,6 +62,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
+        email: 'customerservice@brighteyes.com',
       },
       {
         name: 'Employee 4',
@@ -67,6 +70,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
+        email: 'seller@brighteyes.com',
       },
       {
         name: 'Employee 5',
@@ -74,6 +78,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
+        email: 'cashier@brighteyes.com',
       },
     ]
   }
