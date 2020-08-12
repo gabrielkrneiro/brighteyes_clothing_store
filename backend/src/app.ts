@@ -1,6 +1,7 @@
 import cors from 'cors'
 import { config } from 'dotenv'
 import express, { Response, Router } from 'express'
+import helmet from 'helmet'
 
 import { ClientController } from '@src/modules/client/ClientController'
 import { DTOController } from '@src/common/dto/DTOController'
@@ -14,6 +15,8 @@ import { ClothesStatusController } from './modules/clothes_status/ClothesStatusC
 import { ClothesController } from './modules/clothes/ClothesController'
 import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
 import { runSeeders } from './common/seeds/runSeeders'
+import { AuthController } from './modules/auth/AuthController'
+
 export interface IApp {
   init(): Promise<void>
   start(): void
@@ -43,6 +46,7 @@ export class App implements IApp {
     await this.initModule(EmployeeTitleController, route)
     await this.initModule(ShoppingCartStatusController, route)
     await this.initModule(ShoppingCartController, route)
+    await this.initModule(AuthController, route)
   }
 
   async initApiSummarize(route: Router): Promise<void> {
@@ -60,6 +64,7 @@ export class App implements IApp {
       response.json({
         message: `Server is running on port ${process.env.PORT}`,
         modules: {
+          authentication: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/`,
           clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
           clothes: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes/`,
           clothes_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes-status/`,
@@ -92,6 +97,7 @@ export class App implements IApp {
     config()
     this.application.use(express.json())
     this.application.use(cors())
+    this.application.use(helmet())
     console.log('- Successfully loaded Middlewares')
   }
 
