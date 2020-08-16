@@ -3,12 +3,12 @@ import { config } from 'dotenv'
 import express, { Response, Router } from 'express'
 import helmet from 'helmet'
 
-import { ClientController } from '@src/modules/client/ClientController'
-import { DTOController } from '@src/common/dto/DTOController'
-import { IDb } from '@src/common/database/IDb'
-import { Db } from '@src/common/database/Db'
-import { EmployeeClientStatusController } from '@src/modules/employee_client_status/EmployeeClientStatusController'
-import { EmployeeController } from '@src/modules/employee/EmployeeController'
+import { ClientController } from './modules/client/ClientController'
+import { DTOController } from './common/dto/DTOController'
+import { IDb } from './common/database/IDb'
+import { Db } from './common/database/Db'
+import { EmployeeClientStatusController } from './modules/employee_client_status/EmployeeClientStatusController'
+import { EmployeeController } from './modules/employee/EmployeeController'
 import { EmployeeTitleController } from './modules/employee_title/EmployeeTitleController'
 import { ShoppingCartStatusController } from './modules/shopping_cart_status/ShoppingCartStatusController'
 import { ClothesStatusController } from './modules/clothes_status/ClothesStatusController'
@@ -50,7 +50,7 @@ export class App implements IApp {
   }
 
   async initApiSummarize(route: Router): Promise<void> {
-    route.get('/run-seeders', (_, response: Response) => {
+    route.get('/run-seeders', async (_, response: Response) => {
       try {
         runSeeders()
         return response.json({ message: 'Database seeded successfully' })

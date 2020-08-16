@@ -32,7 +32,7 @@ export class EmployeeTitleSeeder implements ISeeder<EmployeeTitle> {
     ]
   }
 
-  run() {
+  async run() {
     console.log(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(EmployeeTitle)
     this.objectList.forEach(async (o) => {

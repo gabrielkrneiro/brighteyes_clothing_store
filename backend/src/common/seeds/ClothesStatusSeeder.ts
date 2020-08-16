@@ -3,6 +3,7 @@ import { ISeeder } from './ISeeder'
 import { objectFactory } from './objectFactory'
 import { ClothesStatus } from './../../modules/clothes_status/ClothesStatus'
 import { getRepository } from 'typeorm'
+import { ClothesStatusEnum } from '@src/modules/clothes_status/ClothesStatusEnum'
 
 export class ClothesStatusSeeder implements ISeeder<ClothesStatus> {
   objectList: ClothesStatus[]
@@ -15,15 +16,15 @@ export class ClothesStatusSeeder implements ISeeder<ClothesStatus> {
   data(): Omit<ClothesStatus, 'id'>[] {
     return [
       {
-        name: 'OUT OF STOCK',
+        name: ClothesStatusEnum.OUT_OF_STOCK,
       },
       {
-        name: 'IN STOCK',
+        name: ClothesStatusEnum.IN_STOCK,
       },
     ]
   }
 
-  run() {
+  async run() {
     console.log(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(ClothesStatus)
     this.objectList.forEach(async (o) => {

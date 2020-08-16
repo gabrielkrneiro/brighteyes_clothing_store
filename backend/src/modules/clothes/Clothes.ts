@@ -17,24 +17,21 @@ export class Clothes {
   id: number
 
   @ManyToOne(() => ClothesStatus)
-  @JoinColumn({ name: 'client_status_id' })
-  status: number
+  @JoinColumn({ name: 'clothes_status_id' })
+  status: ClothesStatus
 
   @ManyToMany(() => Employee)
   @JoinTable({ name: 'clothes_employees' })
-  employees: Employee[]
+  wareHouseEmployees: Employee[]
 
   @Column()
   name: string
 
   @Column()
-  price: string
+  price: number
 
   @Column()
   photo: string
-
-  @Column()
-  cpf: string
 
   @Column({ default: 0, name: 'quantity_in_stock' })
   quantityInStock: number

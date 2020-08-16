@@ -24,7 +24,7 @@ export class EmployeeClientStatusSeeder implements ISeeder<EmployeeClientStatus>
     ]
   }
 
-  run() {
+  async run() {
     console.log(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(EmployeeClientStatus)
     this.objectList.forEach(async (o) => {

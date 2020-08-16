@@ -33,7 +33,7 @@ export class ShoppingCart {
 
   @ManyToOne(() => ShoppingCartStatus)
   @JoinColumn({ name: 'shopping_cart_status_id' })
-  status: Employee
+  status: ShoppingCartStatus
 
   @ManyToMany(() => Clothes)
   @JoinTable({ name: 'shopping_cart_clothes' })

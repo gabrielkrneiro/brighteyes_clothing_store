@@ -13,7 +13,7 @@ export class SeedRunner {
 
   start() {
     try {
-      this.seeders.forEach((seeder) => seeder.run())
+      this.seeders.forEach(async (seeder) => await seeder.run())
     } catch (error) {
       console.error(error.message)
       throw error

@@ -26,7 +26,7 @@ export class ShoppingCartStatusSeeder implements ISeeder<ShoppingCartStatus> {
     ]
   }
 
-  run() {
+  async run() {
     console.log(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(ShoppingCartStatus)
     this.objectList.forEach(async (o) => {

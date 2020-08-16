@@ -1,3 +1,3 @@
 export interface ISeeder<T> {
-  run(): void
+  run(): Promise<void>
 }
