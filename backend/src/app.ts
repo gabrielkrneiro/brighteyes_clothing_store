@@ -1,5 +1,4 @@
 import cors from 'cors'
-import { config } from 'dotenv'
 import express, { Response, Router } from 'express'
 import helmet from 'helmet'
 
@@ -94,7 +93,6 @@ export class App implements IApp {
   }
 
   initMiddlewares(): void {
-    config()
     this.application.use(express.json())
     this.application.use(cors())
     this.application.use(helmet())
