@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm'
 import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
 import { Employee } from '@src/modules/employee/Employee'
 import { EmployeeTitle } from '@src/modules/employee_title/EmployeeTitle'
+import logger from '../logger/logger'
 
 export class EmployeeSeeder implements ISeeder<Employee> {
   objectList: Employee[]
@@ -14,7 +15,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
     const statusRepository = getRepository(EmployeeClientStatus)
     const employeeRepository = getRepository(Employee)
     const humanResourceTitle = await employeeTitleRepository.findOne({
-      where: { name: 'Human Resource' },
+      where: { name: 'Human Resource' }
     })
     const activatedStatus = await statusRepository.findOne({ where: { name: 'ACTIVATED' } })
 
@@ -30,7 +31,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       password: 'senha123',
       title: humanResourceTitle,
       status: activatedStatus,
-      email: 'hr@brighteyes.com',
+      email: 'hr@brighteyes.com'
     }
 
     try {
@@ -38,7 +39,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       if (!found) {
         await employeeRepository.save(hrEmployee)
       }
-      console.log('HR employee firstly created successfully')
+      logger.debug('HR employee firstly created successfully')
       return hrEmployee
     } catch (error) {
       console.error(error.message)
@@ -54,7 +55,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
-        email: 'warehouse@brighteyes.com',
+        email: 'warehouse@brighteyes.com'
       },
       {
         name: 'Employee 3',
@@ -62,7 +63,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
-        email: 'customerservice@brighteyes.com',
+        email: 'customerservice@brighteyes.com'
       },
       {
         name: 'Employee 4',
@@ -70,7 +71,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
-        email: 'seller@brighteyes.com',
+        email: 'seller@brighteyes.com'
       },
       {
         name: 'Employee 5',
@@ -78,12 +79,12 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: 'senha123',
-        email: 'cashier@brighteyes.com',
-      },
+        email: 'cashier@brighteyes.com'
+      }
     ]
   }
 
-  async run() {
+  async run(): Promise<void> {
     await this.createHrEmployee()
 
     const statusRepository = getRepository(EmployeeClientStatus)
@@ -95,13 +96,13 @@ export class EmployeeSeeder implements ISeeder<Employee> {
 
     const warehouseTitle = await employeeTitleRepository.findOne({ where: { name: 'Warehouse' } })
     const customerServiceTitle = await employeeTitleRepository.findOne({
-      where: { name: 'Customer Service' },
+      where: { name: 'Customer Service' }
     })
     const sellerTitle = await employeeTitleRepository.findOne({ where: { name: 'Seller' } })
     const cashierTitle = await employeeTitleRepository.findOne({ where: { name: 'Cashier' } })
 
     const hrEmployee = await employeeRepository.findOne({
-      where: { name: 'Employee 1' },
+      where: { name: 'Employee 1' }
     })
 
     if (
@@ -121,25 +122,25 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       ...data[0],
       registeredBy: hrEmployee,
       title: warehouseTitle,
-      status: activatedStatus,
+      status: activatedStatus
     })
     const d2 = Object.assign(data[1], {
       ...data[1],
       registeredBy: hrEmployee,
       title: customerServiceTitle,
-      status: activatedStatus,
+      status: activatedStatus
     })
     const d3 = Object.assign(data[2], {
       ...data[2],
       registeredBy: hrEmployee,
       title: sellerTitle,
-      status: activatedStatus,
+      status: activatedStatus
     })
     const d4 = Object.assign(data[3], {
       ...data[3],
       registeredBy: hrEmployee,
       title: cashierTitle,
-      status: activatedStatus,
+      status: activatedStatus
     })
 
     const listOfData = [d1, d2, d3, d4]
@@ -147,15 +148,15 @@ export class EmployeeSeeder implements ISeeder<Employee> {
     const parsedObjects = objectFactory<Employee>(listOfData, Employee)
     this.objectList = [...parsedObjects]
 
-    console.log(`Running seeder ${this.constructor.name}`)
+    logger.debug(`Running seeder ${this.constructor.name}`)
 
     this.objectList.forEach(async (o) => {
       const found = await employeeRepository.findOne({ where: { name: o.name } })
       if (!found) {
         await employeeRepository.save(o)
-        console.log(`Saved model <Employee data=${JSON.stringify(o)}>`)
+        logger.debug(`Saved model <Employee data=${JSON.stringify(o)}>`)
       }
     })
-    console.log(`Ran succesfully the Seeder ${this.constructor.name}`)
+    logger.debug(`Ran succesfully the Seeder ${this.constructor.name}`)
   }
 }

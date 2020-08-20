@@ -8,6 +8,7 @@ import { AbstractController } from '../abstract.controller'
 import { Employee } from '../employee/Employee'
 import { Auth } from './Auth'
 import APP_CONFIG from '@src/config/app.config'
+import logger from '@src/common/logger/logger'
 
 interface IAuthController {
   signIn(request: Request, response: Response): Promise<Response>
@@ -48,22 +49,24 @@ export class AuthController extends AbstractController implements IController, I
     return response.json({
       'sign-in': `[POST] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/sign-in`,
       'sign-out': `[POST] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/sign-out`,
-      verify: `[GET] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/verify`,
+      verify: `[GET] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/verify`
     })
   }
 
   signIn = async (request: Request, response: Response): Promise<Response> => {
     try {
       const { email, password } = request.body
+      logger.debug('Sign in email ' + email)
       const foundEmployee = await this.employeeRepository.findOneOrFail({ where: { email } })
       if (foundEmployee.password !== password) {
-        throw new Error('Password is invalid')
+        throw new Error('Password is invalid to email ' + email)
       }
+      logger.debug(`Successfully signed ${email} in`)
       const accessToken = this.createToken(foundEmployee)
       response.setHeader('Set-Cookie', [this.createCookie(accessToken)])
       return response.json(accessToken)
     } catch (error) {
-      console.error(error.message)
+      logger.error(error.message)
       return response.status(401).json({ message: error.message })
     }
   }
@@ -71,6 +74,7 @@ export class AuthController extends AbstractController implements IController, I
   verify = async (request: Request, response: Response): Promise<Response> => {
     try {
       const accessToken = request.headers.authorization
+      logger.debug(`Verifing access token= ${accessToken}`)
       if (!accessToken) {
         throw new Error('Access token not provided')
       }
@@ -79,7 +83,7 @@ export class AuthController extends AbstractController implements IController, I
 
       return response.json({ message: 'The access is still valid' })
     } catch (error) {
-      console.error(error.message)
+      logger.error(error.message)
       return response.status(401).json({ message: error.message })
     }
   }
@@ -94,7 +98,7 @@ export class AuthController extends AbstractController implements IController, I
       decodedToken.username = ''
       return response.json({ message: 'User logged out successfully' })
     } catch (error) {
-      console.error(error.message)
+      logger.error(error.message)
       return response.status(401).json({ message: error.message })
     }
   }
@@ -105,11 +109,11 @@ export class AuthController extends AbstractController implements IController, I
       username: employee.name,
       email: employee.email,
       isValid: true,
-      title: employee.title.name,
+      title: employee.title.name
     }
     return {
       expiresIn,
-      token: jwt.sign(dataStokenInToken, APP_CONFIG.jwtSecretkey, { expiresIn }),
+      token: jwt.sign(dataStokenInToken, APP_CONFIG.jwtSecretkey, { expiresIn })
     }
   }
 
@@ -119,7 +123,7 @@ export class AuthController extends AbstractController implements IController, I
 
   private checkIfTokenIsValid(decodedToken: DataStoredInToken) {
     if (!decodedToken.isValid) throw new Error('Token is invalid')
-    console.log(decodedToken)
+    logger.debug('Token is valid')
     return decodedToken.isValid
   }
 

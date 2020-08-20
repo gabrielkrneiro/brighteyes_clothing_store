@@ -4,6 +4,7 @@ import { objectFactory } from './objectFactory'
 import { getRepository } from 'typeorm'
 import { Client } from '@src/modules/client/Client'
 import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
+import logger from '../logger/logger'
 
 export class ClientSeeder implements ISeeder<Client> {
   objectList: Client[]
@@ -16,12 +17,12 @@ export class ClientSeeder implements ISeeder<Client> {
         birthdate: new Date('10/14/1987'),
         cpf: '123.123.123-123',
         photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-      },
+          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80'
+      }
     ]
   }
 
-  async run() {
+  async run(): Promise<void> {
     const statusRepository = getRepository(EmployeeClientStatus)
 
     const status = await statusRepository.findOne({ where: { name: 'ACTIVATED' } })
@@ -33,15 +34,15 @@ export class ClientSeeder implements ISeeder<Client> {
     const parsedObjects = objectFactory<Client>(data, Client)
     this.objectList = [...parsedObjects]
 
-    console.log(`Running seeder ${this.constructor.name}`)
+    logger.debug(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(Client)
     this.objectList.forEach(async (o) => {
       const found = await repository.findOne({ where: { name: o.name } })
       if (!found) {
         await repository.save(o)
-        console.log(`Saved model <Client data=${JSON.stringify(o)}>`)
+        logger.debug(`Saved model <Client data=${JSON.stringify(o)}>`)
       }
     })
-    console.log(`Ran succesfully the Seeder ${this.constructor.name}`)
+    logger.debug(`Ran succesfully the Seeder ${this.constructor.name}`)
   }
 }

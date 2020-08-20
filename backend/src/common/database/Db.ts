@@ -1,6 +1,7 @@
 import { Connection, createConnection } from 'typeorm'
 
 import { IDb } from '@src/common/database/IDb'
+import logger from '../logger/logger'
 
 export class Db implements IDb {
   private instance: Connection
@@ -9,7 +10,7 @@ export class Db implements IDb {
     try {
       this.instance = await createConnection()
     } catch (error) {
-      console.log('Error at try to connect in database...')
+      logger.error('Error at try to connect in database...')
       throw error
     }
   }

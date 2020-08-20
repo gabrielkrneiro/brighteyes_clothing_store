@@ -1,6 +1,8 @@
 import winston, { format, transports } from 'winston'
-import APP_CONFIG from '@src/config/app.config'
+
+import APP_CONFIG from './../../config/app.config'
 import { LOG_LEVEL } from './logger.enum'
+
 const { combine, splat, timestamp, printf, colorize, uncolorize } = format
 
 const loggerConfigs = {
@@ -22,18 +24,20 @@ const myFormat = printf(({ level, message, timestamp }) => {
 
 const logger = winston.createLogger({
   level: APP_CONFIG.serve.logLevel,
-  format: combine(colorize(), splat(), timestamp({ format: 'YYYY-MM-DD HH:mm:ss' })),
+  format: combine(colorize(), splat(), timestamp({ format: loggerConfigs.timestampFormat })),
   transports: [
     new transports.Console({
       format: myFormat
     }),
     new transports.File({
       filename: loggerConfigs.errorLogFilename,
+      format: combine(uncolorize(), myFormat),
       level: LOG_LEVEL.ERROR
     }),
     new transports.File({
       filename: loggerConfigs.generalLogFilename,
-      format: combine(uncolorize(), myFormat)
+      format: combine(uncolorize(), myFormat),
+      level: LOG_LEVEL.INFO
     })
   ]
 })

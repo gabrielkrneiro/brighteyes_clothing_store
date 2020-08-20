@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm'
 import { ISeeder } from './ISeeder'
 import { objectFactory } from './objectFactory'
 import { ShoppingCartStatus } from './../../modules/shopping_cart_status/ShoppingCartStatus'
+import logger from '../logger/logger'
 
 export class ShoppingCartStatusSeeder implements ISeeder<ShoppingCartStatus> {
   objectList: ShoppingCartStatus[]
@@ -15,27 +16,27 @@ export class ShoppingCartStatusSeeder implements ISeeder<ShoppingCartStatus> {
   data(): Omit<ShoppingCartStatus, 'id'>[] {
     return [
       {
-        name: 'IN PROGRESS',
+        name: 'IN PROGRESS'
       },
       {
-        name: 'CANCELED',
+        name: 'CANCELED'
       },
       {
-        name: 'FINISHED',
-      },
+        name: 'FINISHED'
+      }
     ]
   }
 
-  async run() {
-    console.log(`Running seeder ${this.constructor.name}`)
+  async run(): Promise<void> {
+    logger.debug(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(ShoppingCartStatus)
     this.objectList.forEach(async (o) => {
       const found = await repository.findOne({ where: { name: o.name } })
       if (!found) {
         await repository.save(o)
-        console.log(`Saved model <ShoppingCartStatus data=${JSON.stringify(o)}>`)
+        logger.debug(`Saved model <ShoppingCartStatus data=${JSON.stringify(o)}>`)
       }
     })
-    console.log(`Ran succesfully the Seeder ${this.constructor.name}`)
+    logger.debug(`Ran succesfully the Seeder ${this.constructor.name}`)
   }
 }

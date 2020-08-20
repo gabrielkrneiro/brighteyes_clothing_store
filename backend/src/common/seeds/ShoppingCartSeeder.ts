@@ -13,6 +13,7 @@ import { Client } from './../../modules/client/Client'
 import { ShoppingCartStatus } from './../../modules/shopping_cart_status/ShoppingCartStatus'
 import { ShoppingCartEnum } from './../../modules/shopping_cart_status/ShoppingCartEnum'
 import { Clothes } from '@src/modules/clothes/Clothes'
+import logger from '../logger/logger'
 
 // TODO: NAO ESTÁ RODANDO!!!!
 export class ShoppingCartSeeder implements ISeeder<ShoppingCart> {
@@ -22,21 +23,21 @@ export class ShoppingCartSeeder implements ISeeder<ShoppingCart> {
     const seller = await getRepository(Employee).findOneOrFail({
       where: {
         title: await getRepository(EmployeeTitle).findOneOrFail({
-          where: { name: EmployeeTitleEnum.WAREHOUSE },
-        }),
-      },
+          where: { name: EmployeeTitleEnum.WAREHOUSE }
+        })
+      }
     })
     const cashier = await getRepository(Employee).findOneOrFail({
       where: {
         title: await getRepository(EmployeeTitle).findOneOrFail({
-          where: { name: EmployeeTitleEnum.CASHIER },
-        }),
-      },
+          where: { name: EmployeeTitleEnum.CASHIER }
+        })
+      }
     })
     const status = await getRepository(ShoppingCartStatus).findOneOrFail({
       where: {
-        name: ShoppingCartEnum.IN_PROGRESS,
-      },
+        name: ShoppingCartEnum.IN_PROGRESS
+      }
     })
     const clothes = await getRepository(Clothes).findOneOrFail()
     const client = await getRepository(Client).findOneOrFail()
@@ -49,25 +50,25 @@ export class ShoppingCartSeeder implements ISeeder<ShoppingCart> {
         cashier,
         seller,
         createdAt: new Date(),
-        updatedAt: new Date(),
-      },
+        updatedAt: new Date()
+      }
     ]
   }
 
-  async run() {
+  async run(): Promise<void> {
     const data = await this.data()
 
     const parsedObjects = objectFactory<ShoppingCart>(data, ShoppingCart)
     this.objectList = [...parsedObjects]
 
-    console.log(`Running seeder ${this.constructor.name}`)
+    logger.debug(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(ShoppingCart)
     this.objectList.forEach(async (o) => {
       if (!(await getRepository(ShoppingCart).findOne(o.id))) {
         await repository.save(o)
-        console.log(`Saved model <ShoppingCart data=${JSON.stringify(o)}>`)
+        logger.debug(`Saved model <ShoppingCart data=${JSON.stringify(o)}>`)
       }
     })
-    console.log(`Ran succesfully the Seeder ${this.constructor.name}`)
+    logger.debug(`Ran succesfully the Seeder ${this.constructor.name}`)
   }
 }
