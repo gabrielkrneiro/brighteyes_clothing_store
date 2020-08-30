@@ -4,6 +4,7 @@ import { objectFactory } from './objectFactory'
 import { getRepository } from 'typeorm'
 
 import { EmployeeClientStatus } from './../../modules/employee_client_status/EmployeeClientStatus'
+import logger from '../logger/logger'
 
 export class EmployeeClientStatusSeeder implements ISeeder<EmployeeClientStatus> {
   objectList: EmployeeClientStatus[]
@@ -16,24 +17,24 @@ export class EmployeeClientStatusSeeder implements ISeeder<EmployeeClientStatus>
   data(): Omit<EmployeeClientStatus, 'id'>[] {
     return [
       {
-        name: 'ACTIVATED',
+        name: 'ACTIVATED'
       },
       {
-        name: 'DEACTIVATED',
-      },
+        name: 'DEACTIVATED'
+      }
     ]
   }
 
-  async run() {
-    console.log(`Running seeder ${this.constructor.name}`)
+  async run(): Promise<void> {
+    logger.debug(`Running seeder ${this.constructor.name}`)
     const repository = getRepository(EmployeeClientStatus)
     this.objectList.forEach(async (o) => {
       const found = await repository.findOne({ where: { name: o.name } })
       if (!found) {
         await repository.save(o)
-        console.log(`Saved model <EmployeeClientStatus data=${JSON.stringify(o)}>`)
+        logger.debug(`Saved model <EmployeeClientStatus data=${JSON.stringify(o)}>`)
       }
     })
-    console.log(`Ran succesfully the Seeder ${this.constructor.name}`)
+    logger.debug(`Ran succesfully the Seeder ${this.constructor.name}`)
   }
 }

@@ -1,5 +1,4 @@
 import cors from 'cors'
-import { config } from 'dotenv'
 import express, { Response, Router } from 'express'
 import helmet from 'helmet'
 
@@ -16,6 +15,8 @@ import { ClothesController } from './modules/clothes/ClothesController'
 import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartController'
 import { runSeeders } from './common/seeds/runSeeders'
 import { AuthController } from './modules/auth/AuthController'
+import logger from './common/logger/logger'
+import APP_CONFIG from './config/app.config'
 
 export interface IApp {
   init(): Promise<void>
@@ -72,36 +73,37 @@ export class App implements IApp {
           employee_client_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
           employee_title: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-title/`,
           shopping_cart_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart-status/`,
-          shopping_cart: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart/`,
-        },
+          shopping_cart: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart/`
+        }
       })
     })
   }
 
   async initModule(ControllerClassName: any, route: Router): Promise<void> {
     const controller = new ControllerClassName({
-      route,
+      route
     } as DTOController)
     await controller.init()
     this.application.use(route)
-    console.log('- Successfully loaded module ' + controller.constructor.name)
+    logger.debug('Successfully loaded module ' + controller.constructor.name)
   }
 
   async initDatabase(): Promise<void> {
     const db: IDb = new Db()
     await db.init()
-    console.log('- Successfully loaded Database')
+    logger.info('Successfully loaded Database')
   }
 
   initMiddlewares(): void {
-    config()
     this.application.use(express.json())
     this.application.use(cors())
     this.application.use(helmet())
-    console.log('- Successfully loaded Middlewares')
+    logger.info('Successfully loaded Middlewares')
   }
 
   start(): void {
-    this.application.listen(3333, () => console.log('* Server running on port 3333'))
+    this.application.listen(APP_CONFIG.serve.port, () => {
+      logger.info(`-- Server running on port ${APP_CONFIG.serve.port} --`)
+    })
   }
 }
