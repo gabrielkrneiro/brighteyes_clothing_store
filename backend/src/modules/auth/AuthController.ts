@@ -7,7 +7,7 @@ import { IController } from './../../interfaces/IControllers'
 import { AbstractController } from '../abstract.controller'
 import { Employee } from '../employee/Employee'
 import { Auth } from './Auth'
-import APP_CONFIG from '@src/config/app.config'
+import APP_CONFIG from 'config/app.config'
 import logger from '@src/common/logger/logger'
 
 interface IAuthController {

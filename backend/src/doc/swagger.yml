@@ -1,0 +1,19 @@
+openapi: '3.0.2'
+info:
+  version: '1.0'
+  title: BrightEyes Store
+  description: BrightEyes Store management API
+servers:
+  - url: http://HOST_ADDRESS_AND_PORT # will be changed in server starting
+tags:
+  - name: ServerStatus
+    description: Server status route
+paths:
+  /:
+    get:
+      summary: Check if server is running or not
+      tags:
+        - ServerStatus
+      responses:
+        '200':
+          description: Shows message about server is running well
