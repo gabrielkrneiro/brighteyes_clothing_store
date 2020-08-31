@@ -71,7 +71,7 @@ export class App implements IApp {
     const swaggerDoc = load(path.resolve(__dirname, 'doc', 'swagger.yml'))
     swaggerDoc.servers = swaggerDoc.servers.map((host: { url: string; description: string }) => {
       host.url = host.url.replace(
-        'HOST_ADDRESS_AND_PORT',
+        'HOST_ADDRESS_AND_PORT', // this should be in swagger.yml to be replaced
         `${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}`
       )
       return host

@@ -39,23 +39,17 @@ export class AuthController extends AbstractController implements IController, I
   }
 
   async init(): Promise<void> {
-    this.route.get('/auth', this.summarize)
     this.route.post('/auth/sign-in', this.signIn)
     this.route.get('/auth/sign-out', this.signOut)
     this.route.get('/auth/verify', this.verify)
   }
 
-  summarize = async (request: Request, response: Response): Promise<Response> => {
-    return response.json({
-      'sign-in': `[POST] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/sign-in`,
-      'sign-out': `[POST] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/sign-out`,
-      verify: `[GET] http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/verify`
-    })
-  }
-
   signIn = async (request: Request, response: Response): Promise<Response> => {
     try {
       const { email, password } = request.body
+      if (!email || !password) {
+        throw new Error('Request invalid')
+      }
       logger.debug('Sign in email ' + email)
       const foundEmployee = await this.employeeRepository.findOneOrFail({ where: { email } })
       if (foundEmployee.password !== password) {
