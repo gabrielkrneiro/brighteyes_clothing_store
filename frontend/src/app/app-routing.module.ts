@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: AppComponent,
+    redirectTo: 'auth',
   },
   {
     path: 'auth',
@@ -19,6 +18,26 @@ const routes: Routes = [
   {
     path: 'employee',
     loadChildren: './employee/employee.module#EmployeeModule',
+  },
+  {
+    path: 'sales',
+    loadChildren: './sales/sales.module#SalesModule',
+  },
+  {
+    path: 'cashier',
+    loadChildren: './cashier/cashier.module#CashierModule',
+  },
+  {
+    path: 'client',
+    loadChildren: './client/client.module#ClientModule',
+  },
+  {
+    path: 'clothes',
+    loadChildren: './clothes/clothes.module#ClothesModule',
+  },
+  {
+    path: '**',
+    redirectTo: 'auth',
   },
 ];
 
