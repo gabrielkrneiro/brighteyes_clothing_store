@@ -4,8 +4,15 @@ import { CommonModule } from '@angular/common';
 import { CashierRoutingModule } from './cashier-routing.module';
 import { CashierComponent } from './cashier.component';
 
+import { CashierFormModule } from './cashier-form/cashier-form.module';
+import { CashierTableModule } from './cashier-table/cashier-table.module';
 @NgModule({
   declarations: [CashierComponent],
-  imports: [CommonModule, CashierRoutingModule],
+  imports: [
+    CommonModule,
+    CashierRoutingModule,
+    CashierFormModule,
+    CashierTableModule,
+  ],
 })
 export class CashierModule {}

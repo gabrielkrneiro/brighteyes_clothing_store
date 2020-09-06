@@ -36,6 +36,10 @@ const routes: Routes = [
     loadChildren: './clothes/clothes.module#ClothesModule',
   },
   {
+    path: 'shopping-cart',
+    loadChildren: './shopping-cart/shopping-cart.module#ShoppingCartModule',
+  },
+  {
     path: '**',
     redirectTo: 'auth',
   },

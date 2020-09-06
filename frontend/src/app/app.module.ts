@@ -11,6 +11,7 @@ import { SalesModule } from './sales/sales.module';
 import { CashierModule } from './cashier/cashier.module';
 import { ClothesModule } from './clothes/clothes.module';
 import { ClientModule } from './client/client.module';
+import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { ClientModule } from './client/client.module';
     CashierModule,
     ClothesModule,
     ClientModule,
+    ShoppingCartModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
