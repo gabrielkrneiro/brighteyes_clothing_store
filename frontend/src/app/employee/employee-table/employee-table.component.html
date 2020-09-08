@@ -1,0 +1,41 @@
+<section>
+    <h2>Employee list</h2>
+
+    <div class="form-group">
+        <div style="display: flex;">
+            <input type="text" class="form-control" placeholder="Search...">
+            <button class="btn btn-default">search</button>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Title</th>
+                <th scope="col">Status</th>
+                <th scope="col">Photo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let employee of employeeList | async ">
+                <th scope="row">{{ employee.id }}</th>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.title?.name || '' }}</td>
+                <td>{{ employee.status?.name || '' }}</td>
+                <td><a [href]="employee.photo">{{ employee.photo }}</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav> -->
+</section>
