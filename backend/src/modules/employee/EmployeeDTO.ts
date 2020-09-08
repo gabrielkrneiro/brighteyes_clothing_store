@@ -6,4 +6,5 @@ export interface EmployeeCreateDTO {
   password: string
   email: string
   registeredBy: number
+  status: number
 }

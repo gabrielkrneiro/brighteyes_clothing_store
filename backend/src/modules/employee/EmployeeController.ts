@@ -38,20 +38,21 @@ export class EmployeeController extends AbstractController implements IControlle
       if (foundEmployee) {
         throw new Error('Employee already exists')
       }
+
       const createdObject = await repository.save(employeeData, this.saveOptions)
       return response.json({
         message: 'Employee created',
         data: {
           name: createdObject.name,
           email: createdObject.email,
-          photo: createdObject.photo,
-        },
+          photo: createdObject.photo
+        }
       })
     } catch (error) {
       console.error(error)
       return response.status(401).json({
         message: 'An error occurred',
-        error_message: error.message,
+        error_message: error.message
       })
     }
   }
