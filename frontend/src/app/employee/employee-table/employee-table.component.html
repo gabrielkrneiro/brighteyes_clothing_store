@@ -7,7 +7,7 @@
             <button class="btn btn-default">search</button>
         </div>
     </div>
-    <table class="table">
+    <table class="table table-responsive">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -15,7 +15,8 @@
                 <th scope="col">E-mail</th>
                 <th scope="col">Title</th>
                 <th scope="col">Status</th>
-                <th scope="col">Photo</th>
+                <th class="hidden" scope="col">Photo</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +26,11 @@
                 <td>{{ employee.email }}</td>
                 <td>{{ employee.title?.name || '' }}</td>
                 <td>{{ employee.status?.name || '' }}</td>
-                <td><a [href]="employee.photo">{{ employee.photo }}</a></td>
+                <td class="hidden"><a [href]="employee.photo">{{ employee.photo }}</a></td>
+                <td>
+                    <button (click)='updateButtonClicked(employee)' class="btn btn-primary btn-block">Update</button>
+                    <button (click)='removeButtonClicked(employee)' class="btn btn-danger btn-block">Remove</button>
+                </td>
             </tr>
         </tbody>
     </table>

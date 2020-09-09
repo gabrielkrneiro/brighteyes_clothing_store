@@ -1,4 +1,7 @@
 <div class="container">
-    <app-employee-form (createEmployee)='createEmployee($event)'></app-employee-form>
-    <app-employee-table [employeeList]='employeeList'></app-employee-table>
+    <app-employee-form (createEmployee)='create($event)' [employeeStatusList]='employeeStatusList'
+        [employeeTitleList]='employeeTitleList'>
+    </app-employee-form>
+    <app-employee-table [employeeList]='employeeList' (removeEmployee)='remove($event)'
+        (updateEmployee)='update($event)'></app-employee-table>
 </div>

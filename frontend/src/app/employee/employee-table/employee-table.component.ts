@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EmployeeRemoveDTO, EmployeeUpdateDTO } from '../employee.interfaces';
 
 import { Employee } from '../employee.models';
 
@@ -15,12 +9,17 @@ import { Employee } from '../employee.models';
   templateUrl: './employee-table.component.html',
   styleUrls: ['./employee-table.component.scss'],
 })
-export class EmployeeTableComponent implements OnInit, OnChanges {
+export class EmployeeTableComponent {
   @Input() employeeList: Observable<Employee[]>;
 
-  ngOnInit(): void {}
+  @Output() removeEmployee = new EventEmitter<EmployeeRemoveDTO>();
+  @Output() updateEmployee = new EventEmitter<EmployeeUpdateDTO>();
 
-  ngOnChanges(): void {
-    this.employeeList.subscribe((o) => console.log(o));
+  removeButtonClicked(employee: EmployeeRemoveDTO) {
+    this.removeEmployee.next(employee);
+  }
+
+  updateButtonClicked(employee: EmployeeUpdateDTO) {
+    this.updateEmployee.next(employee);
   }
 }
