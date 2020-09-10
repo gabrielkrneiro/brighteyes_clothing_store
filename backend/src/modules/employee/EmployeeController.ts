@@ -43,8 +43,11 @@ export class EmployeeController extends AbstractController implements IControlle
       return response.json({
         message: 'Employee created',
         data: {
+          id: createdObject.id,
           name: createdObject.name,
           email: createdObject.email,
+          title: createdObject.title,
+          status: createdObject.status,
           photo: createdObject.photo
         }
       })
