@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,9 +17,12 @@ interface SuccessfullyResponse<T> {
 }
 
 interface CreatedSuccessfullyResponse
-  extends SuccessfullyResponse<Pick<Employee, 'email' | 'name' | 'photo'>> {}
+  extends SuccessfullyResponse<
+    Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status' | 'photo'>
+  > {}
 
-interface RemovedSuccessfullyResponse extends SuccessfullyResponse<string> {}
+interface RemovedSuccessfullyResponse
+  extends Pick<SuccessfullyResponse<null>, 'message'> {}
 
 @Injectable({
   providedIn: 'root',
@@ -66,7 +69,6 @@ export class EmployeeService {
 
   remove(employee: EmployeeRemoveDTO): Observable<RemovedSuccessfullyResponse> {
     console.log(`try to remove employee "${employee.name}"`);
-    console.log(employee);
 
     return this.httpClient.delete<RemovedSuccessfullyResponse>(
       `http://${environment.BACKEND_ADDRESS}/employees/${employee.id}`

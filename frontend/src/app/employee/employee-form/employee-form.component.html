@@ -42,9 +42,13 @@
         </div>
 
         <div class="form-group">
-            <label for="registeredBy" class="col-form-label">Your ID as HR employee</label>
-            <input formControlName='registeredBy' type="text" class="form-control" id="registeredBy"
-                placeholder="Hr Employee">
+            <label for="registeredBy" class="col-form-label">Who are you as HR employee?</label>
+            <select formControlName='registeredBy' name="registeredBy" id="registeredBy" class="form-control"
+                style="height: 2em;">
+                <option [ngValue]='employee.id' *ngFor="let employee of hrEmployeeList">
+                    {{ employee.name }}
+                </option>
+            </select>
         </div>
 
         <div class="form-group">

@@ -10,6 +10,7 @@ import {
 } from './employee.interfaces';
 import { EmployeeService } from './employee.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { EmployeeTitleEnum } from './employee.enum';
 
 // interface EmployeeCreatedSuccessfullyResponse {
 //   message: string;
@@ -23,23 +24,32 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 })
 export class EmployeeComponent implements OnInit {
   employeeList: Observable<Employee[]>;
+  hrEmployeeList: Employee[];
   employeeStatusList: Observable<EmployeeStatus[]>;
   employeeTitleList: Observable<EmployeeTitle[]>;
 
   constructor(private employeeService: EmployeeService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.employeeList = this.employeeService.getList();
+    this.hrEmployeeList = await this.employeeList
+      .toPromise()
+      .then((employees) =>
+        employees.filter(
+          (employee) => employee.title.name === EmployeeTitleEnum.HUMAN_RESOURCE
+        )
+      );
     this.employeeStatusList = this.employeeService.getStatusList();
     this.employeeTitleList = this.employeeService.getTitleList();
   }
 
   create(employeeCreateDto: EmployeeCreateDTO): void {
-    const response = this.employeeService.create(employeeCreateDto);
-    response.subscribe(
+    this.employeeService.create(employeeCreateDto).subscribe(
       ({ data }) => {
         console.log('Employee created successfully');
-        console.log(data);
+        this.employeeList
+          .subscribe((employees) => employees.push(data as Employee))
+          .unsubscribe();
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error.message);
@@ -50,9 +60,8 @@ export class EmployeeComponent implements OnInit {
 
   remove(employee: EmployeeRemoveDTO): void {
     this.employeeService.remove(employee).subscribe(
-      ({ data, message }) => {
+      ({ message }) => {
         console.log(message);
-        console.log(data);
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error);

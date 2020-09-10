@@ -7,6 +7,7 @@ import {
   EmployeeStatus,
   EmployeeTitle,
 } from '../employee.interfaces';
+import { Employee } from '../employee.models';
 
 const employeeMock = {
   name: 'Employee 007',
@@ -41,6 +42,7 @@ export class EmployeeFormComponent implements OnInit {
 
   @Input() employeeStatusList: Observable<EmployeeStatus[]>;
   @Input() employeeTitleList: Observable<EmployeeTitle[]>;
+  @Input() hrEmployeeList: Employee[];
 
   @Output() createEmployee = new EventEmitter<EmployeeCreateDTO>();
 
@@ -58,6 +60,7 @@ export class EmployeeFormComponent implements OnInit {
       registeredBy: ['', [Validators.required]],
     });
     this.employeeForm.patchValue(employeeMock); // fill form with mocked values
+    console.log(this.hrEmployeeList);
   }
 
   sendEmployee(): void {
