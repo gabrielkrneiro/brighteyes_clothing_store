@@ -1,25 +1,57 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { EmployeeRemoveDTO, EmployeeUpdateDTO } from '../employee.interfaces';
 
 import { Employee } from '../employee.models';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
   styleUrls: ['./employee-table.component.scss'],
 })
-export class EmployeeTableComponent {
+export class EmployeeTableComponent implements OnInit, OnDestroy {
   @Input() employeeList: Observable<Employee[]>;
 
   @Output() removeEmployee = new EventEmitter<EmployeeRemoveDTO>();
   @Output() updateEmployee = new EventEmitter<EmployeeUpdateDTO>();
+  @Output() findOne = new EventEmitter<EmployeeUpdateDTO>();
+
+  value: string = '';
+  debounce: Subject<string> = new Subject<string>();
+
+  /**
+   * necessário implementar a lógica do search input
+   */
+  async ngOnInit(): Promise<void> {
+    this.debounce.pipe(debounceTime(300)).subscribe((filter) => {
+      console.log(filter);
+    });
+  }
+
+  ngOnDestroy(): void {
+    /**
+     *  evitando Memory Leak
+     */
+    this.debounce.unsubscribe();
+  }
+
+  search(searchValue: string): void {
+    console.log(searchValue);
+  }
 
   removeButtonClicked(employee: EmployeeRemoveDTO) {
     this.removeEmployee.next(employee);
   }
 
   updateButtonClicked(employee: EmployeeUpdateDTO) {
-    this.updateEmployee.next(employee);
+    this.findOne.next(employee);
   }
 }

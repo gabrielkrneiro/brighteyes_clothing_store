@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { Observable, Observer, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,6 +10,7 @@ import {
   EmployeeTitle,
   EmployeeRemoveDTO,
 } from './employee.interfaces';
+import { EmployeeStatusEnum } from './employee.enum';
 
 interface SuccessfullyResponse<T> {
   message: string;
@@ -20,6 +21,8 @@ interface CreatedSuccessfullyResponse
   extends SuccessfullyResponse<
     Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status' | 'photo'>
   > {}
+
+interface UpdatedSuccessfullyResponse extends SuccessfullyResponse<Employee> {}
 
 interface RemovedSuccessfullyResponse
   extends Pick<SuccessfullyResponse<null>, 'message'> {}
@@ -67,11 +70,27 @@ export class EmployeeService {
     );
   }
 
-  remove(employee: EmployeeRemoveDTO): Observable<RemovedSuccessfullyResponse> {
+  remove(employee: EmployeeRemoveDTO): Observable<UpdatedSuccessfullyResponse> {
     console.log(`try to remove employee "${employee.name}"`);
+    return this.httpClient.put<UpdatedSuccessfullyResponse>(
+      `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
+      {
+        status: EmployeeStatusEnum.DEACTIVATED,
+      }
+    );
+  }
 
-    return this.httpClient.delete<RemovedSuccessfullyResponse>(
-      `http://${environment.BACKEND_ADDRESS}/employees/${employee.id}`
+  update(employee: Partial<Employee>): Observable<UpdatedSuccessfullyResponse> {
+    console.log(`try to remove employee "${employee.name}"`);
+    return this.httpClient.put<UpdatedSuccessfullyResponse>(
+      `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
+      employee
+    );
+  }
+
+  findOne(employee: Employee): Observable<Employee> {
+    return this.httpClient.get<Employee>(
+      `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id
     );
   }
 }

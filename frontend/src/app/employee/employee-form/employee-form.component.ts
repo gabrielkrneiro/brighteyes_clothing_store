@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ɵConsole,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -9,17 +17,17 @@ import {
 } from '../employee.interfaces';
 import { Employee } from '../employee.models';
 
-const employeeMock = {
-  name: 'Employee 007',
-  email: 'employee007@gmail.com',
-  password: 'senha123',
-  birthdate: new Date('12/12/1212'),
-  photo:
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
-  registeredBy: 1,
-  status: 2,
-  title: 4,
-} as EmployeeCreateDTO;
+// const employeeMock = {
+//   name: 'Employee 007',
+//   email: 'employee007@gmail.com',
+//   password: 'senha123',
+//   birthdate: new Date('12/12/1212'),
+//   photo:
+//     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+//   registeredBy: 1,
+//   status: 2,
+//   title: 4,
+// } as EmployeeCreateDTO;
 
 const EmployeeCreateDtoDefaultValues = {
   name: '',
@@ -45,30 +53,41 @@ export class EmployeeFormComponent implements OnInit {
   @Input() hrEmployeeList: Employee[];
 
   @Output() createEmployee = new EventEmitter<EmployeeCreateDTO>();
+  @Output() updateEmployee = new EventEmitter<EmployeeCreateDTO>();
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.email, Validators.required]],
+      id: [null],
+      name: [null, [Validators.required]],
+      email: [null, [Validators.email, Validators.required]],
       status: [null, [Validators.required]],
-      photo: ['', [Validators.required]],
-      birthdate: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      photo: [null, [Validators.required]],
+      birthdate: [null, [Validators.required]],
+      password: [null, [Validators.required]],
       title: [null, [Validators.required]],
-      registeredBy: ['', [Validators.required]],
+      registeredBy: [null, [Validators.required]],
     });
-    this.employeeForm.patchValue(employeeMock); // fill form with mocked values
-    console.log(this.hrEmployeeList);
+    // this.employeeForm.patchValue(employeeMock); // fill form with mocked values
   }
 
   sendEmployee(): void {
     try {
-      this.createEmployee.next(this.employeeForm.value);
-      this.employeeForm.reset();
+      if (!this.employeeForm.controls.id.value) {
+        this.createEmployee.next(this.employeeForm.value);
+      } else {
+        this.updateEmployee.next(this.employeeForm.value);
+      }
     } catch (error) {
       throw new Error(error.message);
     }
+  }
+
+  setEmployeeToUpdate(employee: Employee): void {
+    this.employeeForm.patchValue(employee);
+    this.employeeForm.patchValue({ title: employee.title.id });
+    this.employeeForm.patchValue({ status: employee.status.id });
+    this.employeeForm.patchValue({ registeredBy: employee.registeredBy?.id });
   }
 }

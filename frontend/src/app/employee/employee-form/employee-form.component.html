@@ -4,8 +4,18 @@
 
         <div class="form-group">
             <label for="name" class="col-form-label">Name</label>
-            <input formControlName='name' type="text" class="form-control" id="name" placeholder="Fulano e Sicrano">
+            <input 
+                formControlName='name'
+                type="text" 
+                class="form-control" 
+                id="name" 
+                placeholder="Fulano e Sicrano">
         </div>
+
+        <div class="form-group hidden">
+            <input formControlName='id' type="text" class="form-control" id="id">
+        </div>
+
 
         <div class="form-group">
             <label for="staticEmail" class="col-form-label">Email</label>
@@ -52,7 +62,7 @@
         </div>
 
         <div class="form-group">
-            <button class="btn btn-primary btn-block">Send</button>
+            <button class="btn btn-primary btn-block" >Send</button>
         </div>
     </form>
 </section>

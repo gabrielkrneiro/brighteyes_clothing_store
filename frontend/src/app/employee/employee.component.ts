@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Employee } from './employee.models';
 import {
@@ -9,13 +9,9 @@ import {
   EmployeeUpdateDTO,
 } from './employee.interfaces';
 import { EmployeeService } from './employee.service';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { EmployeeTitleEnum } from './employee.enum';
-
-// interface EmployeeCreatedSuccessfullyResponse {
-//   message: string;
-//   data: Pick<Employee, 'email' | 'name' | 'photo'>;
-// }
+import { EmployeeFormComponent } from './employee-form/employee-form.component';
 
 @Component({
   selector: 'app-employee',
@@ -23,15 +19,20 @@ import { EmployeeTitleEnum } from './employee.enum';
   styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
+  @ViewChild(EmployeeFormComponent) employeeForm: EmployeeFormComponent;
+
   employeeList: Observable<Employee[]>;
   hrEmployeeList: Employee[];
   employeeStatusList: Observable<EmployeeStatus[]>;
   employeeTitleList: Observable<EmployeeTitle[]>;
 
+  selectedEmployee: Employee;
+
   constructor(private employeeService: EmployeeService) {}
 
   async ngOnInit(): Promise<void> {
     this.employeeList = this.employeeService.getList();
+    this.selectedEmployee = new Employee();
     this.hrEmployeeList = await this.employeeList
       .toPromise()
       .then((employees) =>
@@ -44,12 +45,11 @@ export class EmployeeComponent implements OnInit {
   }
 
   create(employeeCreateDto: EmployeeCreateDTO): void {
+    console.log('Creating a new employee');
     this.employeeService.create(employeeCreateDto).subscribe(
       ({ data }) => {
         console.log('Employee created successfully');
-        this.employeeList
-          .subscribe((employees) => employees.push(data as Employee))
-          .unsubscribe();
+        this.employeeForm.employeeForm.reset();
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error.message);
@@ -69,7 +69,27 @@ export class EmployeeComponent implements OnInit {
     );
   }
 
-  update(employee: EmployeeUpdateDTO): void {
-    console.log('update an employee');
+  update(employee: Partial<Employee>): void {
+    console.log('Creating a new employee');
+    this.employeeService.update(employee).subscribe(
+      ({ message }) => {
+        console.log(message);
+        this.employeeForm.employeeForm.reset();
+      },
+      ({ error }: HttpErrorResponse) => {
+        console.error(error);
+      }
+    );
+  }
+
+  async findOne(employee: Employee): Promise<void> {
+    try {
+      const foundEmployee = await this.employeeService
+        .findOne(employee)
+        .toPromise();
+      this.employeeForm.setEmployeeToUpdate(foundEmployee);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
