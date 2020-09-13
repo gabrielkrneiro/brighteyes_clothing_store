@@ -42,4 +42,15 @@ export class SessionService {
       throw new Error(error.message);
     }
   }
+
+  isLogged(): boolean {
+    try {
+      const userInfo = this.decodeSession();
+      if (userInfo) {
+        return userInfo && userInfo.isValid;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 }
