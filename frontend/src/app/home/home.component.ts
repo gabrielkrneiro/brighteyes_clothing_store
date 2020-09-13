@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   SessionService,
   DataStoredInToken,
@@ -12,7 +13,7 @@ import {
 export class HomeComponent implements OnInit {
   session: DataStoredInToken;
 
-  constructor(private sessionService: SessionService) {}
+  constructor(private sessionService: SessionService, router: Router) {}
 
   ngOnInit(): void {
     this.session = this.sessionService.decodeSession();

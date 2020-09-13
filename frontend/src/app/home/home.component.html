@@ -5,8 +5,12 @@
     <h2>Home</h2>
 
     <div class="row">
-      <button class="col-md-3 btn btn-default">Perform Sell</button>
-      <button class="col-md-3 btn btn-default">Operate Cash</button>
+      <button [routerLink]="['/sales']" class="col-md-3 btn btn-default">
+        Perform Sell
+      </button>
+      <button [routerLink]="['/cashier']" class="col-md-3 btn btn-default">
+        Operate Cash
+      </button>
     </div>
   </section>
 
@@ -14,9 +18,15 @@
     <h2>Registers</h2>
 
     <div class="row">
-      <button class="col-md-3 btn btn-default">Client</button>
-      <button class="col-md-3 btn btn-default">Clothes</button>
-      <button class="col-md-3 btn btn-default">Employee</button>
+      <button [routerLink]="['/client']" class="col-md-3 btn btn-default">
+        Client
+      </button>
+      <button [routerLink]="['/clothes']" class="col-md-3 btn btn-default">
+        Clothes
+      </button>
+      <button [routerLink]="['/employee']" class="col-md-3 btn btn-default">
+        Employee
+      </button>
     </div>
   </section>
 </div>

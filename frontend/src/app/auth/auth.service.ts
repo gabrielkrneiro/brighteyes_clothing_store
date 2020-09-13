@@ -1,10 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { SessionService } from '../common/services/session.service';
+import {
+  SessionItemEnum,
+  SessionService,
+} from '../common/services/session.service';
 
-import { Credentials, LoggedInSuccessfully, TokenData } from './auth.interface';
+import { Credentials, LoggedInSuccessfully } from './auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +16,8 @@ import { Credentials, LoggedInSuccessfully, TokenData } from './auth.interface';
 export class AuthService {
   constructor(
     private httpClient: HttpClient,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) {}
 
   login(credentials: Credentials): Observable<LoggedInSuccessfully> {
@@ -21,6 +26,16 @@ export class AuthService {
         `http://${environment.BACKEND_ADDRESS}/auth/sign-in`,
         credentials
       );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  logOut(): void {
+    try {
+      localStorage.removeItem(SessionItemEnum.ACCESS_TOKEN);
+      localStorage.removeItem(SessionItemEnum.EXPIRES_IN);
+      this.router.navigate(['auth']);
     } catch (error) {
       throw new Error(error.message);
     }
