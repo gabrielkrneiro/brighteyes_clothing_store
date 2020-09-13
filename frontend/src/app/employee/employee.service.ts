@@ -24,9 +24,6 @@ interface CreatedSuccessfullyResponse
 
 interface UpdatedSuccessfullyResponse extends SuccessfullyResponse<Employee> {}
 
-interface RemovedSuccessfullyResponse
-  extends Pick<SuccessfullyResponse<null>, 'message'> {}
-
 @Injectable({
   providedIn: 'root',
 })
