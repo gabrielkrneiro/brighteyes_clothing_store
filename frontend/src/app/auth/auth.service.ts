@@ -2,22 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { SessionService } from '../common/services/session.service';
 
-interface Credentials {
-  email: string;
-  password: string;
-}
-
-interface LoggedInSuccessfully {
-  expiresIn: number;
-  token: string;
-}
+import { Credentials, LoggedInSuccessfully, TokenData } from './auth.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private sessionService: SessionService
+  ) {}
 
   login(credentials: Credentials): Observable<LoggedInSuccessfully> {
     try {

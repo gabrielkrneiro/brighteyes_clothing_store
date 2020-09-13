@@ -5,6 +5,8 @@ import { IEnvironment } from './environment.interface';
 
 export const environment = {
   production: false,
+  jwtSecretkey: 'kl1hj2kl34h1&HJH',
+  logLevel: 'debug',
   BACKEND_ADDRESS: 'localhost:3333',
 } as IEnvironment;
 
