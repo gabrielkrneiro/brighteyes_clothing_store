@@ -8,7 +8,8 @@ import { AbstractController } from '../abstract.controller'
 import { Employee } from '../employee/Employee'
 import { Auth } from './Auth'
 import APP_CONFIG from 'config/app.config'
-import logger from '@src/common/logger/logger'
+import logger from './../../common/logger/logger'
+import bcrypt from 'bcrypt'
 
 interface IAuthController {
   signIn(request: Request, response: Response): Promise<Response>
@@ -52,9 +53,12 @@ export class AuthController extends AbstractController implements IController, I
       }
       logger.debug('Sign in email ' + email)
       const foundEmployee = await this.employeeRepository.findOneOrFail({ where: { email } })
-      if (foundEmployee.password !== password) {
+      const passwordsMatch = await bcrypt.compare(password, foundEmployee.password)
+
+      if (!passwordsMatch) {
         throw new Error('Password is invalid to email ' + email)
       }
+
       logger.debug(`Successfully signed ${email} in`)
       const accessToken = this.createToken(foundEmployee)
       response.setHeader('Set-Cookie', [this.createCookie(accessToken)])

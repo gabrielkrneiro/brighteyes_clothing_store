@@ -7,6 +7,8 @@ import { Employee } from '@src/modules/employee/Employee'
 import { EmployeeTitle } from '@src/modules/employee_title/EmployeeTitle'
 import logger from '../logger/logger'
 
+const PASSWORD_DEFAULT = '$2b$10$1PeKVUoMMAKR.pKrQN046OxrAb.aSfZbYROl2NNY.ZbUKVZcjfmg6' // senha123
+
 export class EmployeeSeeder implements ISeeder<Employee> {
   objectList: Employee[]
 
@@ -28,7 +30,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       birthdate: new Date('10/14/1987'),
       photo:
         'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-      password: 'senha123',
+      password: PASSWORD_DEFAULT,
       title: humanResourceTitle,
       status: activatedStatus,
       email: 'hr@brighteyes.com'
@@ -54,7 +56,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         birthdate: new Date('10/14/1987'),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-        password: 'senha123',
+        password: PASSWORD_DEFAULT,
         email: 'warehouse@brighteyes.com'
       },
       {
@@ -62,7 +64,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         birthdate: new Date('10/14/1987'),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-        password: 'senha123',
+        password: PASSWORD_DEFAULT,
         email: 'customerservice@brighteyes.com'
       },
       {
@@ -70,7 +72,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         birthdate: new Date('10/14/1987'),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-        password: 'senha123',
+        password: PASSWORD_DEFAULT,
         email: 'seller@brighteyes.com'
       },
       {
@@ -78,7 +80,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
         birthdate: new Date('10/14/1987'),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
-        password: 'senha123',
+        password: PASSWORD_DEFAULT,
         email: 'cashier@brighteyes.com'
       }
     ]
