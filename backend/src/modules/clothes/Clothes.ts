@@ -5,7 +5,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 
 import { ClothesStatus } from '../clothes_status/ClothesStatus'

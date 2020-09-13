@@ -12,6 +12,8 @@ export class ClothesController extends AbstractController implements IController
     super()
     this.route = route
     this.ModelClassName = Clothes
+    this.findManyOptions = { relations: ['status'] }
+    this.findOneOptions = { relations: ['status', 'wareHouseEmployees'] }
   }
 
   async init(): Promise<void> {
