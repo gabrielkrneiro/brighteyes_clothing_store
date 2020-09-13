@@ -16,8 +16,8 @@ export class EmployeeController extends AbstractController implements IControlle
     super()
     this.ModelClassName = Employee
     this.route = route
-    this.findManyOptions = { relations: ['title', 'status'] }
-    this.findOneOptions = { relations: ['title', 'status'] }
+    this.findManyOptions = { relations: ['title', 'status', 'registeredBy'] }
+    this.findOneOptions = { relations: ['title', 'status', 'registeredBy'] }
     this.factory = new EmployeeFactory()
   }
 
@@ -59,4 +59,24 @@ export class EmployeeController extends AbstractController implements IControlle
       })
     }
   }
+
+  // update = async (request: Request, response: Response): Promise<Response> => {
+  //   try {
+  //     const data = request.body
+  //     const id = request.params.id
+  //     const repository = getRepository(this.ModelClassName)
+  //     await repository.update(id, data)
+  //     const updateObject = await repository.findOneOrFail(id, this.findOneOptions)
+  //     return response.json({
+  //       message: 'Object updated',
+  //       data: updateObject
+  //     })
+  //   } catch (error) {
+  //     console.error(error)
+  //     return response.status(401).json({
+  //       message: 'An error occurred',
+  //       error_message: error.message
+  //     })
+  //   }
+  // }
 }
