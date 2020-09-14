@@ -4,7 +4,11 @@ import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { ClothesDetailsDTO, ClothesListDTO } from './clothes.interface';
+import {
+  ClothesDetailsDTO,
+  ClothesListDTO,
+  ClothesStatus,
+} from './clothes.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,5 +28,9 @@ export class ClothesService {
     return this.httpClient.get<ClothesDetailsDTO>(
       `${this.baseUrl}/${clothesId}`
     );
+  }
+
+  statusList(): any {
+    return this.httpClient.get<ClothesStatus>(`${this.baseUrl}-status`);
   }
 }

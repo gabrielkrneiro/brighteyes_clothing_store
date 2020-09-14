@@ -90,4 +90,10 @@ export class EmployeeService {
       `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id
     );
   }
+
+  // findOneByQuery(employee: Employee): Observable<Employee> {
+  //   return this.httpClient.get<Employee>(
+  //     `http://${environment.BACKEND_ADDRESS}/employees/`
+  //   );
+  // }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClothesListDTO } from './clothes.interface';
+import { ClothesListDTO, ClothesStatus } from './clothes.interface';
 
 import { ClothesService } from './clothes.service';
 
@@ -11,10 +11,12 @@ import { ClothesService } from './clothes.service';
 })
 export class ClothesComponent implements OnInit {
   clothesList$: Observable<ClothesListDTO[]>;
+  clothesStatusList$: Observable<ClothesStatus[]>;
 
   constructor(private clothesService: ClothesService) {}
 
   ngOnInit(): void {
     this.clothesList$ = this.clothesService.list();
+    this.clothesStatusList$ = this.clothesService.statusList();
   }
 }
