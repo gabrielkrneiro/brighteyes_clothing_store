@@ -20,8 +20,7 @@ import { debounceTime } from 'rxjs/operators';
 export class EmployeeTableComponent implements OnInit, OnDestroy {
   @Input() employeeList: Observable<Employee[]>;
 
-  @Output() removeEmployee = new EventEmitter<EmployeeRemoveDTO>();
-  @Output() updateEmployee = new EventEmitter<EmployeeUpdateDTO>();
+  @Output() removeObject = new EventEmitter<EmployeeRemoveDTO>();
   @Output() findOne = new EventEmitter<EmployeeUpdateDTO>();
 
   value: string = '';
@@ -48,7 +47,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
   }
 
   removeButtonClicked(employee: EmployeeRemoveDTO) {
-    this.removeEmployee.next(employee);
+    this.removeObject.next(employee);
   }
 
   updateButtonClicked(employee: EmployeeUpdateDTO) {

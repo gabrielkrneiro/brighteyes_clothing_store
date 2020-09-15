@@ -7,7 +7,7 @@
       <button class="btn btn-default">search</button>
     </div>
   </div>
-  <table class="table table-responsive">
+  <table *ngIf="clothesList" class="table table-responsive">
     <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
@@ -16,6 +16,7 @@
         <th scope="col">Quantity</th>
         <th scope="col">Status</th>
         <th scope="col">Photo</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -26,6 +27,20 @@
         <td>{{ clothes.quantityInStock }}</td>
         <td>{{ clothes.status.name }}</td>
         <td>{{ clothes.photo }}</td>
+        <td>
+          <button
+            (click)="updateButtonClicked(clothes)"
+            class="btn btn-primary btn-block"
+          >
+            Update
+          </button>
+          <button
+            (click)="removeButtonClicked(clothes)"
+            class="btn btn-danger btn-block"
+          >
+            Remove
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

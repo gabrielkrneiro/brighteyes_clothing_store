@@ -85,7 +85,7 @@ export class EmployeeComponent implements OnInit {
   async findOne(employee: Employee): Promise<void> {
     try {
       const foundEmployee = await this.employeeService
-        .findOne(employee)
+        .getOne(employee.id)
         .toPromise();
       this.employeeForm.setEmployeeToUpdate(foundEmployee);
     } catch (error) {

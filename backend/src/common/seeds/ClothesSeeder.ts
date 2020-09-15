@@ -30,7 +30,6 @@ export class ClothesSeeder implements ISeeder<Clothes> {
         price: 2.9,
         quantityInStock: 2,
         status: clothesStatusInStock,
-        wareHouseEmployees: [employeeWarehouse],
         photo:
           'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       },
@@ -39,7 +38,6 @@ export class ClothesSeeder implements ISeeder<Clothes> {
         price: 14.78,
         quantityInStock: 5,
         status: clothesStatusInStock,
-        wareHouseEmployees: [employeeWarehouse],
         photo:
           'https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80'
       }

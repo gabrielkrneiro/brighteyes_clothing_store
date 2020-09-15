@@ -13,6 +13,7 @@ export interface DataStoredInToken {
   email: string;
   isValid: boolean;
   title: string;
+  id: number;
 }
 
 @Injectable({

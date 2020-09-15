@@ -7,7 +7,6 @@ interface Clothes {
   photo: string;
   quantityInStock: number;
   status: ClothesStatus;
-  wareHouseEmployees: Employee[];
 }
 
 interface ClothesStatus {
@@ -17,5 +16,14 @@ interface ClothesStatus {
 
 interface ClothesListDTO extends Omit<Clothes, 'wareHouseEmployees'> {}
 interface ClothesDetailsDTO extends Clothes {}
+interface ClothesCreateDTO extends Omit<Clothes, 'id' | 'status'> {
+  status: number;
+}
 
-export { Clothes, ClothesStatus, ClothesListDTO, ClothesDetailsDTO };
+export {
+  Clothes,
+  ClothesStatus,
+  ClothesListDTO,
+  ClothesDetailsDTO,
+  ClothesCreateDTO,
+};

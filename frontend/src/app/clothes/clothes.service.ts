@@ -1,14 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { SuccessfullyResponse } from '../common/interfaces';
 import {
+  Clothes,
+  ClothesCreateDTO,
   ClothesDetailsDTO,
   ClothesListDTO,
   ClothesStatus,
 } from './clothes.interface';
+
+interface CreatedSuccessfullyResponse extends SuccessfullyResponse<Clothes> {}
+interface RemovedSuccessfullyResponse
+  extends Omit<SuccessfullyResponse<Clothes>, 'data'> {}
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +39,20 @@ export class ClothesService {
 
   statusList(): any {
     return this.httpClient.get<ClothesStatus>(`${this.baseUrl}-status`);
+  }
+
+  create(
+    formValues: ClothesCreateDTO
+  ): Observable<CreatedSuccessfullyResponse> {
+    return this.httpClient.post<CreatedSuccessfullyResponse>(
+      this.baseUrl,
+      formValues
+    );
+  }
+
+  remove(clothesId: number): Observable<RemovedSuccessfullyResponse> {
+    return this.httpClient.delete<RemovedSuccessfullyResponse>(
+      `${this.baseUrl}/${clothesId}`
+    );
   }
 }

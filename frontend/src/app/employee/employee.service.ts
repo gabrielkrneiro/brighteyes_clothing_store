@@ -11,11 +11,7 @@ import {
   EmployeeRemoveDTO,
 } from './employee.interfaces';
 import { EmployeeStatusEnum } from './employee.enum';
-
-interface SuccessfullyResponse<T> {
-  message: string;
-  data: T;
-}
+import { SuccessfullyResponse } from './../common/interfaces';
 
 interface CreatedSuccessfullyResponse
   extends SuccessfullyResponse<
@@ -85,15 +81,9 @@ export class EmployeeService {
     );
   }
 
-  findOne(employee: Employee): Observable<Employee> {
+  getOne(employeeId: number): Observable<Employee> {
     return this.httpClient.get<Employee>(
-      `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id
+      `http://${environment.BACKEND_ADDRESS}/employees/` + employeeId
     );
   }
-
-  // findOneByQuery(employee: Employee): Observable<Employee> {
-  //   return this.httpClient.get<Employee>(
-  //     `http://${environment.BACKEND_ADDRESS}/employees/`
-  //   );
-  // }
 }

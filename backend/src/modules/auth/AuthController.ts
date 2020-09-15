@@ -27,6 +27,7 @@ interface DataStoredInToken {
   email: string
   isValid: boolean
   title: string
+  id: number
 }
 export class AuthController extends AbstractController implements IController, IAuthController {
   route: Router
@@ -107,7 +108,8 @@ export class AuthController extends AbstractController implements IController, I
       username: employee.name,
       email: employee.email,
       isValid: true,
-      title: employee.title.name
+      title: employee.title.name,
+      id: employee.id
     }
     return {
       expiresIn,

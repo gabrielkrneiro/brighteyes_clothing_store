@@ -1,9 +1,10 @@
-import { Router } from 'express'
+import { Request, Response, Router } from 'express'
 
 import { IController } from './../../interfaces/IControllers'
 import { DTOController } from './../../common/dto/DTOController'
 import { AbstractController } from '../abstract.controller'
 import { Clothes } from './Clothes'
+import { getRepository } from 'typeorm'
 
 export class ClothesController extends AbstractController implements IController {
   route: Router
@@ -13,7 +14,7 @@ export class ClothesController extends AbstractController implements IController
     this.route = route
     this.ModelClassName = Clothes
     this.findManyOptions = { relations: ['status'] }
-    this.findOneOptions = { relations: ['status', 'wareHouseEmployees'] }
+    this.findOneOptions = { relations: ['status'] }
   }
 
   async init(): Promise<void> {

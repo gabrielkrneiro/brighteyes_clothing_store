@@ -20,10 +20,6 @@ export class Clothes {
   @JoinColumn({ name: 'clothes_status_id' })
   status: ClothesStatus
 
-  @ManyToMany(() => Employee)
-  @JoinTable({ name: 'clothes_employees' })
-  wareHouseEmployees: Employee[]
-
   @Column()
   name: string
 

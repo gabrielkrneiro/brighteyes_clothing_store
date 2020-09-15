@@ -1,4 +1,11 @@
 <div class="container">
-  <app-clothes-form [statusList]="clothesStatusList$"></app-clothes-form>
-  <app-clothes-table [clothesList]="clothesList$"></app-clothes-table>
+  <app-clothes-form
+    (createClothes)="createClothes($event)"
+    [statusList]="clothesStatusList$"
+  ></app-clothes-form>
+  <app-clothes-table
+    (removeObject)="removeClothes($event)"
+    (findOne)="findOne($event)"
+    [clothesList]="clothesList$"
+  ></app-clothes-table>
 </div>
