@@ -63,18 +63,31 @@ export class EmployeeService {
     );
   }
 
-  remove(employee: EmployeeRemoveDTO): Observable<UpdatedSuccessfullyResponse> {
+  async remove(
+    employee: EmployeeRemoveDTO
+  ): Promise<Observable<UpdatedSuccessfullyResponse>> {
     console.log(`try to remove employee "${employee.name}"`);
+    const statusList = await this.getStatusList().toPromise();
+    const deactivatedStatus = statusList.filter(
+      (status) => status.name === 'DEACTIVATED'
+    )[0];
     return this.httpClient.put<UpdatedSuccessfullyResponse>(
       `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
       {
-        status: EmployeeStatusEnum.DEACTIVATED,
+        status: deactivatedStatus.id,
       }
     );
+    // return this.httpClient.put<UpdatedSuccessfullyResponse>(
+    //   `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
+    //   {
+    //     status: EmployeeStatusEnum.DEACTIVATED,
+    //   }
+    // );
   }
 
   update(employee: Partial<Employee>): Observable<UpdatedSuccessfullyResponse> {
     console.log(`try to remove employee "${employee.name}"`);
+    delete employee.password;
     return this.httpClient.put<UpdatedSuccessfullyResponse>(
       `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
       employee

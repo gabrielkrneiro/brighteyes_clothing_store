@@ -39,6 +39,7 @@ const EmployeeCreateDtoDefaultValues = {
 })
 export class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup;
+  isUpdating: boolean;
 
   @Input() employeeStatusList: Observable<EmployeeStatus[]>;
   @Input() employeeTitleList: Observable<EmployeeTitle[]>;
@@ -61,12 +62,13 @@ export class EmployeeFormComponent implements OnInit {
       title: [null, [Validators.required]],
       registeredBy: [null, [Validators.required]],
     });
+    this.isUpdating = false;
     // this.employeeForm.patchValue(employeeMock); // fill form with mocked values
   }
 
   sendEmployee(): void {
     try {
-      if (!this.employeeForm.controls.id.value) {
+      if (!this.isUpdating) {
         this.createEmployee.next(this.employeeForm.value);
       } else {
         this.updateEmployee.next(this.employeeForm.value);
@@ -77,9 +79,15 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   setEmployeeToUpdate(employee: Employee): void {
+    this.isUpdating = true;
     this.employeeForm.patchValue(employee);
     this.employeeForm.patchValue({ title: employee.title.id });
     this.employeeForm.patchValue({ status: employee.status.id });
     this.employeeForm.patchValue({ registeredBy: employee.registeredBy?.id });
+  }
+
+  resetForm(): void {
+    this.employeeForm.reset();
+    this.isUpdating = false;
   }
 }

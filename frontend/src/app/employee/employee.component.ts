@@ -31,6 +31,7 @@ export class EmployeeComponent implements OnInit {
   constructor(private employeeService: EmployeeService) {}
 
   async ngOnInit(): Promise<void> {
+    this.getEmployeeList();
     this.employeeList = this.employeeService.getList();
     this.selectedEmployee = new Employee();
     this.hrEmployeeList = await this.employeeList
@@ -44,12 +45,17 @@ export class EmployeeComponent implements OnInit {
     this.employeeTitleList = this.employeeService.getTitleList();
   }
 
+  getEmployeeList(): void {
+    this.employeeList = this.employeeService.getList();
+  }
+
   create(employeeCreateDto: EmployeeCreateDTO): void {
     console.log('Creating a new employee');
     this.employeeService.create(employeeCreateDto).subscribe(
       ({ data }) => {
         console.log('Employee created successfully');
-        this.employeeForm.employeeForm.reset();
+        this.employeeForm.resetForm();
+        this.getEmployeeList();
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error.message);
@@ -58,10 +64,12 @@ export class EmployeeComponent implements OnInit {
     );
   }
 
-  remove(employee: EmployeeRemoveDTO): void {
-    this.employeeService.remove(employee).subscribe(
+  async remove(employee: EmployeeRemoveDTO): Promise<void> {
+    const response = await this.employeeService.remove(employee);
+    response.subscribe(
       ({ message }) => {
         console.log(message);
+        this.getEmployeeList();
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error);
@@ -74,7 +82,8 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.update(employee).subscribe(
       ({ message }) => {
         console.log(message);
-        this.employeeForm.employeeForm.reset();
+        this.employeeForm.resetForm();
+        this.getEmployeeList();
       },
       ({ error }: HttpErrorResponse) => {
         console.error(error);
@@ -87,6 +96,7 @@ export class EmployeeComponent implements OnInit {
       const foundEmployee = await this.employeeService
         .getOne(employee.id)
         .toPromise();
+      delete foundEmployee.password;
       this.employeeForm.setEmployeeToUpdate(foundEmployee);
     } catch (error) {
       throw new Error(error.message);
