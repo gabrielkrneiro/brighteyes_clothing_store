@@ -4,7 +4,13 @@ import { Observable } from 'rxjs';
 import { SessionService } from 'src/app/common/services/session.service';
 import { Employee } from 'src/app/employee/employee.models';
 import { EmployeeService } from 'src/app/employee/employee.service';
-import { Clothes, ClothesCreateDTO, ClothesStatus } from '../clothes.interface';
+import {
+  Clothes,
+  ClothesCreateDTO,
+  ClothesDetailsDTO,
+  ClothesStatus,
+  ClothesUpdateDTO,
+} from '../clothes.interface';
 import { ClothesStatusEnum } from './../clothes.enum';
 
 const ClothesMock: ClothesCreateDTO = {
@@ -23,26 +29,51 @@ const ClothesMock: ClothesCreateDTO = {
 })
 export class ClothesFormComponent implements OnInit {
   clothesForm: FormGroup;
+  isUpdating: boolean;
 
   @Input() statusList: Observable<ClothesStatus[]>;
 
-  @Output() createClothes = new EventEmitter<ClothesCreateDTO>();
+  @Output() createObject = new EventEmitter<ClothesCreateDTO>();
+  @Output() updateObject = new EventEmitter<ClothesUpdateDTO>();
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.clothesForm = this.fb.group({
+      id: [null],
       name: [null, [Validators.required]],
       price: [null, [Validators.required]],
       quantityInStock: [null, [Validators.required]],
       status: [null, [Validators.required]],
       photo: [null, [Validators.required]],
     });
-    this.clothesForm.patchValue(ClothesMock);
+    this.isUpdating = false;
+    // this.clothesForm.patchValue(ClothesMock);
   }
 
   async sendForm(): Promise<void> {
-    const formValues = this.clothesForm.value as ClothesCreateDTO;
-    this.createClothes.next(formValues);
+    // const formValues = this.clothesForm.value as ClothesCreateDTO;
+    // this.createObject.next(formValues);
+
+    try {
+      if (!this.isUpdating) {
+        this.createObject.next(this.clothesForm.value);
+      } else {
+        this.updateObject.next(this.clothesForm.value);
+      }
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  setClothesToUpdate(clothes: ClothesDetailsDTO) {
+    this.isUpdating = true;
+    this.clothesForm.patchValue(clothes);
+    this.clothesForm.patchValue({ status: clothes.status.id });
+  }
+
+  resetForm(): void {
+    this.clothesForm.reset();
+    this.isUpdating = false;
   }
 }

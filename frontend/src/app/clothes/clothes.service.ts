@@ -11,9 +11,11 @@ import {
   ClothesDetailsDTO,
   ClothesListDTO,
   ClothesStatus,
+  ClothesUpdateDTO,
 } from './clothes.interface';
 
 interface CreatedSuccessfullyResponse extends SuccessfullyResponse<Clothes> {}
+interface UpdatedSuccessfullyResponse extends SuccessfullyResponse<Clothes> {}
 interface RemovedSuccessfullyResponse
   extends Omit<SuccessfullyResponse<Clothes>, 'data'> {}
 
@@ -53,6 +55,15 @@ export class ClothesService {
   remove(clothesId: number): Observable<RemovedSuccessfullyResponse> {
     return this.httpClient.delete<RemovedSuccessfullyResponse>(
       `${this.baseUrl}/${clothesId}`
+    );
+  }
+
+  update(
+    formValues: ClothesUpdateDTO
+  ): Observable<UpdatedSuccessfullyResponse> {
+    return this.httpClient.put<UpdatedSuccessfullyResponse>(
+      `${this.baseUrl}/${formValues.id}`,
+      formValues
     );
   }
 }

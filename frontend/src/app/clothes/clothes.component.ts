@@ -1,10 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ClothesFormComponent } from './clothes-form/clothes-form.component';
 import {
   ClothesCreateDTO,
+  ClothesDetailsDTO,
   ClothesListDTO,
   ClothesStatus,
+  ClothesUpdateDTO,
 } from './clothes.interface';
 
 import { ClothesService } from './clothes.service';
@@ -15,6 +18,8 @@ import { ClothesService } from './clothes.service';
   styleUrls: ['./clothes.component.scss'],
 })
 export class ClothesComponent implements OnInit {
+  @ViewChild(ClothesFormComponent) clothesForm: ClothesFormComponent;
+
   clothesList$: Observable<ClothesListDTO[]>;
   clothesStatusList$: Observable<ClothesStatus[]>;
 
@@ -50,7 +55,28 @@ export class ClothesComponent implements OnInit {
     );
   }
 
-  findOne(clothes: ClothesListDTO): void {
-    console.log('find one clothes');
+  updateClothes(clothes: ClothesUpdateDTO): void {
+    this.clothesService.update(clothes).subscribe(
+      (response) => {
+        console.log('clothes updated');
+        console.log(response);
+        this.clothesForm.resetForm();
+        this.getClothesList();
+      },
+      ({ error }: HttpErrorResponse) => {
+        console.error(error.message);
+      }
+    );
+  }
+
+  async findOne(clothes: ClothesListDTO): Promise<void> {
+    try {
+      const clothesFound = await this.clothesService
+        .findOne(clothes.id)
+        .toPromise();
+      this.clothesForm.setClothesToUpdate(clothesFound);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 }

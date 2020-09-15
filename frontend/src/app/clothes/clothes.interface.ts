@@ -19,6 +19,9 @@ interface ClothesDetailsDTO extends Clothes {}
 interface ClothesCreateDTO extends Omit<Clothes, 'id' | 'status'> {
   status: number;
 }
+interface ClothesUpdateDTO extends Omit<Clothes, 'status'> {
+  status: number;
+}
 
 export {
   Clothes,
@@ -26,4 +29,5 @@ export {
   ClothesListDTO,
   ClothesDetailsDTO,
   ClothesCreateDTO,
+  ClothesUpdateDTO,
 };

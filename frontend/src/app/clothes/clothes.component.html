@@ -1,6 +1,7 @@
 <div class="container">
   <app-clothes-form
-    (createClothes)="createClothes($event)"
+    (createObject)="createClothes($event)"
+    (updateObject)='updateClothes($event)'
     [statusList]="clothesStatusList$"
   ></app-clothes-form>
   <app-clothes-table
