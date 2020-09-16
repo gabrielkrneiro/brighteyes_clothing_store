@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ClientListDTO } from '../client.interfaces';
 
 @Component({
   selector: 'app-client-table',
   templateUrl: './client-table.component.html',
-  styleUrls: ['./client-table.component.scss']
+  styleUrls: ['./client-table.component.scss'],
 })
-export class ClientTableComponent implements OnInit {
+export class ClientTableComponent {
+  @Input() clientList: Observable<ClientListDTO[]>;
 
-  constructor() { }
+  @Output() removeObject = new EventEmitter<ClientListDTO>();
+  @Output() findOne = new EventEmitter<ClientListDTO>();
 
-  ngOnInit(): void {
+  constructor() {}
+
+  removeButtonClicked(client: ClientListDTO): void {
+    this.removeObject.next(client);
   }
 
+  updateButtonClicked(client: ClientListDTO): void {
+    this.findOne.next(client);
+  }
 }
