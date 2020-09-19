@@ -1,3 +1,7 @@
 <div class="container">
-    <app-shopping-cart-table></app-shopping-cart-table>
+  <app-shopping-cart-table
+    (removeObject)="remove($event)"
+    (findOne)="findOne($event)"
+    [shoppingCartList$]="shoppingCartList$"
+  ></app-shopping-cart-table>
 </div>

@@ -16,6 +16,13 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit(): void {
     this.shoppingCartList$ = this.shoppingCartService.getList();
-    this.shoppingCartList$.subscribe((o) => console.log(o));
+  }
+
+  remove(event): void {
+    console.log(event);
+  }
+
+  findOne(event): void {
+    console.log(event);
   }
 }

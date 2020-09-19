@@ -13,6 +13,8 @@ import { ClothesModule } from './clothes/clothes.module';
 import { ClientModule } from './client/client.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
 
+import { CommonComponentsModule } from './common/components/common-components.module';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -26,6 +28,7 @@ import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
     ClothesModule,
     ClientModule,
     ShoppingCartModule,
+    CommonComponentsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
