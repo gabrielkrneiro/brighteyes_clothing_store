@@ -2,7 +2,7 @@ interface Client {
   id: number;
   name: string;
   cpf: string;
-  birthdate: Date;
+  birthdate: string;
   photo: string;
   status: ClientStatus;
   address: string;

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { dateFormatter, dateParser } from 'src/app/common/dateFormatter';
 
 import {
   ClientCreateDTO,
@@ -9,17 +10,13 @@ import {
   ClientUpdateDTO,
 } from '../client.interfaces';
 
-interface ClientCreateDTOMock extends Omit<ClientCreateDTO, 'birthdate'> {
-  birthdate: string;
-}
-
-const clientMock: ClientCreateDTOMock = {
+const clientMock = {
   name: 'Teste 1',
-  birthdate: '12/12/2002',
+  birthdate: dateParser('12/12/2002'),
   cpf: '123.123.123-12',
   photo:
     'https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=728&q=80',
-  status: 1,
+  status: 2,
   address: 'Rua klajskldfjasd, 00 - asdfasdf - Manaus/AM',
 };
 
@@ -50,15 +47,17 @@ export class ClientFormComponent implements OnInit {
       photo: [null, [Validators.required]],
     });
     this.isUpdating = false;
-    this.formGroup.patchValue(clientMock);
+    // this.formGroup.patchValue(clientMock);
   }
 
   async sendForm(): Promise<void> {
     try {
+      const form = this.formGroup.value;
+      form.birthdate = dateFormatter(this.formGroup.controls.birthdate.value);
       if (!this.isUpdating) {
-        this.createObject.next(this.formGroup.value);
+        this.createObject.next(form);
       } else {
-        this.updateObject.next(this.formGroup.value);
+        this.updateObject.next(form);
       }
     } catch (error) {
       throw new Error(error.message);
@@ -69,6 +68,7 @@ export class ClientFormComponent implements OnInit {
     this.isUpdating = true;
     this.formGroup.patchValue(client);
     this.formGroup.patchValue({ status: client.status.id });
+    this.formGroup.patchValue({ birthdate: dateParser(client.birthdate) });
   }
 
   resetForm(): void {

@@ -15,7 +15,7 @@ const employeeMock = {
   name: 'Employee 007',
   email: 'employee007@gmail.com',
   password: 'senha123',
-  // birthdate: dateParser(new Date('2001/12/25')),
+  birthdate: dateParser(new Date('2001/12/25')),
   photo:
     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
   registeredBy: 1,
@@ -65,7 +65,7 @@ export class EmployeeFormComponent implements OnInit {
       registeredBy: [null, [Validators.required]],
     });
     this.isUpdating = false;
-    this.employeeForm.patchValue(employeeMock); // fill form with mocked values
+    // this.employeeForm.patchValue(employeeMock); // fill form with mocked values
   }
 
   sendEmployee(): void {

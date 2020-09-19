@@ -39,8 +39,9 @@
           <button
             (click)="removeButtonClicked(client)"
             class="btn btn-danger btn-block"
+            [disabled]="client.status.name === 'DEACTIVATED'"
           >
-            Remove
+            Deactivate
           </button>
         </td>
       </tr>

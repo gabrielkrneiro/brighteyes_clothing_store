@@ -17,7 +17,7 @@ export class Client {
   cpf: string
 
   @Column()
-  birthdate: Date
+  birthdate: string
 
   @ManyToOne(() => EmployeeClientStatus)
   @JoinColumn({ name: 'client_status_id' })

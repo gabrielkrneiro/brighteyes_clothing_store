@@ -45,8 +45,9 @@ export class ClientComponent implements OnInit {
     );
   }
 
-  removeClient(client: ClientListDTO): void {
-    this.clientService.remove(client.id).subscribe(
+  async removeClient(client: ClientListDTO): Promise<void> {
+    const response = await this.clientService.remove(client.id);
+    response.subscribe(
       () => this.getClientList(),
       ({ error }: HttpErrorResponse) => {
         console.error(error);
@@ -59,7 +60,7 @@ export class ClientComponent implements OnInit {
       (response) => {
         console.log('client updated');
         console.log(response);
-        // this.clientForm.resetForm();
+        this.clientForm.resetForm();
         this.getClientList();
       },
       ({ error }: HttpErrorResponse) => {
@@ -73,7 +74,7 @@ export class ClientComponent implements OnInit {
       const clientFound = await this.clientService
         .findOne(client.id)
         .toPromise();
-      // this.clientForm.setClothesToUpdate(clientFound);
+      this.clientForm.setClothesToUpdate(clientFound);
     } catch (error) {
       console.error(error.message);
     }

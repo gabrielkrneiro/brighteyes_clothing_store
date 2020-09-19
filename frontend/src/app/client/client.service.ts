@@ -51,9 +51,21 @@ export class ClientService {
     );
   }
 
-  remove(id: number): Observable<RemovedClientSuccessfullyResponse> {
-    return this.httpClient.delete<RemovedClientSuccessfullyResponse>(
-      `${this.baseUrl}/${id}`
+  async remove(
+    id: number
+  ): Promise<Observable<RemovedClientSuccessfullyResponse>> {
+    // return this.httpClient.delete<RemovedClientSuccessfullyResponse>(
+    //   `${this.baseUrl}/${id}`
+    // );
+    const statusList = await this.getStatusList().toPromise();
+    const deactivatedStatus = statusList.filter(
+      (status) => status.name === 'DEACTIVATED'
+    )[0];
+    return this.httpClient.put<RemovedClientSuccessfullyResponse>(
+      `${this.baseUrl}/${id}`,
+      {
+        status: deactivatedStatus.id,
+      }
     );
   }
 
@@ -64,5 +76,15 @@ export class ClientService {
       `${this.baseUrl}/${formValues.id}`,
       formValues
     );
+  }
+
+  getStatusList(): Observable<ClientStatus[]> {
+    try {
+      return this.httpClient.get<ClientStatus[]>(
+        `http://${environment.BACKEND_ADDRESS}/employee-client-status`
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
