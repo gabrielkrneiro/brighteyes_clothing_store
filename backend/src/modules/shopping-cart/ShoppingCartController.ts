@@ -12,6 +12,8 @@ export class ShoppingCartController extends AbstractController implements IContr
     super()
     this.route = route
     this.ModelClassName = ShoppingCart
+    this.findManyOptions = { relations: ['status', 'client', 'cashier', 'seller', 'clothes'] }
+    this.findOneOptions = { relations: ['status', 'client', 'cashier', 'seller', 'clothes'] }
   }
 
   async init(): Promise<void> {

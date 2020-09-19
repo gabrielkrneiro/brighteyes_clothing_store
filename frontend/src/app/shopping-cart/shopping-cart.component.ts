@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ShoppingCart } from './shopping-cart.interface';
+
+import { ShoppingCartService } from './shopping-cart.service';
 
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
-  styleUrls: ['./shopping-cart.component.scss']
+  styleUrls: ['./shopping-cart.component.scss'],
 })
 export class ShoppingCartComponent implements OnInit {
+  shoppingCartList$: Observable<ShoppingCart[]>;
 
-  constructor() { }
+  constructor(private shoppingCartService: ShoppingCartService) {}
 
   ngOnInit(): void {
+    this.shoppingCartList$ = this.shoppingCartService.getList();
+    this.shoppingCartList$.subscribe((o) => console.log(o));
   }
-
 }

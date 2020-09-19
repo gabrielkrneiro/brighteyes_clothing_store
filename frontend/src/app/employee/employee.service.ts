@@ -77,12 +77,6 @@ export class EmployeeService {
         status: deactivatedStatus.id,
       }
     );
-    // return this.httpClient.put<UpdatedSuccessfullyResponse>(
-    //   `http://${environment.BACKEND_ADDRESS}/employees/` + employee.id,
-    //   {
-    //     status: EmployeeStatusEnum.DEACTIVATED,
-    //   }
-    // );
   }
 
   update(employee: Partial<Employee>): Observable<UpdatedSuccessfullyResponse> {
