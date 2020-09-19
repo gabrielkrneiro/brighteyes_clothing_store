@@ -9,13 +9,18 @@ import {
   ClientUpdateDTO,
 } from '../client.interfaces';
 
-const clientMock: ClientCreateDTO = {
+interface ClientCreateDTOMock extends Omit<ClientCreateDTO, 'birthdate'> {
+  birthdate: string;
+}
+
+const clientMock: ClientCreateDTOMock = {
   name: 'Teste 1',
-  birthdate: new Date('10/10/1991'),
+  birthdate: '12/12/2002',
   cpf: '123.123.123-12',
   photo:
     'https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=728&q=80',
   status: 1,
+  address: 'Rua klajskldfjasd, 00 - asdfasdf - Manaus/AM',
 };
 
 @Component({

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
+import { dateFormatter, dateParser } from './../../common/dateFormatter';
+
 import {
   EmployeeCreateDTO,
   EmployeeStatus,
@@ -9,17 +11,17 @@ import {
 } from '../employee.interfaces';
 import { Employee } from '../employee.models';
 
-// const employeeMock = {
-//   name: 'Employee 007',
-//   email: 'employee007@gmail.com',
-//   password: 'senha123',
-//   birthdate: new Date('12/12/1212'),
-//   photo:
-//     'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
-//   registeredBy: 1,
-//   status: 2,
-//   title: 4,
-// } as EmployeeCreateDTO;
+const employeeMock = {
+  name: 'Employee 007',
+  email: 'employee007@gmail.com',
+  password: 'senha123',
+  // birthdate: dateParser(new Date('2001/12/25')),
+  photo:
+    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
+  registeredBy: 1,
+  status: 2,
+  title: 4,
+};
 
 const EmployeeCreateDtoDefaultValues = {
   name: '',
@@ -63,15 +65,18 @@ export class EmployeeFormComponent implements OnInit {
       registeredBy: [null, [Validators.required]],
     });
     this.isUpdating = false;
-    // this.employeeForm.patchValue(employeeMock); // fill form with mocked values
+    this.employeeForm.patchValue(employeeMock); // fill form with mocked values
   }
 
   sendEmployee(): void {
+    const form = this.employeeForm.value;
+    form.birthdate = dateFormatter(this.employeeForm.controls.birthdate.value);
+    // console.log(form);
     try {
       if (!this.isUpdating) {
-        this.createEmployee.next(this.employeeForm.value);
+        this.createEmployee.next(form);
       } else {
-        this.updateEmployee.next(this.employeeForm.value);
+        this.updateEmployee.next(form);
       }
     } catch (error) {
       throw new Error(error.message);

@@ -31,7 +31,7 @@ export class Employee {
   photo: string
 
   @Column()
-  birthdate: Date
+  birthdate: string
 
   @Column()
   password: string

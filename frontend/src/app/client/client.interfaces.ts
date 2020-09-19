@@ -5,6 +5,7 @@ interface Client {
   birthdate: Date;
   photo: string;
   status: ClientStatus;
+  address: string;
 }
 
 enum ClientStatusEnum {

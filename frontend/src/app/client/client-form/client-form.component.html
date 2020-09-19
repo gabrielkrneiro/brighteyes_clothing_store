@@ -16,7 +16,19 @@
         placeholder="Fulano Beltano Cicrano"
       />
     </div>
-    <div class="row">
+
+    <div class="form-group">
+      <label for="address" class="col-form-label">Address</label>
+      <input
+        type="text"
+        class="form-control"
+        id="address"
+        formControlName="address"
+        placeholder="..."
+      />
+    </div>
+
+    <!-- <div class="row">
       <div class="col-md-4 form-group">
         <label for="address--street" class="col-form-label">Street</label>
         <input
@@ -80,7 +92,8 @@
           <option value="TO">Tocantins</option>
         </select>
       </div>
-    </div>
+    </div> -->
+
     <div class="row">
       <div class="col-md-6 form-group">
         <label for="cpf" class="col-form-label">CPF</label>
@@ -96,7 +109,7 @@
         <label for="birthdate" class="col-form-label">Birthdate</label>
         <input
           formControlName="birthdate"
-          type="date"
+          type="text"
           class="form-control"
           id="birthdate"
           placeholder="12/12/1212"

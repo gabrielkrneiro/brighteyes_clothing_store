@@ -18,10 +18,11 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
+        <th scope="col">Date</th>
         <th scope="col">E-mail</th>
         <th scope="col">Title</th>
         <th scope="col">Status</th>
-        <th class="hidden" scope="col">Photo</th>
+        <th scope="col">Photo</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -29,10 +30,11 @@
       <tr *ngFor="let employee of employeeList | async">
         <th scope="row">{{ employee.id }}</th>
         <td>{{ employee.name }}</td>
+        <td>{{ employee.birthdate }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.title?.name || "" }}</td>
         <td>{{ employee.status?.name || "" }}</td>
-        <td class="hidden">
+        <td>
           <a [href]="employee.photo">{{ employee.photo }}</a>
         </td>
         <td>

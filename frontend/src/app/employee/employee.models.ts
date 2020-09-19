@@ -4,7 +4,7 @@ class Employee {
   id: number;
   name: string;
   photo: string;
-  birthdate: Date;
+  birthdate: string;
   password: string;
   email: string;
   title: EmployeeTitle;

@@ -6,6 +6,7 @@ import { EmployeeClientStatus } from '@src/modules/employee_client_status/Employ
 import { Employee } from '@src/modules/employee/Employee'
 import { EmployeeTitle } from '@src/modules/employee_title/EmployeeTitle'
 import logger from '../logger/logger'
+import { dateFormatter } from '../formatDate'
 
 const PASSWORD_DEFAULT = '$2b$10$1PeKVUoMMAKR.pKrQN046OxrAb.aSfZbYROl2NNY.ZbUKVZcjfmg6' // senha123
 
@@ -27,7 +28,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
 
     const hrEmployee: Omit<Employee, 'id' | 'registeredBy'> = {
       name: 'Employee 1',
-      birthdate: new Date('10/14/1987'),
+      birthdate: dateFormatter(new Date('10/14/1987')),
       photo:
         'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
       password: PASSWORD_DEFAULT,
@@ -53,7 +54,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
     return [
       {
         name: 'Employee 2',
-        birthdate: new Date('10/14/1987'),
+        birthdate: dateFormatter(new Date('10/14/1987')),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
@@ -61,7 +62,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       },
       {
         name: 'Employee 3',
-        birthdate: new Date('10/14/1987'),
+        birthdate: dateFormatter(new Date('10/14/1987')),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
@@ -69,7 +70,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       },
       {
         name: 'Employee 4',
-        birthdate: new Date('10/14/1987'),
+        birthdate: dateFormatter(new Date('10/14/1987')),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
@@ -77,7 +78,7 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       },
       {
         name: 'Employee 5',
-        birthdate: new Date('10/14/1987'),
+        birthdate: dateFormatter(new Date('10/14/1987')),
         photo:
           'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,

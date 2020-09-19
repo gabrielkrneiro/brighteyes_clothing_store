@@ -16,7 +16,7 @@ export class EmployeeFactory {
     employee.name = data.name
     employee.email = data.email
     employee.photo = data.photo
-    employee.birthdate = new Date(data.birthdate)
+    employee.birthdate = data.birthdate
     employee.password = await bcrypt.hash(data.password, amountOfSaltRounds)
     employee.registeredBy = await employeeRepository.findOneOrFail(data.registeredBy)
     employee.status = await employeeStatusRepository.findOneOrFail(data.status)
