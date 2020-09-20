@@ -18,7 +18,7 @@
         <th scope="col">Clothes List</th>
         <th scope="col">Created at</th>
         <th scope="col">Updated at</th>
-        <th scope="col">Total</th>
+        <th scope="col">Total Cost</th>
       </tr>
     </thead>
     <tbody *ngFor="let object of shoppingCartList$ | async">
@@ -30,12 +30,13 @@
         <td>{{ object.status.name }}</td>
         <td>
           <app-shopping-cart-modal
-            [shoppingCartClothesList]="object.clothes"
+            (addClothes)='addClothes($event)'
+            [shoppingCart]="object"
           ></app-shopping-cart-modal>
         </td>
         <td>{{ object.createdAt }}</td>
         <td>{{ object.updatedAt }}</td>
-        <td>{{ totalValue(object.clothes) }}</td>
+        <td>{{ totalValue(object?.clothes) }}</td>
       </tr>
     </tbody>
   </table>

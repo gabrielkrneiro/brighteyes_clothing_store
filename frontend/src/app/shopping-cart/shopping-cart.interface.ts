@@ -1,3 +1,4 @@
+import { Clothes } from '../clothes/clothes.interface';
 import { Client } from './../client/client.interfaces';
 import { Employee } from './../employee/employee.models';
 
@@ -7,6 +8,7 @@ interface ShoppingCart {
   cashier?: Employee;
   seller: Employee;
   status: ShoppingCartStatus;
+  clothes: Clothes[];
   createdAt: Date;
   updatedAt: Date;
 }
