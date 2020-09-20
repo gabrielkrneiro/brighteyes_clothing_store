@@ -2,6 +2,7 @@
   <app-shopping-cart-table
     (removeObject)="remove($event)"
     (findOne)="findOne($event)"
+    (loadShoppingCartList)='loadShoppingCartList($event)'
     [shoppingCartList$]="shoppingCartList$"
   ></app-shopping-cart-table>
 </div>

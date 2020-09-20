@@ -34,6 +34,20 @@ export class ShoppingCartService {
     }
   }
 
+  removeClothesToShoppingCart(
+    shoppingCartId: number,
+    clothesId: number
+  ): Observable<ShoppingCart> {
+    try {
+      return this.httpClient.put<ShoppingCart>(
+        `http://${environment.BACKEND_ADDRESS}/shopping-cart/${shoppingCartId}/remove-clothes/${clothesId}`,
+        null
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   // getStatusList(): Observable<EmployeeStatus[]> {
   //   try {
   //     return this.httpClient.get<EmployeeStatus[]>(

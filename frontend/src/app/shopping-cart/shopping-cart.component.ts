@@ -15,7 +15,7 @@ export class ShoppingCartComponent implements OnInit {
   constructor(private shoppingCartService: ShoppingCartService) {}
 
   ngOnInit(): void {
-    this.shoppingCartList$ = this.shoppingCartService.getList();
+    this.loadShoppingCartList();
   }
 
   remove(event): void {
@@ -24,5 +24,9 @@ export class ShoppingCartComponent implements OnInit {
 
   findOne(event): void {
     console.log(event);
+  }
+
+  loadShoppingCartList(): void {
+    this.shoppingCartList$ = this.shoppingCartService.getList();
   }
 }

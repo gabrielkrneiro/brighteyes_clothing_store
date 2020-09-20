@@ -7,6 +7,7 @@ import { ShoppingCart } from './ShoppingCart'
 import { getRepository } from 'typeorm'
 import { Clothes } from '../clothes/Clothes'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
+import { ClothesStatus } from '../clothes_status/ClothesStatus'
 
 export class ShoppingCartController extends AbstractController implements IController {
   route: Router
@@ -27,6 +28,7 @@ export class ShoppingCartController extends AbstractController implements IContr
     this.route.delete('/shopping-cart/:id', this.remove)
 
     this.route.put('/shopping-cart/:id/add-clothes/:clothes_id', this.addClothes)
+    this.route.put('/shopping-cart/:id/remove-clothes/:clothes_id', this.removeClothes)
   }
 
   addClothes = async (request: Request, response: Response): Promise<Response<any>> => {
@@ -53,6 +55,51 @@ export class ShoppingCartController extends AbstractController implements IContr
 
       foundObject.clothes.push(foundClothes)
       foundClothes.quantityInStock = --foundClothes.quantityInStock
+      await clothesRepository.save(foundClothes)
+      const updatedObject = await repository.save(foundObject)
+      return response.json(updatedObject)
+    } catch (error) {
+      console.error(error)
+      return response.status(401).json({
+        message: 'an error occurred',
+        error_message: error.message
+      })
+    }
+  }
+
+  removeClothes = async (request: Request, response: Response): Promise<Response<any>> => {
+    try {
+      const id = request.params.id
+      const clothesId = parseInt(request.params.clothes_id)
+      const repository = getRepository(ShoppingCart)
+      const clothesRepository = getRepository(Clothes)
+      const clothesStatusRepository = getRepository(ClothesStatus)
+
+      const foundObject = await repository.findOne(id, this.findOneOptions)
+      if (!foundObject) {
+        throw new Error('Object not found')
+      }
+
+      const foundClothes = await clothesRepository.findOneOrFail(clothesId, {
+        relations: ['status']
+      })
+
+      const inStockClothesStatus = await clothesStatusRepository.findOneOrFail({
+        where: { name: ClothesStatusEnum.IN_STOCK }
+      })
+
+      const clothesIndexToBeRemoved = foundObject.clothes.findIndex(
+        (clothes) => clothes.id === clothesId
+      )
+
+      if (!clothesIndexToBeRemoved || clothesIndexToBeRemoved === -1) {
+        throw new Error('Not found')
+      }
+
+      foundObject.clothes.splice(clothesIndexToBeRemoved, 1)
+      foundClothes.quantityInStock = ++foundClothes.quantityInStock
+      foundClothes.status = inStockClothesStatus
+
       await clothesRepository.save(foundClothes)
       const updatedObject = await repository.save(foundObject)
       return response.json(updatedObject)

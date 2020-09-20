@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Clothes } from 'src/app/clothes/clothes.interface';
 import { ShoppingCart } from '../shopping-cart.interface';
@@ -12,6 +12,8 @@ import { ShoppingCartService } from '../shopping-cart.service';
 })
 export class ShoppingCartTableComponent implements OnInit {
   @Input() shoppingCartList$: Observable<ShoppingCart[]>;
+
+  @Output() loadShoppingCartList = new EventEmitter<void>();
 
   constructor(private shoppingCartService: ShoppingCartService) {}
 
@@ -36,6 +38,27 @@ export class ShoppingCartTableComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log(response);
+          this.loadShoppingCartList.next();
+        },
+        ({ error }: HttpErrorResponse) => {
+          console.error(error.message);
+        }
+      );
+  }
+
+  removeClothes({
+    requestedClothesId,
+    shoppingCartId,
+  }: {
+    requestedClothesId: number;
+    shoppingCartId: number;
+  }): void {
+    this.shoppingCartService
+      .removeClothesToShoppingCart(shoppingCartId, requestedClothesId)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.loadShoppingCartList.next();
         },
         ({ error }: HttpErrorResponse) => {
           console.error(error.message);

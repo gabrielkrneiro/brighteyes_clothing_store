@@ -50,11 +50,12 @@
 
           <table *ngIf="shoppingCart.clothes" class="table">
             <thead class="thead-dark">
-              <tr>
+              <tr style="align-items: center;">
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
                 <th scope="col">Photo</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -69,6 +70,16 @@
                     href="{{ clothes.photo }}"
                     >Photo</a
                   >
+                </td>
+                <td>
+                  <div>
+                    <button 
+                      (click)='removeClothesButtonClicked(clothes)' 
+                      class="btn btn-danger btn-block"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>

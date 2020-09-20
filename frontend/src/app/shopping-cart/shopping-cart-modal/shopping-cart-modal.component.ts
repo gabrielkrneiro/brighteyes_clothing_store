@@ -37,6 +37,10 @@ export class ShoppingCartModalComponent implements OnInit {
     requestedClothesId: number;
     shoppingCartId: number;
   }>();
+  @Output() removeClothes = new EventEmitter<{
+    requestedClothesId: number;
+    shoppingCartId: number;
+  }>();
 
   constructor(private fb: FormBuilder) {}
 
@@ -67,6 +71,15 @@ export class ShoppingCartModalComponent implements OnInit {
     if (!inputValue) return;
     this.addClothes.next({
       requestedClothesId: inputValue,
+      shoppingCartId: this.shoppingCart.id,
+    });
+    this.resetForm();
+  }
+
+  removeClothesButtonClicked(clothes: Clothes): void {
+    const inputValue = parseInt(this.formGroup.controls.searchInput.value);
+    this.removeClothes.next({
+      requestedClothesId: clothes.id,
       shoppingCartId: this.shoppingCart.id,
     });
     this.resetForm();
