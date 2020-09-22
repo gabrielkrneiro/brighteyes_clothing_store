@@ -5,23 +5,37 @@ import { Employee } from './../employee/employee.models';
 interface ShoppingCart {
   id: number;
   client: Client;
-  cashier?: Employee;
   seller: Employee;
   status: ShoppingCartStatus;
-  clothes: Clothes[];
   createdAt: Date;
   updatedAt: Date;
+  cashier?: Employee;
+  clothes?: Clothes[];
 }
 
 interface ShoppingCartStatus {
   id: number;
-  name: ShoppingCartEnum;
+  name: ShoppingCartStatusEnum;
 }
 
-enum ShoppingCartEnum {
+enum ShoppingCartStatusEnum {
   IN_PROGRESS = 'IN PROGRESS',
   FINISHED = 'FINISHED',
   CANCELLED = 'CANCELLED',
 }
 
-export { ShoppingCart, ShoppingCartStatus };
+interface CreateShoppingCartSuccessfullResponse {
+  message: string;
+  data: ShoppingCart;
+}
+
+interface ShoppingCartCreateDTO
+  extends Omit<ShoppingCart, 'id' | 'createdAt' | 'updatedAt'> {}
+
+export {
+  ShoppingCart,
+  ShoppingCartStatus,
+  ShoppingCartCreateDTO,
+  ShoppingCartStatusEnum,
+  CreateShoppingCartSuccessfullResponse,
+};

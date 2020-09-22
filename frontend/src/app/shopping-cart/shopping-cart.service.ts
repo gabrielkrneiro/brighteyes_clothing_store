@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ShoppingCart } from './shopping-cart.interface';
+import {
+  ShoppingCart,
+  ShoppingCartCreateDTO,
+  ShoppingCartStatus,
+  CreateShoppingCartSuccessfullResponse,
+} from './shopping-cart.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -48,15 +53,15 @@ export class ShoppingCartService {
     }
   }
 
-  // getStatusList(): Observable<EmployeeStatus[]> {
-  //   try {
-  //     return this.httpClient.get<EmployeeStatus[]>(
-  //       `http://${environment.BACKEND_ADDRESS}/employee-client-status`
-  //     );
-  //   } catch (error) {
-  //     throw new Error(error.message);
-  //   }
-  // }
+  getStatusList(): Observable<ShoppingCartStatus[]> {
+    try {
+      return this.httpClient.get<ShoppingCartStatus[]>(
+        `http://${environment.BACKEND_ADDRESS}/shopping-cart-status`
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
   // getTitleList(): Observable<EmployeeTitle[]> {
   //   try {
@@ -68,12 +73,14 @@ export class ShoppingCartService {
   //   }
   // }
 
-  // create(employee: EmployeeCreateDTO): Observable<CreatedSuccessfullyResponse> {
-  //   return this.httpClient.post<CreatedSuccessfullyResponse>(
-  //     `http://${environment.BACKEND_ADDRESS}/shopping-cart`,
-  //     employee
-  //   );
-  // }
+  create(
+    shoppingCart: ShoppingCartCreateDTO
+  ): Observable<CreateShoppingCartSuccessfullResponse> {
+    return this.httpClient.post<CreateShoppingCartSuccessfullResponse>(
+      `http://${environment.BACKEND_ADDRESS}/shopping-cart`,
+      shoppingCart
+    );
+  }
 
   // async remove(
   //   employee: EmployeeRemoveDTO

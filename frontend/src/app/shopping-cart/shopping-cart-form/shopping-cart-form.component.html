@@ -1,1 +1,87 @@
-<p>shopping-cart-form works!</p>
+<section>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Shopping Cart</h2>
+      </div>
+      <div class="col-md-6 pull-right">
+        <h2>
+          {{ isUpdating ? "Update" : "Create" }}
+        </h2>
+      </div>
+    </div>
+  
+    <form id="employee-form" [formGroup]='formGroup' (submit)='sendShoppingCartForm()'>
+        <div class="form-group">
+            <label for="client" class="col-form-label">Client</label>
+            <select
+              formControlName="client"
+              name="client"
+              id="client"
+              class="form-control"
+              style="height: 2em"
+            >
+              <option value='null'>Select client</option>
+              <option
+                [ngValue]="client.id"
+                *ngFor="let client of clientList | async as list"
+              >
+                {{ client.name }}
+              </option>
+            </select>
+        </div>
+  
+        <div class="form-group hidden">
+            <input formControlName="id" type="text" class="form-control" id="id" />
+        </div>
+   
+  
+      <div class="form-group">
+        <label for="status" class="col-form-label">Status</label>
+        <select
+          formControlName="status"
+          name="status"
+          id="status"
+          class="form-control"
+          style="height: 2em"
+        >
+          <option
+            [ngValue]="status.id"
+            *ngFor="let status of shoppingCartStatusList | async as list"
+          >
+            {{ status.name }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="seller" class="col-form-label"
+          >Who are you as Seller employee?</label
+        >
+        <select
+          formControlName="seller"
+          name="seller"
+          id="seller"
+          class="form-control"
+          style="height: 2em"
+        >
+          <option [ngValue]="1" *ngFor="let employee of sellerEmployeeList | async ">
+            {{ employee.name }}
+          </option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <button 
+          class="btn btn-primary btn-block"
+          [disabled]='formGroup.invalid'>Send</button>
+        <button
+          type="button"
+          class="btn btn-danger btn-block"
+          (click)="resetForm()"
+        >
+          Reset
+        </button>
+      </div>
+    </form>
+  </section>
+  
