@@ -15,6 +15,7 @@ export class ShoppingCartTableComponent implements OnInit {
   @Input() shoppingCartList$: Observable<ShoppingCart[]>;
 
   @Output() loadShoppingCartList = new EventEmitter<void>();
+  @Output() findOne = new EventEmitter<ShoppingCart>();
 
   constructor(private shoppingCartService: ShoppingCartService) {}
 
@@ -31,7 +32,6 @@ export class ShoppingCartTableComponent implements OnInit {
     requestedClothesId: number;
     shoppingCartId: number;
   }): void {
-    console.log(requestedClothesId, shoppingCartId);
     this.shoppingCartService
       .addClothesToShoppingCart(shoppingCartId, requestedClothesId)
       .subscribe(
@@ -63,5 +63,9 @@ export class ShoppingCartTableComponent implements OnInit {
           console.error(error.message);
         }
       );
+  }
+
+  updateButtonClicked(shoppingCart: ShoppingCart): void {
+    this.findOne.next(shoppingCart);
   }
 }

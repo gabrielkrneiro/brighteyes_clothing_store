@@ -7,7 +7,7 @@
       <button class="btn btn-default">search</button>
     </div>
   </div> -->
-  <table class="table">
+  <table class="table table-responsive">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Id</th>
@@ -19,6 +19,7 @@
         <th scope="col">Created at</th>
         <th scope="col">Updated at</th>
         <th scope="col">Total Cost</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody *ngFor="let object of shoppingCartList$ | async">
@@ -38,6 +39,11 @@
         <td>{{ object.createdAt }}</td>
         <td>{{ object.updatedAt }}</td>
         <td>{{ totalValue(object?.clothes) }}</td>
+        <td>
+          <div>
+            <button (click)='updateButtonClicked(object)' class="btn btn-default">Update</button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

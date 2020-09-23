@@ -29,13 +29,22 @@ interface CreateShoppingCartSuccessfullResponse {
   data: ShoppingCart;
 }
 
+interface UpdateShoppingCartSuccessfullResponse {
+  message: string;
+  data: ShoppingCart;
+}
+
 interface ShoppingCartCreateDTO
   extends Omit<ShoppingCart, 'id' | 'createdAt' | 'updatedAt'> {}
+
+interface ShoppingCartUpdateDTO extends Omit<ShoppingCart, 'createdAt'> {}
 
 export {
   ShoppingCart,
   ShoppingCartStatus,
   ShoppingCartCreateDTO,
+  ShoppingCartUpdateDTO,
   ShoppingCartStatusEnum,
   CreateShoppingCartSuccessfullResponse,
+  UpdateShoppingCartSuccessfullResponse,
 };

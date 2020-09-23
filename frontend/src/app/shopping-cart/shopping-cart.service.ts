@@ -7,6 +7,8 @@ import {
   ShoppingCartCreateDTO,
   ShoppingCartStatus,
   CreateShoppingCartSuccessfullResponse,
+  ShoppingCartUpdateDTO,
+  UpdateShoppingCartSuccessfullResponse,
 } from './shopping-cart.interface';
 
 @Injectable({
@@ -63,6 +65,24 @@ export class ShoppingCartService {
     }
   }
 
+  create(
+    shoppingCart: ShoppingCartCreateDTO
+  ): Observable<CreateShoppingCartSuccessfullResponse> {
+    return this.httpClient.post<CreateShoppingCartSuccessfullResponse>(
+      `http://${environment.BACKEND_ADDRESS}/shopping-cart`,
+      shoppingCart
+    );
+  }
+
+  update(
+    shoppingCart: ShoppingCartUpdateDTO
+  ): Observable<UpdateShoppingCartSuccessfullResponse> {
+    return this.httpClient.put<UpdateShoppingCartSuccessfullResponse>(
+      `http://${environment.BACKEND_ADDRESS}/shopping-cart/` + shoppingCart.id,
+      shoppingCart
+    );
+  }
+
   // getTitleList(): Observable<EmployeeTitle[]> {
   //   try {
   //     return this.httpClient.get<EmployeeTitle[]>(
@@ -72,15 +92,6 @@ export class ShoppingCartService {
   //     throw new Error(error.message);
   //   }
   // }
-
-  create(
-    shoppingCart: ShoppingCartCreateDTO
-  ): Observable<CreateShoppingCartSuccessfullResponse> {
-    return this.httpClient.post<CreateShoppingCartSuccessfullResponse>(
-      `http://${environment.BACKEND_ADDRESS}/shopping-cart`,
-      shoppingCart
-    );
-  }
 
   // async remove(
   //   employee: EmployeeRemoveDTO
@@ -95,15 +106,6 @@ export class ShoppingCartService {
   //     {
   //       status: deactivatedStatus.id,
   //     }
-  //   );
-  // }
-
-  // update(employee: Partial<Employee>): Observable<UpdatedSuccessfullyResponse> {
-  //   console.log(`try to remove employee "${employee.name}"`);
-  //   delete employee.password;
-  //   return this.httpClient.put<UpdatedSuccessfullyResponse>(
-  //     `http://${environment.BACKEND_ADDRESS}/shopping-cart/` + employee.id,
-  //     employee
   //   );
   // }
 

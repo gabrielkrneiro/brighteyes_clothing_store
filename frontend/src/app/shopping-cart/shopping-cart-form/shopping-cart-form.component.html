@@ -64,7 +64,7 @@
           class="form-control"
           style="height: 2em"
         >
-          <option [ngValue]="1" *ngFor="let employee of sellerEmployeeList | async ">
+          <option [ngValue]="employee.id" *ngFor="let employee of sellerEmployeeList | async ">
             {{ employee.name }}
           </option>
         </select>

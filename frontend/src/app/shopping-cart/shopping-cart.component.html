@@ -4,6 +4,7 @@
     [sellerEmployeeList]='sellerEmployeeList'
     [clientList]='clientList$'
     (registerShoppingCart)='registerShoppingCart($event)'
+    (updateShoppingCart)='updateShoppingCart($event)'
   ></app-shopping-cart-form>
   <app-shopping-cart-table
     (removeObject)="remove($event)"

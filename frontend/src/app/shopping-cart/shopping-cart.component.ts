@@ -13,6 +13,7 @@ import {
   ShoppingCartCreateDTO,
   ShoppingCartStatus,
   ShoppingCartStatusEnum,
+  ShoppingCartUpdateDTO,
 } from './shopping-cart.interface';
 
 import { ShoppingCartService } from './shopping-cart.service';
@@ -48,8 +49,8 @@ export class ShoppingCartComponent implements OnInit {
     console.log(event);
   }
 
-  findOne(event): void {
-    console.log(event);
+  findOne(shoppingCart: ShoppingCart): void {
+    this.shoppingCartForm.loadFormWithObject(shoppingCart);
   }
 
   loadShoppingCartList(): void {
@@ -58,6 +59,19 @@ export class ShoppingCartComponent implements OnInit {
 
   registerShoppingCart(shoppingCart: ShoppingCartCreateDTO): void {
     this.shoppingCartService.create(shoppingCart).subscribe(
+      ({ message }) => {
+        console.log(message);
+        this.loadShoppingCartList();
+        this.shoppingCartForm.resetForm();
+      },
+      ({ error }: HttpErrorResponse) => {
+        console.error(error.message);
+      }
+    );
+  }
+
+  updateShoppingCart(shoppingCart: ShoppingCartUpdateDTO): void {
+    this.shoppingCartService.update(shoppingCart).subscribe(
       ({ message }) => {
         console.log(message);
         this.loadShoppingCartList();
