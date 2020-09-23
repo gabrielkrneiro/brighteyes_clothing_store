@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ShoppingCartModalComponent } from './shopping-cart-modal.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { ModalModule } from 'ngx-bootstrap/modal';
+
+import { ShoppingCartModalComponent } from './shopping-cart-modal.component';
 
 @NgModule({
   declarations: [ShoppingCartModalComponent],
