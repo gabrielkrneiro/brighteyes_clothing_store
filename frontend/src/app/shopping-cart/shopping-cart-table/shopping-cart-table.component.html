@@ -30,8 +30,8 @@
         <td>{{ object.status.name }}</td>
         <td>
           <app-shopping-cart-modal
-            (addClothes)='addClothes($event)'
-            (removeClothes)='removeClothes($event)'
+            (addClothes)="addClothes($event)"
+            (removeClothes)="removeClothes($event)"
             [shoppingCart]="object"
           ></app-shopping-cart-modal>
         </td>

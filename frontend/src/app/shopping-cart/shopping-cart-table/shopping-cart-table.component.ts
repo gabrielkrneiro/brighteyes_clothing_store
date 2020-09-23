@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Clothes } from 'src/app/clothes/clothes.interface';
 import { ShoppingCart } from '../shopping-cart.interface';
 import { ShoppingCartService } from '../shopping-cart.service';
+import { calcTotalCost } from './../../common/calcTotalCost';
 
 @Component({
   selector: 'app-shopping-cart-table',
@@ -20,9 +21,7 @@ export class ShoppingCartTableComponent implements OnInit {
   ngOnInit(): void {}
 
   totalValue(clothes: Clothes[]): number {
-    let total = 0;
-    clothes.forEach((c) => (total += c.price));
-    return total;
+    return calcTotalCost(clothes);
   }
 
   addClothes({

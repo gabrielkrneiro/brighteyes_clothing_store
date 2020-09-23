@@ -92,7 +92,7 @@ export class ShoppingCartController extends AbstractController implements IContr
         (clothes) => clothes.id === clothesId
       )
 
-      if (!clothesIndexToBeRemoved || clothesIndexToBeRemoved === -1) {
+      if (clothesIndexToBeRemoved === -1) {
         throw new Error('Not found')
       }
 
