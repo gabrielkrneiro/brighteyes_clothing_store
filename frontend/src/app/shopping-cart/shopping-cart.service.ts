@@ -9,6 +9,7 @@ import {
   CreateShoppingCartSuccessfullResponse,
   ShoppingCartUpdateDTO,
   UpdateShoppingCartSuccessfullResponse,
+  ShoppingCartStatusEnum,
 } from './shopping-cart.interface';
 
 @Injectable({
@@ -80,6 +81,26 @@ export class ShoppingCartService {
     return this.httpClient.put<UpdateShoppingCartSuccessfullResponse>(
       `http://${environment.BACKEND_ADDRESS}/shopping-cart/` + shoppingCart.id,
       shoppingCart
+    );
+  }
+
+  async pay({
+    cashierId,
+    shoppingCartId,
+  }: {
+    shoppingCartId: number;
+    cashierId: number;
+  }): Promise<Observable<UpdateShoppingCartSuccessfullResponse>> {
+    const finishedStatus = (await this.getStatusList().toPromise()).find(
+      (status) => status.name === ShoppingCartStatusEnum.FINISHED
+    );
+
+    return this.httpClient.put<UpdateShoppingCartSuccessfullResponse>(
+      `http://${environment.BACKEND_ADDRESS}/shopping-cart/` + shoppingCartId,
+      {
+        status: finishedStatus.id,
+        cashier: cashierId,
+      }
     );
   }
 

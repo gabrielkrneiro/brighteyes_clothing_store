@@ -60,7 +60,6 @@ export class ShoppingCartComponent implements OnInit {
   registerShoppingCart(shoppingCart: ShoppingCartCreateDTO): void {
     this.shoppingCartService.create(shoppingCart).subscribe(
       ({ message }) => {
-        console.log(message);
         this.loadShoppingCartList();
         this.shoppingCartForm.resetForm();
       },
@@ -73,7 +72,6 @@ export class ShoppingCartComponent implements OnInit {
   updateShoppingCart(shoppingCart: ShoppingCartUpdateDTO): void {
     this.shoppingCartService.update(shoppingCart).subscribe(
       ({ message }) => {
-        console.log(message);
         this.loadShoppingCartList();
         this.shoppingCartForm.resetForm();
       },

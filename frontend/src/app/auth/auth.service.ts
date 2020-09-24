@@ -3,10 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {
-  SessionItemEnum,
-  SessionService,
-} from '../common/services/session.service';
+import { SessionItemEnum } from '../common/services/session.service';
 
 import { Credentials, LoggedInSuccessfully } from './auth.interface';
 
@@ -14,11 +11,7 @@ import { Credentials, LoggedInSuccessfully } from './auth.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private httpClient: HttpClient,
-    private sessionService: SessionService,
-    private router: Router
-  ) {}
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   login(credentials: Credentials): Observable<LoggedInSuccessfully> {
     try {

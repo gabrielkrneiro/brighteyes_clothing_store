@@ -13,6 +13,10 @@ export class CashierTableComponent implements OnInit {
   @Input() shoppingCartList$: Observable<ShoppingCart[]>;
 
   @Output() loadShoppingCartList = new EventEmitter<void>();
+  @Output() sendPaymentToParent = new EventEmitter<{
+    isOk: boolean;
+    shoppingCartId: number;
+  }>();
 
   constructor() {}
 
@@ -20,5 +24,9 @@ export class CashierTableComponent implements OnInit {
 
   totalValue(clothes: Clothes[]): number {
     return calcTotalCost(clothes);
+  }
+
+  sendPayment(event: { isOk: boolean; shoppingCartId: number }): void {
+    this.sendPaymentToParent.next(event);
   }
 }

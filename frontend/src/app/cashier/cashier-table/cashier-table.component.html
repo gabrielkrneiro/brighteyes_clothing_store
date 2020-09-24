@@ -7,7 +7,7 @@
       </div>
     </ng-template>
     <table 
-      *ngIf='shoppingCartList$ | async else noDataMessage' 
+      *ngIf='shoppingCartList$ | async as list; else noDataMessage' 
       class="table"
     >
       <thead class="thead-dark">
@@ -36,7 +36,10 @@
           <td>{{ object.createdAt }}</td>
           <td>{{ totalValue(object?.clothes) }}</td>
           <td>
-            <app-cashier-modal-finish-purchase></app-cashier-modal-finish-purchase>
+            <app-cashier-modal-finish-purchase
+              (sendPayment)='sendPayment($event)'
+              [shoppingCart]='object'
+            ></app-cashier-modal-finish-purchase>
           </td>
         </tr>
       </tbody>

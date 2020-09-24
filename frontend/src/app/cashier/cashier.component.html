@@ -1,6 +1,7 @@
 <div class="container">
     <!-- <app-cashier-form></app-cashier-form> -->
     <app-cashier-table
+        (sendPaymentToParent)='paymentRegister($event)'
         [shoppingCartList$]='shoppingCartList$'
     ></app-cashier-table>
 </div>

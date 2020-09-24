@@ -13,7 +13,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-sizes-name1" class="modal-title pull-left">
-          Large modal
+          Payment
         </h4>
         <button
           type="button"
@@ -27,8 +27,47 @@
       
       <div class="modal-body">
 
+        <section>
+          <div class="row">
+            <div class="form-group col-md-4">
+              <label for="price">Total</label>
+                <input 
+                readonly 
+                name="price" 
+                type="number" 
+                class="form-control-plaintext" 
+                [value]="totalCost">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="totalPayed">Payed</label>
+              <input  
+                name="totalPayed" 
+                type="number" 
+                class="form-control" 
+                (keyup)='calcTotalPayed($event.target.value)'>
+            </div>
+  
+            <div class="form-group col-md-4">
+              <label for="difference">Difference</label>
+              <input
+                [value]='differenceCost || 0.0'
+                type="number" 
+                class="form-control" 
+                name="difference">
+            </div>
+          </div>
+        </section>
         
-
+        <div>
+          <button   
+            class="btn" 
+            [disabled]='differenceCost < 0' 
+            [ngClass]="{'btn-success': differenceCost >= 0 }" 
+            (click)='paymentButtonClicked()'
+          >
+            Pay
+          </button>
+        </div>
       </div>
     </div>
   </div>
