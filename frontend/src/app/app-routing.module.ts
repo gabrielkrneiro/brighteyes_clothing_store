@@ -3,12 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginGuard } from './auth/guards/login.guard';
+import { CashierGuard } from './auth/guards/cashier.guard';
+import { HrGuard } from './auth/guards/hr.guard';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'auth',
+    loadChildren: './hot-page/hot-page.module#HotPageModule',
   },
   {
     path: 'auth',
@@ -23,7 +25,7 @@ const routes: Routes = [
   {
     path: 'employee',
     loadChildren: './employee/employee.module#EmployeeModule',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HrGuard],
   },
   {
     path: 'sales',
@@ -33,7 +35,7 @@ const routes: Routes = [
   {
     path: 'cashier',
     loadChildren: './cashier/cashier.module#CashierModule',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, CashierGuard],
   },
   {
     path: 'client',

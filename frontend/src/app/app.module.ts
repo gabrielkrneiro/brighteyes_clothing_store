@@ -12,8 +12,10 @@ import { CashierModule } from './cashier/cashier.module';
 import { ClothesModule } from './clothes/clothes.module';
 import { ClientModule } from './client/client.module';
 import { ShoppingCartModule } from './shopping-cart/shopping-cart.module';
+import { HotPageModule } from './hot-page/hot-page.module';
 
 import { CommonComponentsModule } from './common/components/common-components.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +31,8 @@ import { CommonComponentsModule } from './common/components/common-components.mo
     ClientModule,
     ShoppingCartModule,
     CommonComponentsModule,
+    SharedModule,
+    HotPageModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

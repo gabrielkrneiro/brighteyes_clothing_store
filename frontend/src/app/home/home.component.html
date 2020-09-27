@@ -1,38 +1,52 @@
-<div class="container mt-5">
-  <h1>Welcome, {{ session.username }}</h1>
+  <app-header></app-header>
+  <div class="container">
 
   <section>
     <h2>Home</h2>
 
     <div class="row">
-      <button [routerLink]="['/shopping-cart']" class="col-md-3 btn btn-default">
+      <button 
+        *ngIf="session.title === 'Seller'"
+        [routerLink]="['/shopping-cart']" 
+        class="col-md-3 btn btn-default"
+      >
         Perform Sell
       </button>
-      <button [routerLink]="['/cashier']" class="col-md-3 btn btn-default">
+
+      <button 
+        *ngIf="session.title === 'Cashier'"
+        [routerLink]="['/cashier']" 
+        class="col-md-3 btn btn-default"
+      >
         Operate Cash
       </button>
     </div>
-  </section>
-
-  <section>
-    <h2>Modules</h2>
 
     <div class="row">
-      <button [routerLink]="['/client']" class="col-md-3 btn btn-default">
-        Client
-      </button>
-      <button [routerLink]="['/clothes']" class="col-md-3 btn btn-default">
-        Clothes
-      </button>
-      <button [routerLink]="['/employee']" class="col-md-3 btn btn-default">
-        Employee
-      </button>
-      <!-- <button
-        [routerLink]="['/shopping-cart']"
+      <button 
+        *ngIf="session.title === 'Customer Service'"
+        [routerLink]="['/client']" 
         class="col-md-3 btn btn-default"
       >
-        Shopping Cart
-      </button> -->
+        Client
+      </button>
+
+      <button   
+        *ngIf="session.title === 'Warehouse'"
+        [routerLink]="['/clothes']" 
+        class="col-md-3 btn btn-default"
+      >
+        Clothes
+      </button>
+
+      <button 
+        *ngIf="session.title === 'Human Resource'"
+        [routerLink]="['/employee']" 
+        class="col-md-3 btn btn-default"
+      >
+        Employee
+      </button>
     </div>
   </section>
+
 </div>

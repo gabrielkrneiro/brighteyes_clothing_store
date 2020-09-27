@@ -54,4 +54,14 @@ export class SessionService {
       return false;
     }
   }
+
+  logOut(): void {
+    try {
+      localStorage.removeItem(SessionItemEnum.ACCESS_TOKEN);
+      localStorage.removeItem(SessionItemEnum.EXPIRES_IN);
+    } catch (error) {
+      console.error('Error at try to logged out');
+      throw new Error(error);
+    }
+  }
 }
