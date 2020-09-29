@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeRoutingModule } from './hot-page-routing.module';
+import { HotPageRoutingModule } from './hot-page-routing.module';
+import { IndexModule } from './index/index.module';
+import { HotPageComponent } from './hot-page.component';
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, HomeRoutingModule],
+  declarations: [HotPageComponent],
+  imports: [CommonModule, IndexModule, HotPageRoutingModule],
 })
 export class HotPageModule {}

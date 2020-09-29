@@ -16,11 +16,14 @@ import { HotPageModule } from './hot-page/hot-page.module';
 
 import { CommonComponentsModule } from './common/components/common-components.module';
 import { SharedModule } from './shared/shared.module';
+import { CommonModule } from '@angular/common';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     AuthModule,
     HomeModule,

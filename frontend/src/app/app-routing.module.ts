@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    redirectTo: 'hot-page',
+  },
+  {
+    path: 'hot-page',
     loadChildren: './hot-page/hot-page.module#HotPageModule',
   },
   {

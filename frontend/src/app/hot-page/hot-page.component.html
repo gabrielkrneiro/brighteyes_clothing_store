@@ -1,35 +1,77 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-toggle="collapse" 
+        data-target="#navbarSupportedContent" 
+        aria-controls="navbarSupportedContent" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div 
+        class="collapse navbar-collapse" 
+        id="navbarSupportedContent"
+      >
+        <ul class="navbar-nav mr-auto">
   
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Clothes <span class="sr-only">(current)</span></a>
+          </li>
+    
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+    
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <button 
+          class="btn btn-outline-default my-2 my-sm-0" 
+          type="submit"
+        >
+          Google Login
+        </button>
       </form>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid text-center">
+      <div class="container">
+        <h1 class="display-4">BrightEyes</h1><h3>Clothing Store</h3>
+        <!-- <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p> -->
+      </div>
     </div>
-  </nav>
+    
+    <div class="content container">
+      <div id="card-group">
+        <div *ngFor="let item of [1,2,3,4,5]" class="card">
+          <div class="text-center pt-2 pb-2">
+            <span class="font-weight-bold">My Clothes</span>
+          </div>
+          <img 
+            class="card-img-top" 
+            src="https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" 
+            alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+      
+    <footer class="footer mt-5">
+      <span class="factory-name">BrightEyes Clothing Store</span>
+      <span class="factory-address text-right">Address: asdfasdfasdf, 45
+        <br>asdfasdfasd
+        <br>Manaus/AM
+      </span>
+    </footer>
+  </div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HotPageComponent } from './hot-page.component'
+import { HotPageComponent } from './hot-page.component';
 
 const routes: Routes = [
   {
@@ -18,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HomeRoutingModule {}
+export class HotPageRoutingModule {}
