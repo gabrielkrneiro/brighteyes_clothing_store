@@ -52,26 +52,36 @@
     
     <div class="content container">
       <div id="card-group">
-        <div *ngFor="let item of [1,2,3,4,5]" class="card">
+        <div *ngFor="let clothes of clothesList$ | async as list" class="card">
           <div class="text-center pt-2 pb-2">
-            <span class="font-weight-bold">My Clothes</span>
+            <span class="font-weight-bold">{{ clothes.name }}</span>
           </div>
           <img 
             class="card-img-top" 
-            src="https://images.unsplash.com/photo-1565084888279-aca607ecce0c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80" 
+            [src]="clothes.photo" 
             alt="Card image cap">
           <div class="card-body">
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="card-text">
+              <p>R$ {{ clothes.price }}</p>
+              <p 
+                *ngIf="clothes.quantityInStock > 0; else outOfStockMessage"
+              >
+                Available quantity: {{ clothes.quantityInStock }}
+              </p>
+              <ng-template #outOfStockMessage>
+                <p>OUT OF STOCK</p>
+              </ng-template>
+            </div>
           </div>
         </div>
-      </div>
+    </div>
     </div>
       
-    <footer class="footer mt-5">
+    <!-- <footer class="footer mt-5">
       <span class="factory-name">BrightEyes Clothing Store</span>
       <span class="factory-address text-right">Address: asdfasdfasdf, 45
         <br>asdfasdfasd
         <br>Manaus/AM
       </span>
-    </footer>
+    </footer> -->
   </div>

@@ -6,10 +6,10 @@ import { ClothesService } from '../clothes/clothes.service';
 @Injectable({
   providedIn: 'root',
 })
-export class HotPageServiceService {
-  clothes$: Observable<Clothes[]>;
+export class HotPageService {
+  constructor(private clothesService: ClothesService) {}
 
-  constructor(private clothesService: ClothesService) {
-    this.clothes$ = this.clothesService.list();
+  clothesList(): Observable<Clothes[]> {
+    return this.clothesService.list();
   }
 }
