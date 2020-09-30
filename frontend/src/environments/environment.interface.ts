@@ -3,4 +3,5 @@ export interface IEnvironment {
   jwtSecretkey: string;
   BACKEND_ADDRESS: string;
   logLevel: string;
+  googleClientId: string;
 }

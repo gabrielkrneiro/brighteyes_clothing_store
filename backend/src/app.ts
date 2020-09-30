@@ -82,17 +82,6 @@ export class App implements IApp {
     route.get('/', (_, response: Response) => {
       response.json({
         message: `Server is running on port ${APP_CONFIG.serve.port}`
-        // modules: {
-        //   authentication: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/auth/`,
-        //   clients: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/clients/`,
-        //   clothes: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/clothes/`,
-        //   clothes_status: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/clothes-status/`,
-        //   employees: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/employees/`,
-        //   employee_client_status: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/employee-client-status/`,
-        //   employee_title: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/employee-title/`,
-        //   shopping_cart_status: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/shopping-cart-status/`,
-        //   shopping_cart: `http://${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}/shopping-cart/`
-        // }
       })
     })
   }
