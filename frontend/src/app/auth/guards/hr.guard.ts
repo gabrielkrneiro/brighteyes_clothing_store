@@ -28,7 +28,12 @@ export class HrGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     this.session = this.sessionService.decodeSession();
-    if (this.session.title === EmployeeTitleEnum.HUMAN_RESOURCE) {
+    if (
+      [
+        EmployeeTitleEnum.HUMAN_RESOURCE.valueOf(),
+        EmployeeTitleEnum.ADMIN.valueOf(),
+      ].includes(this.session.title)
+    ) {
       return true;
     }
     this.router.navigate(['home']);

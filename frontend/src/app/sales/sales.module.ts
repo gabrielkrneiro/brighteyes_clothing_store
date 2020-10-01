@@ -6,6 +6,8 @@ import { SalesComponent } from './sales.component';
 import { SalesFormModule } from './sales-form/sales-form.module';
 import { SalesTableModule } from './sales-table/sales-table.module';
 
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [SalesComponent],
   imports: [
@@ -13,6 +15,7 @@ import { SalesTableModule } from './sales-table/sales-table.module';
     SalesRoutingModule,
     SalesFormModule,
     SalesTableModule,
+    SharedModule,
   ],
 })
 export class SalesModule {}

@@ -1,4 +1,5 @@
 <div id="header">
+    <a class="btn btn-default" [routerLink]="['home']">Home</a>
     <span class="h4">Welcome, {{ session.username }} ({{ session.title }})</span>
     <button (click)='logOut()' class="btn btn-default pull-right">Logout</button>
 </div>

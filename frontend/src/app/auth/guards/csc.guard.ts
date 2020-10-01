@@ -7,17 +7,18 @@ import {
 } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { EmployeeTitleEnum } from 'src/app/employee/employee.enum';
 
 import {
   DataStoredInToken,
   SessionService,
-} from './../../common/services/session.service';
+} from '../../common/services/session.service';
+
+import { EmployeeTitleEnum } from '../../employee/employee.enum';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CashierGuard implements CanActivate {
+export class CustomerServiceGuard implements CanActivate {
   session: DataStoredInToken;
 
   constructor(private sessionService: SessionService, private router: Router) {}
@@ -29,7 +30,7 @@ export class CashierGuard implements CanActivate {
     this.session = this.sessionService.decodeSession();
     if (
       [
-        EmployeeTitleEnum.CASHIER.valueOf(),
+        EmployeeTitleEnum.CUSTOMER_SERVICE.valueOf(),
         EmployeeTitleEnum.ADMIN.valueOf(),
       ].includes(this.session.title)
     ) {

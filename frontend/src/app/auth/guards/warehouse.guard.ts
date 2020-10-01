@@ -28,7 +28,12 @@ export class WarehouseGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean | Observable<boolean> | Promise<boolean> {
     this.session = this.sessionService.decodeSession();
-    if (this.session.title === EmployeeTitleEnum.WAREHOUSE) {
+    if (
+      [
+        EmployeeTitleEnum.WAREHOUSE.valueOf(),
+        EmployeeTitleEnum.ADMIN.valueOf(),
+      ].includes(this.session.title)
+    ) {
       return true;
     }
     this.router.navigate(['home']);

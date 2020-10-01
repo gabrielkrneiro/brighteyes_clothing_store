@@ -6,6 +6,8 @@ import { ClothesComponent } from './clothes.component';
 import { ClothesFormModule } from './clothes-form/clothes-form.module';
 import { ClothesTableModule } from './clothes-table/clothes-table.module';
 
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [ClothesComponent],
   imports: [
@@ -13,6 +15,7 @@ import { ClothesTableModule } from './clothes-table/clothes-table.module';
     ClothesRoutingModule,
     ClothesFormModule,
     ClothesTableModule,
+    SharedModule,
   ],
 })
 export class ClothesModule {}

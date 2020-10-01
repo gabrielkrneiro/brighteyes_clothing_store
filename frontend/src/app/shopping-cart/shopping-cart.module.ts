@@ -6,6 +6,8 @@ import { ShoppingCartComponent } from './shopping-cart.component';
 import { ShoppingCartTableModule } from './shopping-cart-table/shopping-cart-table.module';
 import { ShoppingCartFormModule } from './shopping-cart-form/shopping-cart-form.module';
 
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [ShoppingCartComponent],
   imports: [
@@ -13,6 +15,7 @@ import { ShoppingCartFormModule } from './shopping-cart-form/shopping-cart-form.
     ShoppingCartRoutingModule,
     ShoppingCartTableModule,
     ShoppingCartFormModule,
+    SharedModule,
   ],
 })
 export class ShoppingCartModule {}

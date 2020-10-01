@@ -5,6 +5,9 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginGuard } from './auth/guards/login.guard';
 import { CashierGuard } from './auth/guards/cashier.guard';
 import { HrGuard } from './auth/guards/hr.guard';
+import { SellerGuard } from './auth/guards/seller.guard';
+import { CustomerServiceGuard } from './auth/guards/csc.guard';
+import { WarehouseGuard } from './auth/guards/warehouse.guard';
 
 const routes: Routes = [
   {
@@ -31,11 +34,11 @@ const routes: Routes = [
     loadChildren: './employee/employee.module#EmployeeModule',
     canActivate: [AuthGuard, HrGuard],
   },
-  {
-    path: 'sales',
-    loadChildren: './sales/sales.module#SalesModule',
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'sales',
+  //   loadChildren: './sales/sales.module#SalesModule',
+  //   canActivate: [AuthGuard, SellerGuard],
+  // },
   {
     path: 'cashier',
     loadChildren: './cashier/cashier.module#CashierModule',
@@ -44,17 +47,17 @@ const routes: Routes = [
   {
     path: 'client',
     loadChildren: './client/client.module#ClientModule',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, CustomerServiceGuard],
   },
   {
     path: 'clothes',
     loadChildren: './clothes/clothes.module#ClothesModule',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, WarehouseGuard],
   },
   {
     path: 'shopping-cart',
     loadChildren: './shopping-cart/shopping-cart.module#ShoppingCartModule',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, SellerGuard],
   },
   {
     path: '**',

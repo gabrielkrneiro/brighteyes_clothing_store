@@ -6,7 +6,7 @@
 
     <div class="row">
       <button 
-        *ngIf="session.title === 'Seller'"
+        *ngIf="session.title === 'Seller' || session.title === 'Admin'"
         [routerLink]="['/shopping-cart']" 
         class="col-md-3 btn btn-primary"
       >
@@ -14,7 +14,7 @@
       </button>
 
       <button 
-        *ngIf="session.title === 'Cashier'"
+        *ngIf="session.title === 'Cashier' || session.title === 'Admin'"
         [routerLink]="['/cashier']" 
         class="col-md-3 btn btn-primary"
       >
@@ -24,7 +24,7 @@
 
     <div class="row">
       <button 
-        *ngIf="session.title === 'Customer Service'"
+        *ngIf="session.title === 'Customer Service' || session.title === 'Admin'"
         [routerLink]="['/client']" 
         class="col-md-3 btn btn-primary"
       >
@@ -32,7 +32,7 @@
       </button>
 
       <button   
-        *ngIf="session.title === 'Warehouse'"
+        *ngIf="session.title === 'Warehouse' || session.title === 'Admin'"
         [routerLink]="['/clothes']" 
         class="col-md-3 btn btn-primary"
       >
@@ -40,7 +40,7 @@
       </button>
 
       <button 
-        *ngIf="session.title === 'Human Resource'"
+        *ngIf="session.title === 'Human Resource' || session.title === 'Admin'"
         [routerLink]="['/employee']" 
         class="col-md-3 btn btn-primary"
       >
@@ -48,5 +48,7 @@
       </button>
     </div>
   </section>
+  
+  <router-outlet></router-outlet>
 
 </div>

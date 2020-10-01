@@ -6,6 +6,9 @@ import { CashierComponent } from './cashier.component';
 
 import { CashierFormModule } from './cashier-form/cashier-form.module';
 import { CashierTableModule } from './cashier-table/cashier-table.module';
+
+import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
   declarations: [CashierComponent],
   imports: [
@@ -13,6 +16,7 @@ import { CashierTableModule } from './cashier-table/cashier-table.module';
     CashierRoutingModule,
     CashierFormModule,
     CashierTableModule,
+    SharedModule,
   ],
 })
 export class CashierModule {}

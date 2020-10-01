@@ -4,6 +4,7 @@ enum EmployeeTitleEnum {
   CASHIER = 'Cashier',
   SELLER = 'Seller',
   WAREHOUSE = 'Warehouse',
+  ADMIN = 'Admin',
 }
 
 enum EmployeeStatusEnum {
