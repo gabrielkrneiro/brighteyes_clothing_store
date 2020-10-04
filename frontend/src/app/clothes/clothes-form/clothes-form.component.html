@@ -170,8 +170,14 @@
     <div class="form-group">
       <button 
         [disabled]='formGroup.invalid'
-        class="btn btn-primary btn-block">Send</button>
-      <button type="button" class="btn btn-danger btn-block" (click)="resetForm()">Reset</button>
+        class="btn btn-primary btn-block"
+      >Send</button>
+      
+      <button 
+        (click)="resetForm()"
+        type="button" 
+        class="btn btn-danger btn-block" 
+      >Reset</button>
     </div>
   </form>
 </section>
