@@ -15,7 +15,7 @@ import {
   styleUrls: ['./clothes-form.component.scss'],
 })
 export class ClothesFormComponent implements OnInit {
-  clothesForm: FormGroup;
+  formGroup: FormGroup;
   isUpdating: boolean;
 
   @Input() statusList: Observable<ClothesStatus[]>;
@@ -26,11 +26,11 @@ export class ClothesFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.clothesForm = this.fb.group({
+    this.formGroup = this.fb.group({
       id: [null],
       name: [null, [Validators.required]],
       price: [null, [Validators.required]],
-      quantityInStock: [null, [Validators.required]],
+      quantityInStock: [null, [Validators.required, Validators.min(0)]],
       status: [null, [Validators.required]],
       photo: [null, [Validators.required]],
     });
@@ -40,9 +40,9 @@ export class ClothesFormComponent implements OnInit {
   async sendForm(): Promise<void> {
     try {
       if (!this.isUpdating) {
-        this.createObject.next(this.clothesForm.value);
+        this.createObject.next(this.formGroup.value);
       } else {
-        this.updateObject.next(this.clothesForm.value);
+        this.updateObject.next(this.formGroup.value);
       }
     } catch (error) {
       throw new Error(error.message);
@@ -51,12 +51,20 @@ export class ClothesFormComponent implements OnInit {
 
   setClothesToUpdate(clothes: ClothesDetailsDTO) {
     this.isUpdating = true;
-    this.clothesForm.patchValue(clothes);
-    this.clothesForm.patchValue({ status: clothes.status.id });
+    this.formGroup.patchValue(clothes);
+    this.formGroup.patchValue({ status: clothes.status.id });
   }
 
   resetForm(): void {
-    this.clothesForm.reset();
+    this.formGroup.reset();
     this.isUpdating = false;
+  }
+
+  isValid(attr: string): string {
+    return this.formGroup.get(attr).valid ? 'is-valid' : 'is-invalid';
+  }
+
+  showInvalidFeedback(attr: string): boolean {
+    return this.isValid(attr) === 'is-invalid' ? true : false;
   }
 }
