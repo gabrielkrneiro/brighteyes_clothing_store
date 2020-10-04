@@ -18,12 +18,26 @@
         class="form-control"
         id="name"
         placeholder="Fulano Beltano Cicrano"
-        required/>
+        required
+        [ngClass]="[isValid('name')]"
+      />        
+        <!-- invalid data feedback -->
         <div 
-          *ngIf="formGroup.get('name').errors?.required"
-          class="invalid-feedback">
-            Please provide a valid city.
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("name"); else validFeedbackName'
+        >
+          <span *ngIf='formGroup.get("name").errors?.required'>Name is required</span>
         </div>
+
+        <!-- valid data feedback -->
+       <ng-template #validFeedbackName>
+        <div 
+          class="valid-feedback" 
+          *ngIf='!showInvalidFeedback("name")'
+        >
+          <small>ok</small>
+        </div>
+       </ng-template>
     </div>
     
     <!-- <div>
@@ -47,7 +61,26 @@
         id="address"
         formControlName="address"
         placeholder="..."
+        [ngClass]='[isValid("address")]'
       />
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("address"); else validFeedbackAddress'
+        >
+          <span *ngIf='formGroup.get("address").errors?.required'>Address is required</span>
+        </div>
+
+        <!-- valid data feedback -->
+       <ng-template #validFeedbackAddress>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("address")'
+          >
+            <small>ok</small>
+          </div>
+       </ng-template>
     </div>
 
     <!-- <div class="row">
@@ -125,17 +158,61 @@
           class="form-control"
           id="cpf"
           placeholder="000.000.000-00"
+          [ngClass]='[isValid("cpf")]'
         />
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("cpf"); else validFeedbackCpf'
+        >
+          <span *ngIf='formGroup.get("cpf").errors?.required'>CPF is required</span>
+        </div>
+
+        <!-- valid data feedback -->
+       <ng-template #validFeedbackCpf>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("cpf")'
+          >
+            <small>ok</small>
+          </div>
+       </ng-template>
+
       </div>
+
       <div class="col-md-6 form-group">
-        <label for="birthdate" class="col-form-label">Birthdate</label>
+        <label 
+          for="birthdate" 
+          class="col-form-label"
+        >Birthdate</label>
+
         <input
           formControlName="birthdate"
           type="date"
           class="form-control"
           id="birthdate"
           placeholder="12/12/1212"
+          [ngClass]='[isValid("birthdate")]'
         />
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("birthdate"); else validFeedbackBirthdate'
+        >
+          <span *ngIf='formGroup.get("birthdate").errors?.required'>Birthdate is required</span>
+        </div>
+
+        <!-- valid data feedback -->
+        <ng-template #validFeedbackBirthdate>
+        <div 
+          class="valid-feedback" 
+          *ngIf='!showInvalidFeedback("birthdate")'
+        >
+          <small>ok</small>
+        </div>
+        </ng-template>
       </div>
     </div>
 
@@ -148,6 +225,7 @@
           id="status"
           class="form-control"
           style="height: 2em"
+          [ngClass]='[isValid("status")]'
         >
           <option
             [ngValue]="status.id"
@@ -156,6 +234,25 @@
             {{ status.name }}
           </option>
         </select>
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("status"); else validFeedbackStatus'
+        >
+          <span *ngIf='formGroup.get("status").errors?.required'>Status is required</span>
+        </div>
+
+        <!-- valid data feedback -->
+        <ng-template #validFeedbackStatus>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("status")'
+          >
+            <small>ok</small>
+          </div>
+        </ng-template>
+
       </div>
 
       <div class="col-md-6 form-group">
@@ -165,7 +262,27 @@
           formControlName="photo"
           type="text"
           id="photo"
+          [ngClass]='[isValid("photo")]'
         />
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("photo"); else validFeedbackPhoto'
+        >
+          <span *ngIf='formGroup.get("photo").errors?.required'>Status is required</span>
+        </div>
+
+        <!-- valid data feedback -->
+        <ng-template #validFeedbackPhoto>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("photo")'
+          >
+            <small>ok</small>
+          </div>
+        </ng-template>
+
+
       </div>
     </div>
 
