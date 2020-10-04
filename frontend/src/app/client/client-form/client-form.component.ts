@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { dateFormatter, dateParser } from 'src/app/common/dateFormatter';
@@ -50,8 +58,13 @@ export class ClientFormComponent implements OnInit {
     // this.formGroup.patchValue(clientMock);
   }
 
+  teste(): void {
+    console.log(this.formGroup.get('name').errors?.required);
+  }
+
   async sendForm(): Promise<void> {
     try {
+      if (this.formGroup.invalid) return;
       const form = this.formGroup.value;
       form.birthdate = dateFormatter(this.formGroup.controls.birthdate.value);
       if (!this.isUpdating) {

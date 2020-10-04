@@ -6,16 +6,38 @@
     </div>
   </div>
   <form [formGroup]="formGroup" (submit)="sendForm()">
+
     <div class="form-group">
-      <label for="name" class="col-form-label">Name</label>
+      <label 
+        for="name" 
+        class="col-form-label">Name
+      </label>
       <input
         formControlName="name"
         type="text"
         class="form-control"
         id="name"
         placeholder="Fulano Beltano Cicrano"
-      />
+        required/>
+        <div 
+          *ngIf="formGroup.get('name').errors?.required"
+          class="invalid-feedback">
+            Please provide a valid city.
+        </div>
     </div>
+    
+    <!-- <div>
+      <label for="validationServer03">City</label>
+      <input 
+        type="text" 
+        class="form-control is-invalid" 
+        id="validationServer03" 
+        placeholder="City" 
+        required>
+      <div class="invalid-feedback">
+        Please provide a valid city.
+      </div>
+    </div> -->
 
     <div class="form-group">
       <label for="address" class="col-form-label">Address</label>
@@ -148,7 +170,12 @@
     </div>
 
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block">Send</button>
+
+      <button 
+        [disabled]='formGroup.invalid'
+        type="submit" 
+        class="btn btn-primary btn-block">Send
+      </button>
       <button
         type="button"
         class="btn btn-danger btn-block"

@@ -10,35 +10,55 @@
       </div>
     </div>
   
-    <form id="employee-form" [formGroup]='formGroup' (submit)='sendShoppingCartForm()'>
+    <form 
+      id="employee-form" 
+      [formGroup]='formGroup' 
+      (submit)='sendShoppingCartForm()'>
+
         <div class="form-group">
             <label for="client" class="col-form-label">Client</label>
             <select
               formControlName="client"
+              class="form-control"
+              [ngClass]="[isValid('client')]"
               name="client"
               id="client"
-              class="form-control"
-              style="height: 2em"
-            >
-              <option value='null'>Select client</option>
-              <option
-                [ngValue]="client.id"
-                *ngFor="let client of clientList | async as list"
-              >
-                {{ client.name }}
-              </option>
+              style="height: 2em">
+                <option
+                  [ngValue]="client.id"
+                  *ngFor="let client of clientList | async as list" >
+                    {{ client.name }}
+                </option>
             </select>
-        </div>
+
+                    <!-- invalid data feedback -->
+            <div 
+              class="invalid-feedback" 
+              *ngIf='showInvalidFeedback("client"); else validFeedbackClient'
+            >
+              <span *ngIf='formGroup.get("client").errors?.required'>Name is required</span>
+            </div>
+
+              <!-- valid data feedback -->
+            <ng-template #validFeedbackClient>
+              <div 
+                class="valid-feedback" 
+                *ngIf='!showInvalidFeedback("client")'
+              >
+                <span>ok</span>
+              </div>
+            </ng-template>
+        </div>   
   
-        <div class="form-group hidden">
+        <div class="form-group d-none">
             <input formControlName="id" type="text" class="form-control" id="id" />
         </div>
-   
   
       <div class="form-group">
         <label for="status" class="col-form-label">Status</label>
         <select
           formControlName="status"
+          [ngClass]="[isValid('status')]"
           name="status"
           id="status"
           class="form-control"
@@ -51,6 +71,26 @@
             {{ status.name }}
           </option>
         </select>
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("status"); else validFeedbackStatus'
+        >
+          <span *ngIf='formGroup.get("status").errors?.required'>Name is required</span>
+        </div>
+
+          <!-- valid data feedback -->
+        <ng-template #validFeedbackStatus>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("status")'
+          >
+            <span>ok</span>
+          </div>
+        </ng-template>
+
+
       </div>
   
       <div class="form-group">
@@ -59,6 +99,7 @@
         >
         <select
           formControlName="seller"
+          [ngClass]="[isValid('seller')]"
           name="seller"
           id="seller"
           class="form-control"
@@ -68,6 +109,25 @@
             {{ employee.name }}
           </option>
         </select>
+
+
+        <!-- invalid data feedback -->
+        <div 
+          class="invalid-feedback" 
+          *ngIf='showInvalidFeedback("seller"); else validFeedbackSeller'
+        >
+          <span *ngIf='formGroup.get("seller").errors?.required'>Seller is required</span>
+        </div>
+
+          <!-- valid data feedback -->
+        <ng-template #validFeedbackSeller>
+          <div 
+            class="valid-feedback" 
+            *ngIf='!showInvalidFeedback("seller")'
+          >
+            <span>ok</span>
+          </div>
+        </ng-template>
       </div>
   
       <div class="form-group">

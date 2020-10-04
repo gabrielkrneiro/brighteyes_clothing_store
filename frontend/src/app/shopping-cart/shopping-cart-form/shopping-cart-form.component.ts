@@ -45,6 +45,14 @@ export class ShoppingCartFormComponent implements OnInit {
     );
   }
 
+  isValid(attr: string): string {
+    return this.formGroup.get(attr).valid ? 'is-valid' : 'is-invalid';
+  }
+
+  showInvalidFeedback(attr: string): boolean {
+    return this.isValid(attr) === 'is-invalid' ? true : false;
+  }
+
   resetForm(): void {
     this.isUpdating = false;
     this.formGroup.reset();
