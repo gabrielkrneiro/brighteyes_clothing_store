@@ -16,7 +16,7 @@ import { ShoppingCartController } from './modules/shopping-cart/ShoppingCartCont
 import { runSeeders } from './common/seeds/runSeeders'
 import { AuthController } from './modules/auth/AuthController'
 import logger from './common/logger/logger'
-import APP_CONFIG from '../config/app.config'
+import APP_CONFIG from './config/app.config'
 import { load } from 'yamljs'
 import path from 'path'
 

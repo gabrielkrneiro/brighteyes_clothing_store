@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,14 +19,17 @@ import { CommonComponentsModule } from './common/components/common-components.mo
 import { SharedModule } from './shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { SocialLoginModule } from 'angularx-social-login';
+import { ToastrModule } from 'ngx-toastr';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CommonModule,
     AppRoutingModule,
+    ToastrModule.forRoot(),
     AuthModule,
     HomeModule,
     EmployeeModule,

@@ -4,7 +4,26 @@ import { IController } from './../../interfaces/IControllers'
 import { DTOController } from './../../common/dto/DTOController'
 import { AbstractController } from '../abstract.controller'
 import { Clothes } from './Clothes'
-import { getRepository } from 'typeorm'
+import multer from 'multer'
+import APP_CONFIG from '@src/config/app.config'
+import path from 'path'
+
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    const dest = path.join(APP_CONFIG.images, 'clothes')
+    console.log(dest)
+    cb(null, dest)
+  },
+  filename: (_, file, cb) => {
+    const splitted = file.originalname.split('.')
+    const fileExtension = splitted[splitted.length - 1]
+    cb(null, file.fieldname + '-' + Date.now() + '.' + fileExtension)
+  }
+})
+
+const upload = multer({
+  storage: storage
+})
 
 export class ClothesController extends AbstractController implements IController {
   route: Router
@@ -23,5 +42,27 @@ export class ClothesController extends AbstractController implements IController
     this.route.get('/clothes/:id', this.listOneById)
     this.route.put('/clothes/:id', this.update)
     this.route.delete('/clothes/:id', this.remove)
+    this.route.post('/clothes/upload', upload.single('image'), this.imagesUpload)
+  }
+
+  imagesUpload = async (req: Request, res: Response): Promise<Response<any>> => {
+    try {
+      if (!req.file) {
+        console.log('No file is available!')
+        return res.send({
+          filename: '',
+          success: false
+        })
+      } else {
+        console.log('File is available!')
+        return res.send({
+          filename: req.file.filename,
+          success: true
+        })
+      }
+    } catch (error) {
+      console.error(error)
+      return res.status(401).json(error.message)
+    }
   }
 }

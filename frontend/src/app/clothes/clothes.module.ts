@@ -7,11 +7,13 @@ import { ClothesFormModule } from './clothes-form/clothes-form.module';
 import { ClothesTableModule } from './clothes-table/clothes-table.module';
 
 import { SharedModule } from '../shared/shared.module';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [ClothesComponent],
   imports: [
     CommonModule,
+    FileUploadModule,
     ClothesRoutingModule,
     ClothesFormModule,
     ClothesTableModule,

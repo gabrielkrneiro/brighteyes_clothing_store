@@ -23,5 +23,5 @@
     "sourceMap": true,
     "newLine": "lf"
   },
-  "include": ["src/**/*", "config"]
+  "include": ["src/**/*", "src/config"]
 }

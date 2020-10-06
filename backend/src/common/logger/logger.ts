@@ -1,6 +1,6 @@
 import winston, { format, transports } from 'winston'
 
-import APP_CONFIG from '../../../config/app.config'
+import APP_CONFIG from '../../config/app.config'
 import { LOG_LEVEL } from './logger.enum'
 
 const { combine, splat, timestamp, printf, colorize, uncolorize } = format
