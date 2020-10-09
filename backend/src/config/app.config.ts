@@ -8,7 +8,7 @@ import logger from '@src/common/logger/logger'
 
 function readVersionFile(): string {
   const versionFilePath = path.resolve(__dirname, '..', '..', '.version')
-  let versionFile: string = ''
+  let versionFile = ''
   fs.readFile(versionFilePath, 'utf8', (error, vf) => {
     if (error) {
       logger.error(error.message)
@@ -37,7 +37,7 @@ const APP_CONFIG = {
     port: parseInt(process.env.PORT || '3400'),
     logLevel: process.env.LOG_LEVEL || 'info'
   },
-  images: path.join(path.basename(__filename), '..', 'src', 'images')
+  images: path.join(path.basename(__filename), '..', 'src', 'public', 'images')
 } as IAPP_CONFIG
 
 export default APP_CONFIG

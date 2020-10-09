@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 import { SuccessfullyResponse } from '../common/interfaces';
@@ -30,7 +31,23 @@ export class ClothesService {
   }
 
   list(): Observable<ClothesListDTO[]> {
-    return this.httpClient.get<ClothesListDTO[]>(this.baseUrl);
+    return this.httpClient.get<ClothesListDTO[]>(this.baseUrl).pipe(
+      map((clothesList) =>
+        clothesList.map((clothes) => {
+          if (
+            !clothes.photo.includes('http') ||
+            !clothes.photo.includes('https')
+          ) {
+            clothes.photo =
+              'http://' +
+              environment.BACKEND_ADDRESS +
+              '/images/clothes/' +
+              clothes.photo;
+          }
+          return clothes;
+        })
+      )
+    );
   }
 
   findOne(clothesId: number): Observable<ClothesDetailsDTO> {

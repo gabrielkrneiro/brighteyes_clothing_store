@@ -21,6 +21,7 @@ import { load } from 'yamljs'
 import path from 'path'
 
 import swaggerUi from 'swagger-ui-express'
+import { ImagesController } from './modules/images/ImagesController'
 
 export interface IApp {
   init(): Promise<void>
@@ -53,6 +54,7 @@ export class App implements IApp {
     await this.initModule(ShoppingCartStatusController, route)
     await this.initModule(ShoppingCartController, route)
     await this.initModule(AuthController, route)
+    await this.initModule(ImagesController, route)
   }
 
   async initSeeders(route: Router): Promise<void> {
@@ -103,6 +105,7 @@ export class App implements IApp {
 
   initMiddlewares(): void {
     this.application.use(express.json())
+    this.application.use(express.static(path.join(__dirname, 'public')))
     this.application.use(cors())
     this.application.use(helmet())
     logger.info('Successfully loaded Middlewares')
