@@ -2,7 +2,6 @@ import { Employee } from './employee.models';
 
 class EmployeeCreateDTO {
   name: string;
-  photo: string;
   birthdate: Date;
   password: string;
   email: string;
@@ -12,16 +11,10 @@ class EmployeeCreateDTO {
 }
 
 interface EmployeeRemoveDTO
-  extends Pick<
-    Employee,
-    'id' | 'name' | 'email' | 'title' | 'status' | 'photo'
-  > {}
+  extends Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status'> {}
 
 interface EmployeeUpdateDTO
-  extends Pick<
-    Employee,
-    'id' | 'name' | 'email' | 'title' | 'status' | 'photo'
-  > {}
+  extends Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status'> {}
 
 interface EmployeeTitle {
   id: number;

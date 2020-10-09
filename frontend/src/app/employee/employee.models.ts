@@ -3,7 +3,7 @@ import { EmployeeStatus, EmployeeTitle } from './employee.interfaces';
 class Employee {
   id: number;
   name: string;
-  photo: string;
+  // photo: string;
   birthdate: string;
   password: string;
   email: string;

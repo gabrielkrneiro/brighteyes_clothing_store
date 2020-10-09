@@ -27,8 +27,8 @@ export class Employee {
   @Column()
   name: string
 
-  @Column()
-  photo: string
+  // @Column()
+  // photo: string
 
   @Column()
   birthdate: string

@@ -10,10 +10,12 @@ import { dateFormatter } from '../formatDate'
 
 const PASSWORD_DEFAULT = '$2b$10$1PeKVUoMMAKR.pKrQN046OxrAb.aSfZbYROl2NNY.ZbUKVZcjfmg6' // senha123
 
+type HrReturn = Pick<Employee, 'title' | 'status' | 'name' | 'birthdate' | 'password' | 'email'>
+
 export class EmployeeSeeder implements ISeeder<Employee> {
   objectList: Employee[]
 
-  async createHrEmployee() {
+  async createHrEmployee(): Promise<HrReturn> {
     const employeeTitleRepository = getRepository(EmployeeTitle)
     const statusRepository = getRepository(EmployeeClientStatus)
     const employeeRepository = getRepository(Employee)
@@ -29,8 +31,6 @@ export class EmployeeSeeder implements ISeeder<Employee> {
     const hrEmployee: Omit<Employee, 'id' | 'registeredBy'> = {
       name: 'Employee 1',
       birthdate: dateFormatter(new Date('10/14/1987')),
-      photo:
-        'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
       password: PASSWORD_DEFAULT,
       title: humanResourceTitle,
       status: activatedStatus,
@@ -55,40 +55,30 @@ export class EmployeeSeeder implements ISeeder<Employee> {
       {
         name: 'Employee 2',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
         email: 'warehouse@brighteyes.com'
       },
       {
         name: 'Employee 3',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
         email: 'customerservice@brighteyes.com'
       },
       {
         name: 'Employee 4',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
         email: 'seller@brighteyes.com'
       },
       {
         name: 'Employee 5',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
         email: 'cashier@brighteyes.com'
       },
       {
         name: 'Admin',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80',
         password: PASSWORD_DEFAULT,
         email: 'admin@brighteyes.com'
       }

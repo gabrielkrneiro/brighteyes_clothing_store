@@ -1,7 +1,7 @@
 export interface EmployeeCreateDTO {
   name: string
   title: string
-  photo: string
+  // photo: string
   birthdate: string
   password: string
   email: string

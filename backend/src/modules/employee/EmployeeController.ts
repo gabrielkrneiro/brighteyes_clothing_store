@@ -47,8 +47,8 @@ export class EmployeeController extends AbstractController implements IControlle
           name: createdObject.name,
           email: createdObject.email,
           title: createdObject.title,
-          status: createdObject.status,
-          photo: createdObject.photo
+          status: createdObject.status
+          // photo: createdObject.photo
         }
       })
     } catch (error) {
@@ -59,24 +59,4 @@ export class EmployeeController extends AbstractController implements IControlle
       })
     }
   }
-
-  // update = async (request: Request, response: Response): Promise<Response> => {
-  //   try {
-  //     const data = request.body
-  //     const id = request.params.id
-  //     const repository = getRepository(this.ModelClassName)
-  //     await repository.update(id, data)
-  //     const updateObject = await repository.findOneOrFail(id, this.findOneOptions)
-  //     return response.json({
-  //       message: 'Object updated',
-  //       data: updateObject
-  //     })
-  //   } catch (error) {
-  //     console.error(error)
-  //     return response.status(401).json({
-  //       message: 'An error occurred',
-  //       error_message: error.message
-  //     })
-  //   }
-  // }
 }

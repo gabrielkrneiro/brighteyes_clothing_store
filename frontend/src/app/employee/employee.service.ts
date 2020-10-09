@@ -1,4 +1,4 @@
-import { Observable, Observer, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -10,12 +10,11 @@ import {
   EmployeeTitle,
   EmployeeRemoveDTO,
 } from './employee.interfaces';
-import { EmployeeStatusEnum } from './employee.enum';
 import { SuccessfullyResponse } from './../common/interfaces';
 
 interface CreatedSuccessfullyResponse
   extends SuccessfullyResponse<
-    Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status' | 'photo'>
+    Pick<Employee, 'id' | 'name' | 'email' | 'title' | 'status'>
   > {}
 
 interface UpdatedSuccessfullyResponse extends SuccessfullyResponse<Employee> {}

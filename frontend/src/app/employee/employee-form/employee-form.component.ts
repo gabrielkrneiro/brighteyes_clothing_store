@@ -24,8 +24,6 @@ const employeeMock = {
   email: 'employee007@gmail.com',
   password: 'senha123',
   birthdate: dateParser(new Date('2001/12/25')),
-  photo:
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80',
   registeredBy: 1,
   status: 2,
   title: 4,
@@ -36,7 +34,6 @@ const EmployeeCreateDtoDefaultValues = {
   birthdate: null,
   email: '',
   password: '',
-  photo: '',
   registeredBy: null,
   status: null,
   title: null,
@@ -67,7 +64,6 @@ export class EmployeeFormComponent implements OnInit {
       name: [null, [Validators.required]],
       email: [null, [Validators.email, Validators.required]],
       status: [null, [Validators.required]],
-      photo: [null, [Validators.required]],
       birthdate: [null, [Validators.required]],
       password: [null, [Validators.required]],
       title: [null, [Validators.required]],
@@ -125,7 +121,6 @@ export class EmployeeFormComponent implements OnInit {
     console.log(this.formGroup.get('name').errors);
     console.log(this.formGroup.get('email').errors);
     console.log(this.formGroup.get('status').errors);
-    console.log(this.formGroup.get('photo').errors);
     console.log(this.formGroup.get('birthdate').errors);
     console.log(this.formGroup.get('password').errors);
     console.log(this.formGroup.get('title').errors);
