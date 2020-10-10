@@ -3,14 +3,32 @@ import { IController } from '@src/interfaces/IControllers'
 import { AbstractController } from '@src/modules/abstract.controller'
 import { Request, Response, Router } from 'express'
 import { Client } from '../client/Client'
-import { ClothesStatus } from '../clothes_status/ClothesStatus'
+import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
+import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
 
+import { 
+  ClientAvailability,
+  ClientValuable, 
+  ClothesAvailabilityMetrics, 
+  ShoppingCartValuable 
+} from './StatisticsInterface'
 
-interface StatisticsResponse {
+interface IStatisticsController {
   getHowManyShoppingCartWhereCreatedInCurrentMonth(): number
-  getWhichAreTheThreeMostValuableShoppingCart(): ShoppingCartValuable[]
+  getShoppingCartRanking(): ShoppingCartValuable[]
   getThreeCustomerWhoBuyTheMostInCurrentMonth(): ClientValuable[]
   getQuantityInStockAndOutOfStockClothes(): ClothesAvailabilityMetrics[]
+  getQuantityOfClientActivatedAndDeactivated(): ClientAvailability[]
+}
+
+interface StatisticsResponse {
+  data: {
+    number_of_shopping_carts_created_current_month: number,
+    shopping_cart_rank: ShoppingCartValuable[],
+    customer_rank: ClientValuable[],
+    clothes_availability_quantity: ClothesAvailabilityMetrics[],
+    client_availability_quantity: ClientAvailability[]
+  }
 }
 
 /**
@@ -22,7 +40,7 @@ interface StatisticsResponse {
  *  - Quantity of clients activated and deactivated
  */
 
-export class StatisticsController extends AbstractController implements IController {
+export class StatisticsController extends AbstractController implements IController, IStatisticsController {
   route: Router
   factory: any
 
@@ -35,11 +53,100 @@ export class StatisticsController extends AbstractController implements IControl
     this.route.get('/statistics', this.getStatistics)
   }
 
-  getHowManyShoppingCartWhereCreatedInCurrentMonth(): any {
-    return
+  getShoppingCartRanking(): ShoppingCartValuable[] {
+    return [
+      {
+        shoppingCartId: 1,
+        value: 18
+      },
+      {
+        shoppingCartId: 2,
+        value: 17
+      },
+      {
+        shoppingCartId: 3,
+        value: 16
+      }
+    ]
+  }
+
+  getThreeCustomerWhoBuyTheMostInCurrentMonth(): ClientValuable[] {
+    const c1 = new Client()
+    const c2 = new Client()
+    const c3 = new Client()
+
+    const cl = [c1,c2,c3]
+
+    for (let i = 0; i < cl.length; i++) {
+      cl[i].id = i
+      cl[i].name = 'blabla',
+      cl[i].address = 'lero lero'
+    }
+
+    return [
+      {
+        client: c1,
+        value: 16
+      },
+      {
+        client: c2,
+        value: 15
+      },
+      {
+        client: c3,
+        value: 14
+      }
+    ]
+  }
+
+  getQuantityInStockAndOutOfStockClothes(): ClothesAvailabilityMetrics[] {
+    return [
+      {
+        status: ClothesStatusEnum.IN_STOCK,
+        quantity: 15
+      },
+      {
+        status: ClothesStatusEnum.OUT_OF_STOCK,
+        quantity: 3
+      }
+    ]
+  }
+
+  getHowManyShoppingCartWhereCreatedInCurrentMonth(): number {
+    return 5;
+  }
+
+  getQuantityOfClientActivatedAndDeactivated(): ClientAvailability[] {
+    return [
+      {
+        quantity: 2,
+        status: EnumEmployeeClientStatus.ACTIVATED
+      },
+      {
+        quantity: 1,
+        status: EnumEmployeeClientStatus.DEACTIVATED
+      }
+    ]
   }
 
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
-    return res.send('hello world')
+
+    const number_of_shopping_carts_created_current_month = this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
+    const clothes_availability_quantity = this.getQuantityInStockAndOutOfStockClothes()
+    const customer_rank = this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
+    const shopping_cart_rank = this.getShoppingCartRanking()
+    const client_availability_quantity = this.getQuantityOfClientActivatedAndDeactivated()
+
+    const response = { 
+      data: { 
+        number_of_shopping_carts_created_current_month,
+        clothes_availability_quantity,
+        customer_rank,
+        shopping_cart_rank,
+        client_availability_quantity
+      } 
+    } as StatisticsResponse
+
+    return res.json(response)
   }
 }

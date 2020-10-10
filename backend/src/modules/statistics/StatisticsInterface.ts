@@ -1,5 +1,6 @@
 import { Client } from "../client/Client";
-import { ClothesStatus } from "../clothes_status/ClothesStatus";
+import { ClothesStatusEnum } from "../clothes_status/ClothesStatusEnum";
+import { EnumEmployeeClientStatus } from "../employee_client_status/IEmployeeClientStatus";
 
 interface ShoppingCartValuable {
     shoppingCartId: number
@@ -7,11 +8,23 @@ interface ShoppingCartValuable {
 }
 
 interface ClientValuable {
-    client: Client
+    client: Pick<Client, 'id' | 'name'>
     value: number
 }
 
+interface ClientAvailability {
+    quantity: number,
+    status: EnumEmployeeClientStatus
+}
+
 interface ClothesAvailabilityMetrics {
-    status: ClothesStatus
+    status: ClothesStatusEnum
     quantity: number
+}
+
+export {
+    ShoppingCartValuable, 
+    ClientValuable, 
+    ClothesAvailabilityMetrics,
+    ClientAvailability
 }
