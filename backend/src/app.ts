@@ -21,7 +21,7 @@ import { load } from 'yamljs'
 import path from 'path'
 
 import swaggerUi from 'swagger-ui-express'
-import { ImagesController } from './modules/images/ImagesController'
+import { StatisticsController } from './modules/statistics/StatisticsController'
 
 export interface IApp {
   init(): Promise<void>
@@ -54,7 +54,7 @@ export class App implements IApp {
     await this.initModule(ShoppingCartStatusController, route)
     await this.initModule(ShoppingCartController, route)
     await this.initModule(AuthController, route)
-    await this.initModule(ImagesController, route)
+    await this.initModule(StatisticsController, route)
   }
 
   async initSeeders(route: Router): Promise<void> {
