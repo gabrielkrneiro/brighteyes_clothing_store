@@ -22,8 +22,6 @@ const clientMock = {
   name: 'Teste 1',
   birthdate: dateParser('12/12/2002'),
   cpf: '123.123.123-12',
-  photo:
-    'https://images.unsplash.com/photo-1579783483458-83d02161294e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=728&q=80',
   status: 2,
   address: 'Rua klajskldfjasd, 00 - asdfasdf - Manaus/AM',
 };
@@ -49,10 +47,12 @@ export class ClientFormComponent implements OnInit {
       id: [null],
       name: [null, [Validators.required]],
       address: [null, [Validators.required]],
-      cpf: [null, [Validators.required]],
+      cpf: [null, [
+        Validators.required, 
+        Validators.pattern(/^(\d{3}\.){2}\d{3}\-\d{2}$/)
+      ]],
       birthdate: [null, [Validators.required]],
       status: [null, [Validators.required]],
-      photo: [null, [Validators.required]],
     });
     this.isUpdating = false;
     // this.formGroup.patchValue(clientMock);

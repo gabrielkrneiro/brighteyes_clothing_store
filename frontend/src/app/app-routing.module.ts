@@ -16,6 +16,11 @@ const routes: Routes = [
     redirectTo: 'hot-page',
   },
   {
+    path: 'admin',
+    pathMatch: 'full',
+    redirectTo: 'auth',
+  },
+  {
     path: 'hot-page',
     loadChildren: './hot-page/hot-page.module#HotPageModule',
   },

@@ -7,8 +7,10 @@ import { HomeComponent } from './home.component';
 
 import { SharedModule } from './../shared/shared.module';
 
+import { DashboardModule } from './../core/dashboard/dashboard.module'
+
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, HomeRoutingModule, RouterModule, SharedModule],
+  imports: [CommonModule, HomeRoutingModule, RouterModule, SharedModule, DashboardModule],
 })
 export class HomeModule {}

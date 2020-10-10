@@ -16,7 +16,6 @@
         <th scope="col">CPF</th>
         <th scope="col">Birthdate</th>
         <th scope="col">Status</th>
-        <th scope="col">Photo</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -28,20 +27,18 @@
         <td>{{ client.cpf }}</td>
         <td>{{ client.birthdate }}</td>
         <td>{{ client.status.name }}</td>
-        <td>{{ client.photo }}</td>
         <td>
           <button
             (click)="updateButtonClicked(client)"
-            class="btn btn-primary btn-block"
-          >
-            Update
+            class="btn btn-primary btn-block">
+              Update
           </button>
+          
           <button
             (click)="removeButtonClicked(client)"
             class="btn btn-danger btn-block"
-            [disabled]="client.status.name === 'DEACTIVATED'"
-          >
-            Deactivate
+            [disabled]="client.status.name === 'DEACTIVATED'">
+              Deactivate
           </button>
         </td>
       </tr>

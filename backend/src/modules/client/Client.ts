@@ -23,6 +23,6 @@ export class Client {
   @JoinColumn({ name: 'client_status_id' })
   status: EmployeeClientStatus
 
-  @Column()
-  photo: string
+  // @Column()
+  // photo: string
 }

@@ -37,6 +37,7 @@ export class ClientComponent implements OnInit {
     this.clientService.create(formValue).subscribe(
       () => {
         console.log('Client created successfully');
+        this.clientForm.resetForm()
         this.getClientList();
       },
       ({ error }: HttpErrorResponse) => {
