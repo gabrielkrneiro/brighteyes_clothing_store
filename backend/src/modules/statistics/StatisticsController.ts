@@ -7,6 +7,13 @@ import { Client } from '../client/Client'
 import { Clothes } from '../clothes/Clothes'
 import { ClothesStatus } from '../clothes_status/ClothesStatus'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
+import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
+import { 
+  ClientValuable, 
+  ClothesAvailabilityMetrics, 
+  ShoppingCartValuable,
+  ClientAvailabilityMetrics
+} from './StatisticsInterface'
 
 enum MonthEnum {
   JAN = 'Jan',
@@ -66,37 +73,34 @@ function increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: str
   })
 }
 
-import { 
-  ClientValuable, 
-  ClothesAvailabilityMetrics, 
-  ShoppingCartValuable 
-} from './StatisticsInterface'
-
 interface IStatisticsController {
+  getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }>
+  getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]>
+  getQuantityActivatedDeactivatedClients(): Promise<ClientAvailabilityMetrics[]>
   getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number>
   getShoppingCartRanking(): Promise<ShoppingCartValuable[]>
   getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]>
-  getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]>
-  getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }>
 }
 
 interface StatisticsResponse {
   data: {
+    client_registered_current_year_by_month: { label: string, data: Month[] },
+    clothes_availability_quantity: ClothesAvailabilityMetrics[],
+    client_availability_quantity: ClientAvailabilityMetrics[],
     number_of_shopping_carts_created_current_month: number,
     shopping_cart_rank: ShoppingCartValuable[],
-    customer_rank: ClientValuable[],
-    clothes_availability_quantity: ClothesAvailabilityMetrics[],
-    client_availability_quantity: { label: string, data: Month[] }
+    customer_rank: ClientValuable[]
   }
 }
 
 /**
  * Metrics:
+ *  [ ok ] - Quantity of clients registered in current year sorted by month.
+ *  [ ok ] - Quantity of clothes in stock and out of stock 
+ *  - Quantity of clients activated and deactivated
  *  - How many shopping carts were created in current month?
  *  - Which are the most valuable shopping cart?
  *  - Which are the customers who buy the most?
- *  - Quantity of clothes in stock and out of stock
- *  - Quantity of clients activated and deactivated
  */
 
 export class StatisticsController extends AbstractController implements IController, IStatisticsController {
@@ -230,23 +234,31 @@ export class StatisticsController extends AbstractController implements IControl
     }
   }
 
-  getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
+  async getQuantityActivatedDeactivatedClients(): Promise<ClientAvailabilityMetrics[]> {
+    return [
+      { status: EnumEmployeeClientStatus.ACTIVATED, quantity: 15 },
+      { status: EnumEmployeeClientStatus.DEACTIVATED, quantity: 5 }
+    ]
+  }
 
+  getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
     const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
     const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
     const customer_rank = await this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
     const shopping_cart_rank = await this.getShoppingCartRanking()
-    const client_availability_quantity = await this.getQuantityOfClientRegisteredByMonth()
+    const client_registered_current_year_by_month = await this.getQuantityOfClientRegisteredByMonth()
+    const client_availability_quantity = await this.getQuantityActivatedDeactivatedClients()
 
-    const response = { 
+    const response: StatisticsResponse = { 
       data: { 
         number_of_shopping_carts_created_current_month,
         clothes_availability_quantity,
         customer_rank,
         shopping_cart_rank,
+        client_registered_current_year_by_month,
         client_availability_quantity
       } 
-    } as StatisticsResponse
+    }
 
     return res.json(response)
   }

@@ -22,9 +22,15 @@ interface ClothesAvailabilityMetrics {
     quantity: number
 }
 
+interface ClientAvailabilityMetrics {
+    status: EnumEmployeeClientStatus
+    quantity: number
+  }
+
 export {
     ShoppingCartValuable, 
     ClientValuable, 
     ClothesAvailabilityMetrics,
-    ClientAvailability
+    ClientAvailability,
+    ClientAvailabilityMetrics
 }

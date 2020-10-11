@@ -1,6 +1,13 @@
 <section>
-    <div>
+    <div class="row">
         <app-pie 
+            *ngIf='clothesAvailability'
+            class="col-md-6"
+            [labels]='clothesAvailability.labels'
+            [values]='clothesAvailability.values'></app-pie>
+
+        <app-pie 
+            class="col-md-6"
             *ngIf='clothesAvailability'
             [labels]='clothesAvailability.labels'
             [values]='clothesAvailability.values'></app-pie>
