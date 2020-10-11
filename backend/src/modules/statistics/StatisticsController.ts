@@ -2,7 +2,10 @@ import { DTOController } from '@src/common/dto/DTOController'
 import { IController } from '@src/interfaces/IControllers'
 import { AbstractController } from '@src/modules/abstract.controller'
 import { Request, Response, Router } from 'express'
+import { getRepository } from 'typeorm'
 import { Client } from '../client/Client'
+import { Clothes } from '../clothes/Clothes'
+import { ClothesStatus } from '../clothes_status/ClothesStatus'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
 import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
 
@@ -17,7 +20,7 @@ interface IStatisticsController {
   getHowManyShoppingCartWhereCreatedInCurrentMonth(): number
   getShoppingCartRanking(): ShoppingCartValuable[]
   getThreeCustomerWhoBuyTheMostInCurrentMonth(): ClientValuable[]
-  getQuantityInStockAndOutOfStockClothes(): ClothesAvailabilityMetrics[]
+  getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]>
   getQuantityOfClientActivatedAndDeactivated(): ClientAvailability[]
 }
 
@@ -99,15 +102,37 @@ export class StatisticsController extends AbstractController implements IControl
     ]
   }
 
-  getQuantityInStockAndOutOfStockClothes(): ClothesAvailabilityMetrics[] {
+  async getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]> {
+    const clothesRepo = getRepository(Clothes)
+    const clothesStatusRepo = getRepository(ClothesStatus)
+
+    const inStockStatus = await clothesStatusRepo.findOne({ 
+      where: { name: ClothesStatusEnum.IN_STOCK } 
+    })
+    const outOfStockStatus = await clothesStatusRepo.findOne({ 
+      where: { name: ClothesStatusEnum.OUT_OF_STOCK } 
+    })
+
+    const inStockCount = await clothesRepo.findAndCount({ 
+      where: { status: inStockStatus },
+      relations: ['status'] 
+    })
+    const outOfStockCount = await clothesRepo.findAndCount({ 
+      where: { status: outOfStockStatus }, 
+      relations: ['status']
+    })
+
+    console.log(inStockCount)
+    console.log(outOfStockCount)
+
     return [
       {
         status: ClothesStatusEnum.IN_STOCK,
-        quantity: 15
+        quantity: inStockCount[1]
       },
       {
         status: ClothesStatusEnum.OUT_OF_STOCK,
-        quantity: 5
+        quantity: outOfStockCount[1]
       }
     ]
   }
@@ -132,7 +157,7 @@ export class StatisticsController extends AbstractController implements IControl
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
 
     const number_of_shopping_carts_created_current_month = this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
-    const clothes_availability_quantity = this.getQuantityInStockAndOutOfStockClothes()
+    const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
     const customer_rank = this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
     const shopping_cart_rank = this.getShoppingCartRanking()
     const client_availability_quantity = this.getQuantityOfClientActivatedAndDeactivated()
