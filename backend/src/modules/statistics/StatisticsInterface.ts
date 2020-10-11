@@ -13,7 +13,7 @@ interface ClientValuable {
 }
 
 interface ClientAvailability {
-    quantity: number,
+    name: number,
     status: EnumEmployeeClientStatus
 }
 

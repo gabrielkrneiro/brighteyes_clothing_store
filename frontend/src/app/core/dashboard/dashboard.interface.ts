@@ -16,25 +16,46 @@ interface ClothesAvailabilityMetrics {
     quantity: number
 }
 
-interface ClientAvailability {
-    quantity: number,
-    status: ClientStatusEnum
+interface ClientAvailability { 
+    name: MonthEnum, 
+    value: number
 }
 
 interface StatisticsResponse {
-    
     number_of_shopping_carts_created_current_month: number,
     shopping_cart_rank: ShoppingCartValuable[],
     customer_rank: ClientValuable[],
     clothes_availability_quantity: ClothesAvailabilityMetrics[],
-    client_availability_quantity: ClientAvailability[]
+    client_availability_quantity: { label: string, data: ClientAvailability[] }
+}
+
+
+enum MonthEnum {
+    JAN = 'Jan',
+    FEV = 'Fev',
+    MAR = 'Mar',
+    APR = 'Apr',
+    MAY = 'May',
+    JUN = 'Jun',
+    JUL = 'Jul',
+    AUG = 'Aug',
+    SEP = 'Sep',
+    OCT = 'Oct',
+    NOV = 'Nov',
+    DEC = 'Dec'
+}
   
-  }
+interface Month {
+    name: MonthEnum,
+    value: number
+}
 
 export {
     ShoppingCartValuable, 
     ClientValuable, 
     ClothesAvailabilityMetrics,
     ClientAvailability,
-    StatisticsResponse
+    StatisticsResponse,
+    Month,
+    MonthEnum
 }

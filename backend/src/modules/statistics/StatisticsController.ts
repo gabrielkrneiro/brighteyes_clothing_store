@@ -7,10 +7,66 @@ import { Client } from '../client/Client'
 import { Clothes } from '../clothes/Clothes'
 import { ClothesStatus } from '../clothes_status/ClothesStatus'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
-import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
+
+enum MonthEnum {
+  JAN = 'Jan',
+  FEV = 'Fev',
+  MAR = 'Mar',
+  APR = 'Apr',
+  MAY = 'May',
+  JUN = 'Jun',
+  JUL = 'Jul',
+  AUG = 'Aug',
+  SEP = 'Sep',
+  OCT = 'Oct',
+  NOV = 'Nov',
+  DEC = 'Dec'
+}
+
+enum getMonthEnumByMonthName {
+  'Jan' = MonthEnum.JAN,
+  'Fev' = MonthEnum.FEV,
+  'Mar' = MonthEnum.MAR,
+  'Apr' = MonthEnum.APR,
+  'May' = MonthEnum.MAY,
+  'Jun' = MonthEnum.JUN,
+  'Jul' = MonthEnum.JUL,
+  'Aug' = MonthEnum.AUG,
+  'Sep' = MonthEnum.SEP,
+  'Oct' = MonthEnum.OCT,
+  'Nov' = MonthEnum.NOV,
+  'Dec' = MonthEnum.DEC
+}
+
+const getMonthNameByNumber = {
+  0: 'Jan',
+  1: 'Fev',
+  2: 'Mar',
+  3: 'Apr',
+  4: 'May',
+  5: 'Jun',
+  6: 'Jul',
+  7: 'Aug',
+  8: 'Sep',
+  9: 'Oct',
+  10: 'Nov',
+  11 : 'Dec'
+}
+
+interface Month {
+  name: MonthEnum,
+  value: number
+}
+
+
+function increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
+  const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
+  QuantityClientsByMonth.forEach(o => {
+    if (o.name === monthEnum) ++o.value
+  })
+}
 
 import { 
-  ClientAvailability,
   ClientValuable, 
   ClothesAvailabilityMetrics, 
   ShoppingCartValuable 
@@ -21,7 +77,7 @@ interface IStatisticsController {
   getShoppingCartRanking(): Promise<ShoppingCartValuable[]>
   getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]>
   getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]>
-  getQuantityOfClientActivatedAndDeactivated(): Promise<ClientAvailability[]>
+  getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }>
 }
 
 interface StatisticsResponse {
@@ -30,7 +86,7 @@ interface StatisticsResponse {
     shopping_cart_rank: ShoppingCartValuable[],
     customer_rank: ClientValuable[],
     clothes_availability_quantity: ClothesAvailabilityMetrics[],
-    client_availability_quantity: ClientAvailability[]
+    client_availability_quantity: { label: string, data: Month[] }
   }
 }
 
@@ -122,9 +178,6 @@ export class StatisticsController extends AbstractController implements IControl
       relations: ['status']
     })
 
-    console.log(inStockCount)
-    console.log(outOfStockCount)
-
     return [
       {
         status: ClothesStatusEnum.IN_STOCK,
@@ -141,17 +194,40 @@ export class StatisticsController extends AbstractController implements IControl
     return 5;
   }
 
-  async getQuantityOfClientActivatedAndDeactivated(): Promise<ClientAvailability[]> {
-    return [
-      {
-        quantity: 2,
-        status: EnumEmployeeClientStatus.ACTIVATED
-      },
-      {
-        quantity: 1,
-        status: EnumEmployeeClientStatus.DEACTIVATED
+  async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }> {
+
+    const QuantityClientsByMonth = [
+      { name: MonthEnum.JAN, value: 0 },
+      { name: MonthEnum.FEV, value: 0 },
+      { name: MonthEnum.MAR, value: 0 },
+      { name: MonthEnum.APR, value: 0 },
+      { name: MonthEnum.MAY, value: 0 },
+      { name: MonthEnum.JUN, value: 0 },
+      { name: MonthEnum.JUL, value: 0 },
+      { name: MonthEnum.AUG, value: 0 },
+      { name: MonthEnum.SEP, value: 0 },
+      { name: MonthEnum.OCT, value: 0 },
+      { name: MonthEnum.NOV, value: 0 },
+      { name: MonthEnum.DEC, value: 0 },
+    ]    
+
+    const clientRepo = getRepository(Client)
+    const currentYear = new Date().getFullYear()
+    const currentYearClientList = (await clientRepo.find()).filter(i => i.createdAt.getFullYear() === currentYear)
+
+    currentYearClientList.map(
+      client => {
+        const monthName = getMonthNameByNumber[client.createdAt.getMonth()]
+        increaseClientNumberInMonth(QuantityClientsByMonth, monthName)
       }
-    ]
+    )
+
+    // increaseClientNumberInMonth('Fev')
+
+    return {
+      label: 'Quantity of clients',
+      data: QuantityClientsByMonth
+    }
   }
 
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
@@ -160,7 +236,7 @@ export class StatisticsController extends AbstractController implements IControl
     const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
     const customer_rank = await this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
     const shopping_cart_rank = await this.getShoppingCartRanking()
-    const client_availability_quantity = await this.getQuantityOfClientActivatedAndDeactivated()
+    const client_availability_quantity = await this.getQuantityOfClientRegisteredByMonth()
 
     const response = { 
       data: { 

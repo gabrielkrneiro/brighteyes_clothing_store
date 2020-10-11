@@ -6,7 +6,9 @@
             [values]='clothesAvailability.values'></app-pie>
     </div>
     <div>
-        <app-bars></app-bars>
+        <app-bars
+            *ngIf='clientRegisterMetrics'
+            [input]='clientRegisterMetrics'></app-bars>
     </div>
     <div class="row" id="rankings">
         <div class="col-md-6">
