@@ -65,13 +65,12 @@ interface Month {
   value: number
 }
 
-
-function increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
-  const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
-  QuantityClientsByMonth.forEach(o => {
-    if (o.name === monthEnum) ++o.value
-  })
-}
+// function increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
+//   const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
+//   QuantityClientsByMonth.forEach(o => {
+//     if (o.name === monthEnum) ++o.value
+//   })
+// }
 
 interface IStatisticsController {
   getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }>
@@ -222,7 +221,7 @@ export class StatisticsController extends AbstractController implements IControl
     currentYearClientList.map(
       client => {
         const monthName = getMonthNameByNumber[client.createdAt.getMonth()]
-        increaseClientNumberInMonth(QuantityClientsByMonth, monthName)
+        this.increaseClientNumberInMonth(QuantityClientsByMonth, monthName)
       }
     )
 
@@ -235,10 +234,52 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   async getQuantityActivatedDeactivatedClients(): Promise<ClientAvailabilityMetrics[]> {
+
+    const clientAvailabilityQuantity = [
+      { status: EnumEmployeeClientStatus.ACTIVATED, value: 0 },
+      { status: EnumEmployeeClientStatus.DEACTIVATED, value: 0 }
+    ]
+
+    const clientRepo = getRepository(Client)
+    const currentYearClientList = (await clientRepo.find())
+      .filter(this.filterCurrentYearClients)
+
+    currentYearClientList.forEach(client => 
+      this.increaseClientAvailabilityNumber(clientAvailabilityQuantity, client)
+    )
+
+    console.log(clientAvailabilityQuantity)
+
     return [
       { status: EnumEmployeeClientStatus.ACTIVATED, quantity: 15 },
       { status: EnumEmployeeClientStatus.DEACTIVATED, quantity: 5 }
     ]
+  }
+
+  private filterCurrentYearClients = (client: Client) => {
+    const currentYear = new Date().getFullYear()
+    return client.createdAt.getFullYear() === currentYear
+  }
+
+  private increaseClientAvailabilityNumber(
+    quantityClientAvailability: { 
+      status: EnumEmployeeClientStatus, 
+      value: number 
+    }[], 
+    client: Client
+  ): void {
+    quantityClientAvailability.forEach(metrics => {
+      if (client.status.name === metrics.status.valueOf()) {
+        ++metrics.value
+      }
+    })
+  }
+
+  private increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
+    const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
+    QuantityClientsByMonth.forEach(o => {
+      if (o.name === monthEnum) ++o.value
+    })
   }
 
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
