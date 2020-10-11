@@ -16,7 +16,8 @@ export class ClientSeeder implements ISeeder<Client> {
         name: 'Client 1',
         address: 'Rua asdf, 123 - AEdasdfsd, asdfasdf',
         birthdate: dateFormatter(new Date('10/14/1987')),
-        cpf: '123.123.123-123'
+        cpf: '123.123.123-123',
+        createdAt: new Date()
       }
     ]
   }

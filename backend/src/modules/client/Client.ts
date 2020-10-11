@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
 
@@ -23,6 +23,6 @@ export class Client {
   @JoinColumn({ name: 'client_status_id' })
   status: EmployeeClientStatus
 
-  // @Column()
-  // photo: string
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date
 }
