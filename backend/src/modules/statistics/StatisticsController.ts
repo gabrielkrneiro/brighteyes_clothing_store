@@ -107,7 +107,7 @@ export class StatisticsController extends AbstractController implements IControl
       },
       {
         status: ClothesStatusEnum.OUT_OF_STOCK,
-        quantity: 3
+        quantity: 5
       }
     ]
   }

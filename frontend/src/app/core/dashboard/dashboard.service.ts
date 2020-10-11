@@ -2,10 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { 
-  ClientValuable, 
-  ClothesAvailabilityMetrics, 
-  ShoppingCartValuable, 
-  ClientAvailability ,
   StatisticsResponse
 } from './dashboard.interface'
 import { environment } from './../../../environments/environment'

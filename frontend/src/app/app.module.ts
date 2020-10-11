@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { SocialLoginModule } from 'angularx-social-login';
 import { ToastrModule } from 'ngx-toastr';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserModule,
     BrowserAnimationsModule,
     CommonModule,
+    // ChartsModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
     AuthModule,
