@@ -17,11 +17,11 @@ import {
 } from './StatisticsInterface'
 
 interface IStatisticsController {
-  getHowManyShoppingCartWhereCreatedInCurrentMonth(): number
-  getShoppingCartRanking(): ShoppingCartValuable[]
-  getThreeCustomerWhoBuyTheMostInCurrentMonth(): ClientValuable[]
+  getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number>
+  getShoppingCartRanking(): Promise<ShoppingCartValuable[]>
+  getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]>
   getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]>
-  getQuantityOfClientActivatedAndDeactivated(): ClientAvailability[]
+  getQuantityOfClientActivatedAndDeactivated(): Promise<ClientAvailability[]>
 }
 
 interface StatisticsResponse {
@@ -56,7 +56,7 @@ export class StatisticsController extends AbstractController implements IControl
     this.route.get('/statistics', this.getStatistics)
   }
 
-  getShoppingCartRanking(): ShoppingCartValuable[] {
+  async getShoppingCartRanking(): Promise<ShoppingCartValuable[]> {
     return [
       {
         shoppingCartId: 1,
@@ -73,7 +73,7 @@ export class StatisticsController extends AbstractController implements IControl
     ]
   }
 
-  getThreeCustomerWhoBuyTheMostInCurrentMonth(): ClientValuable[] {
+  async getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]> {
     const c1 = new Client()
     const c2 = new Client()
     const c3 = new Client()
@@ -137,11 +137,11 @@ export class StatisticsController extends AbstractController implements IControl
     ]
   }
 
-  getHowManyShoppingCartWhereCreatedInCurrentMonth(): number {
+  async getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number> {
     return 5;
   }
 
-  getQuantityOfClientActivatedAndDeactivated(): ClientAvailability[] {
+  async getQuantityOfClientActivatedAndDeactivated(): Promise<ClientAvailability[]> {
     return [
       {
         quantity: 2,
@@ -156,11 +156,11 @@ export class StatisticsController extends AbstractController implements IControl
 
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
 
-    const number_of_shopping_carts_created_current_month = this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
     const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
-    const customer_rank = this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
-    const shopping_cart_rank = this.getShoppingCartRanking()
-    const client_availability_quantity = this.getQuantityOfClientActivatedAndDeactivated()
+    const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
+    const customer_rank = await this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
+    const shopping_cart_rank = await this.getShoppingCartRanking()
+    const client_availability_quantity = await this.getQuantityOfClientActivatedAndDeactivated()
 
     const response = { 
       data: { 
