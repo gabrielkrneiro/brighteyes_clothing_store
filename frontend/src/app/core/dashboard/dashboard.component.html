@@ -4,18 +4,22 @@
             *ngIf='clothesAvailability'
             class="col-md-6"
             [labels]='clothesAvailability.labels'
-            [values]='clothesAvailability.values'></app-pie>
+            [values]='clothesAvailability.values'>
+        </app-pie>
 
         <app-pie 
+            *ngIf='clientAvailabilityMetrics'
             class="col-md-6"
-            *ngIf='clothesAvailability'
-            [labels]='clothesAvailability.labels'
-            [values]='clothesAvailability.values'></app-pie>
+            [labels]='clientAvailabilityMetrics.labels'
+            [values]='clientAvailabilityMetrics.values'>
+        </app-pie>
+
     </div>
     <div>
         <app-bars
             *ngIf='clientRegisterMetrics'
-            [input]='clientRegisterMetrics'></app-bars>
+            [input]='clientRegisterMetrics'>
+        </app-bars>
     </div>
     <div class="row" id="rankings">
         <div class="col-md-6">

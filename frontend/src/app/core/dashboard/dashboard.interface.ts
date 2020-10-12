@@ -26,9 +26,9 @@ interface StatisticsResponse {
     shopping_cart_rank: ShoppingCartValuable[],
     customer_rank: ClientValuable[],
     clothes_availability_quantity: ClothesAvailabilityMetrics[],
-    client_availability_quantity: { label: string, data: ClientAvailability[] }
+    client_registered_current_year_by_month: { label: string, data: ClientAvailability[] }
+    client_availability_quantity: {status: ClientStatusEnum, quantity: number}[]
 }
-
 
 enum MonthEnum {
     JAN = 'Jan',

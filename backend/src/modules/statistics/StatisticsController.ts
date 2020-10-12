@@ -198,7 +198,6 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }> {
-
     const QuantityClientsByMonth = [
       { name: MonthEnum.JAN, value: 0 },
       { name: MonthEnum.FEV, value: 0 },
@@ -213,7 +212,6 @@ export class StatisticsController extends AbstractController implements IControl
       { name: MonthEnum.NOV, value: 0 },
       { name: MonthEnum.DEC, value: 0 },
     ]    
-
     const clientRepo = getRepository(Client)
     const currentYear = new Date().getFullYear()
     const currentYearClientList = (await clientRepo.find()).filter(i => i.createdAt.getFullYear() === currentYear)
@@ -225,8 +223,6 @@ export class StatisticsController extends AbstractController implements IControl
       }
     )
 
-    // increaseClientNumberInMonth('Fev')
-
     return {
       label: 'Quantity of clients',
       data: QuantityClientsByMonth
@@ -234,14 +230,13 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   async getQuantityActivatedDeactivatedClients(): Promise<ClientAvailabilityMetrics[]> {
-
     const clientAvailabilityQuantity = [
-      { status: EnumEmployeeClientStatus.ACTIVATED, value: 0 },
-      { status: EnumEmployeeClientStatus.DEACTIVATED, value: 0 }
+      { status: EnumEmployeeClientStatus.ACTIVATED, quantity: 0 },
+      { status: EnumEmployeeClientStatus.DEACTIVATED, quantity: 0 }
     ]
 
     const clientRepo = getRepository(Client)
-    const currentYearClientList = (await clientRepo.find())
+    const currentYearClientList = (await clientRepo.find({ relations: ['status'] }))
       .filter(this.filterCurrentYearClients)
 
     currentYearClientList.forEach(client => 
@@ -250,10 +245,7 @@ export class StatisticsController extends AbstractController implements IControl
 
     console.log(clientAvailabilityQuantity)
 
-    return [
-      { status: EnumEmployeeClientStatus.ACTIVATED, quantity: 15 },
-      { status: EnumEmployeeClientStatus.DEACTIVATED, quantity: 5 }
-    ]
+    return clientAvailabilityQuantity
   }
 
   private filterCurrentYearClients = (client: Client) => {
@@ -262,15 +254,12 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   private increaseClientAvailabilityNumber(
-    quantityClientAvailability: { 
-      status: EnumEmployeeClientStatus, 
-      value: number 
-    }[], 
+    quantityClientAvailability: ClientAvailabilityMetrics[], 
     client: Client
-  ): void {
+  ): void {   
     quantityClientAvailability.forEach(metrics => {
       if (client.status.name === metrics.status.valueOf()) {
-        ++metrics.value
+        ++metrics.quantity
       }
     })
   }
