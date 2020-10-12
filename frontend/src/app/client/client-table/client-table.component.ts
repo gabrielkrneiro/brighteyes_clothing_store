@@ -13,8 +13,12 @@ export class ClientTableComponent {
   @Output() removeObject = new EventEmitter<ClientListDTO>();
   @Output() findOne = new EventEmitter<ClientListDTO>();
 
-  showDetails(client: Client): void {
-    console.log(client)
+  exportPDF(): void {
+    console.log('exporting pdf...')
+  }
+
+  exportExcel(): void {
+    console.log('exporting excel...')
   }
 
   removeButtonClicked(client: ClientListDTO): void {

@@ -1,13 +1,20 @@
 <section>
   <h2>Client list</h2>
 
-  <!-- <div class="form-group">
-    <div style="display: flex">
-      <input type="text" class="form-control" placeholder="Search..." />
-      <button class="btn btn-default">search</button>
+  <div class="buttons-pdf-excel">
+    <div class="btn-group">
+      <button 
+        (click)='exportPDF()'
+        class="btn btn-danger">PDF
+      </button>
+      
+      <button
+        (click)='exportExcel()' 
+        class="btn btn-success">Excel
+      </button>
     </div>
-  </div> -->
-  <table *ngIf="clientList" class="table table-responsive">
+  </div>
+  <table *ngIf="clientList" class="table table-responsive table-hover">
     <thead class="thead-dark">
       <tr>
         <th scope="col">#</th>
@@ -20,10 +27,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr 
-        class="at-hover" 
-        (click)='showDetails(client)'
-        *ngFor="let client of clientList | async as list">
+      <tr *ngFor="let client of clientList | async as list">
           <th scope="row">{{ client.id }}</th>
           <td>{{ client.name }}</td>
           <td>{{ client.address }}</td>

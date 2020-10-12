@@ -7,3 +7,13 @@
   background-color: lightgrey;
   cursor: pointer;
 }
+
+.buttons-pdf-excel {
+  text-align: right;
+  margin-bottom: 1em;
+
+  .btn {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+}
