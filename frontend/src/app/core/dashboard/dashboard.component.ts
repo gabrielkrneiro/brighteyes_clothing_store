@@ -16,6 +16,8 @@ export class DashboardComponent implements OnInit {
   clothesAvailability: { labels: string[][], values: number[] }
   clientAvailabilityMetrics: { labels: string[][], values: number[] }
   clientRegisterMetrics: { label: string, data: Month[] }
+  shoppingCarCreatedInCurrentMonth: number
+  clientCreatedInCurrentMonth: number
 
   constructor(
     private dashboardService: DashboardService
@@ -35,12 +37,8 @@ export class DashboardComponent implements OnInit {
       values: response.client_availability_quantity.map(o => o.quantity)
     }
 
-    console.log(this.clientAvailabilityMetrics)
-
-    // this.clientAvailabilityMetrics = {
-    //   labels: response.client_availability_quantity.map(o => [o.status]),
-    //   values: response.client_availability_quantity.map(o => o.quantity)
-    // } 
+    this.shoppingCarCreatedInCurrentMonth = response.number_of_shopping_carts_created_current_month
+    this.clientCreatedInCurrentMonth = response.quantity_of_clients_registered_in_current_month
 
     this.clientRegisterMetrics = {
       label: 'Quantity of clients',

@@ -28,6 +28,7 @@ interface StatisticsResponse {
     clothes_availability_quantity: ClothesAvailabilityMetrics[],
     client_registered_current_year_by_month: { label: string, data: ClientAvailability[] }
     client_availability_quantity: {status: ClientStatusEnum, quantity: number}[]
+    quantity_of_clients_registered_in_current_month: number
 }
 
 enum MonthEnum {

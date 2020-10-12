@@ -79,7 +79,7 @@ interface IStatisticsController {
   getQuantityActivatedDeactivatedClients(): Promise<ClientAvailabilityMetrics[]>
   getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number>
   getShoppingCartRanking(): Promise<ShoppingCartValuable[]>
-  getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]>
+  getQuantityOfClientsRegisteredInCurrentMonth(): Promise<number>
 }
 
 interface StatisticsResponse {
@@ -89,14 +89,14 @@ interface StatisticsResponse {
     client_availability_quantity: ClientAvailabilityMetrics[],
     number_of_shopping_carts_created_current_month: number,
     shopping_cart_rank: ShoppingCartValuable[],
-    customer_rank: ClientValuable[]
+    quantity_of_clients_registered_in_current_month: number
   }
 }
 
 /**
  * Metrics:
  *  [ ok ] - Quantity of clients registered in current year sorted by month.
- *  [ ok ] - Quantity of clothes in stock and out of stock 
+ *  [ ok ] - Quantity of clothes in stock and out of stock
  *  [ ok ] - Quantity of clients activated and deactivated
  *  [ ok ] - Quantity of shopping cart created in current month?
  *  [    ] - Which are the customers who buy the most?
@@ -132,52 +132,40 @@ export class StatisticsController extends AbstractController implements IControl
     ]
   }
 
-  async getThreeCustomerWhoBuyTheMostInCurrentMonth(): Promise<ClientValuable[]> {
-    const c1 = new Client()
-    const c2 = new Client()
-    const c3 = new Client()
+  async getQuantityOfClientsRegisteredInCurrentMonth(): Promise<number> {
+    const clientRepo = getRepository(Client)
+    const clientList = await clientRepo.find()
+    const currentDate = new Date()
+    const currentMonthName = getMonthNameByNumber[currentDate.getMonth()]
+    const currentYear = currentDate.getFullYear()
 
-    const cl = [c1,c2,c3]
-
-    for (let i = 0; i < cl.length; i++) {
-      cl[i].id = i
-      cl[i].name = 'blabla',
-      cl[i].address = 'lero lero'
-    }
-
-    return [
-      {
-        client: c1,
-        value: 16
-      },
-      {
-        client: c2,
-        value: 15
-      },
-      {
-        client: c3,
-        value: 14
+    let clientRegisteredCurrentMonth = 0
+    clientList.forEach((o) => {
+      const monthName = getMonthNameByNumber[o.createdAt.getMonth()]
+      if (monthName === currentMonthName && o.createdAt.getFullYear() === currentYear) {
+        ++clientRegisteredCurrentMonth
       }
-    ]
+    })
+    return clientRegisteredCurrentMonth
   }
 
   async getQuantityInStockAndOutOfStockClothes(): Promise<ClothesAvailabilityMetrics[]> {
     const clothesRepo = getRepository(Clothes)
     const clothesStatusRepo = getRepository(ClothesStatus)
 
-    const inStockStatus = await clothesStatusRepo.findOne({ 
-      where: { name: ClothesStatusEnum.IN_STOCK } 
+    const inStockStatus = await clothesStatusRepo.findOne({
+      where: { name: ClothesStatusEnum.IN_STOCK }
     })
-    const outOfStockStatus = await clothesStatusRepo.findOne({ 
-      where: { name: ClothesStatusEnum.OUT_OF_STOCK } 
+    const outOfStockStatus = await clothesStatusRepo.findOne({
+      where: { name: ClothesStatusEnum.OUT_OF_STOCK }
     })
 
-    const inStockCount = await clothesRepo.findAndCount({ 
+    const inStockCount = await clothesRepo.findAndCount({
       where: { status: inStockStatus },
-      relations: ['status'] 
+      relations: ['status']
     })
-    const outOfStockCount = await clothesRepo.findAndCount({ 
-      where: { status: outOfStockStatus }, 
+    const outOfStockCount = await clothesRepo.findAndCount({
+      where: { status: outOfStockStatus },
       relations: ['status']
     })
 
@@ -196,14 +184,18 @@ export class StatisticsController extends AbstractController implements IControl
   async getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number> {
     const shoppingCartRepo = getRepository(ShoppingCart)
     const shoppingCartList = await shoppingCartRepo.find()
-    const currentMonthName = getMonthNameByNumber[new Date().getMonth()]
+    const currentDate = new Date()
+    const currentMonthName = getMonthNameByNumber[currentDate.getMonth()]
+    const currentYear = currentDate.getFullYear()
 
     let shoppingCartCreatedCurrentMonth = 0
-    shoppingCartList.forEach(o => {
+    shoppingCartList.forEach((o) => {
       const monthName = getMonthNameByNumber[o.createdAt.getMonth()]
-      if (monthName === currentMonthName) ++shoppingCartCreatedCurrentMonth
+      if (monthName === currentMonthName && o.createdAt.getFullYear() === currentYear) {
+        ++shoppingCartCreatedCurrentMonth
+      }
     })
-    return shoppingCartCreatedCurrentMonth;
+    return shoppingCartCreatedCurrentMonth
   }
 
   async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }> {
@@ -248,7 +240,7 @@ export class StatisticsController extends AbstractController implements IControl
     const currentYearClientList = (await clientRepo.find({ relations: ['status'] }))
       .filter(this.filterCurrentYearClients)
 
-    currentYearClientList.forEach(client => 
+    currentYearClientList.forEach(client =>
       this.increaseClientAvailabilityNumber(clientAvailabilityQuantity, client)
     )
     return clientAvailabilityQuantity
@@ -280,20 +272,20 @@ export class StatisticsController extends AbstractController implements IControl
   getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
     const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
     const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
-    const customer_rank = await this.getThreeCustomerWhoBuyTheMostInCurrentMonth()
+    const quantity_of_clients_registered_in_current_month = await this.getQuantityOfClientsRegisteredInCurrentMonth()
     const shopping_cart_rank = await this.getShoppingCartRanking()
     const client_registered_current_year_by_month = await this.getQuantityOfClientRegisteredByMonth()
     const client_availability_quantity = await this.getQuantityActivatedDeactivatedClients()
 
-    const response: StatisticsResponse = { 
-      data: { 
+    const response: StatisticsResponse = {
+      data: {
         number_of_shopping_carts_created_current_month,
         clothes_availability_quantity,
-        customer_rank,
+        quantity_of_clients_registered_in_current_month,
         shopping_cart_rank,
         client_registered_current_year_by_month,
         client_availability_quantity
-      } 
+      }
     }
 
     return res.json(response)

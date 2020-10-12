@@ -19,6 +19,7 @@ export class PieComponent implements OnInit {
 
   @Input() labels: [string[]]
   @Input() values: number[]
+  @Input() title: string
 
   ngOnInit(): void {
     this.pieChartColors = [

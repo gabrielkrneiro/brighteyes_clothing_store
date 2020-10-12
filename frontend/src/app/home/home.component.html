@@ -1,7 +1,8 @@
   <app-header></app-header>
   <div class="container">
 
-  <app-dashboard></app-dashboard>
+  <app-dashboard
+    *ngIf='session.title === "Admin"'></app-dashboard>
 
   <section>
     <h2>Home</h2>

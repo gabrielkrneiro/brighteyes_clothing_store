@@ -3,6 +3,7 @@
         <app-pie 
             *ngIf='clothesAvailability'
             class="col-md-6"
+            title='Clothes availability'
             [labels]='clothesAvailability.labels'
             [values]='clothesAvailability.values'>
         </app-pie>
@@ -10,36 +11,38 @@
         <app-pie 
             *ngIf='clientAvailabilityMetrics'
             class="col-md-6"
+            title='Client availability'
             [labels]='clientAvailabilityMetrics.labels'
             [values]='clientAvailabilityMetrics.values'>
         </app-pie>
-
     </div>
+
     <div>
         <app-bars
             *ngIf='clientRegisterMetrics'
             [input]='clientRegisterMetrics'>
         </app-bars>
     </div>
+
     <div id="rankings">
         <div class="row">
             <div class="col-md-6">
-                <span>Shopping Cart count</span>
+                <span id="title">Shopping Cart current month count</span>
                 <div class="client-ranking">
                     <div class="ranked client__firstly">
-                        Client 1: <span class="value">21</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <span>Client Ranking</span>
-                <div class="client-ranking">
-                    <div class="ranked client__firstly">
-                        Client 1: <span class="value">21</span>
+                        <span class="value">{{ shoppingCarCreatedInCurrentMonth || 0 }}</span>
                     </div>
                 </div>
             </div>
 
+            <div class="col-md-6">
+                <span id="title">Clients current month count</span>
+                <div class="client-ranking">
+                    <div class="ranked client__firstly">
+                        <span class="value">{{ clientCreatedInCurrentMonth || 0 }}</span>
+                    </div>
+                </div>
+            </div>        
         </div>
     </div>
 </section>
