@@ -3,7 +3,6 @@ interface Client {
   name: string;
   cpf: string;
   birthdate: string;
-  photo: string;
   status: ClientStatus;
   address: string;
 }

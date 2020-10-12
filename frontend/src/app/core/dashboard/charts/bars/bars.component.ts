@@ -17,6 +17,7 @@ export class BarsComponent implements OnInit {
   public barChartData: ChartDataSets[]
   
   @Input() input: {label: string, data: any[]}
+  @Input() title: string
 
   ngOnInit(): void {
     this.barChartOptions = {

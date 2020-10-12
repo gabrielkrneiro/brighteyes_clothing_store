@@ -1,5 +1,5 @@
 <section>
-    <div class="row">
+    <div class="row mt-5">
         <app-pie 
             *ngIf='clothesAvailability'
             class="col-md-6"
@@ -17,9 +17,10 @@
         </app-pie>
     </div>
 
-    <div>
+    <div class="mt-5">
         <app-bars
             *ngIf='clientRegisterMetrics'
+            title='Clients registered in current year'
             [input]='clientRegisterMetrics'>
         </app-bars>
     </div>
@@ -27,7 +28,7 @@
     <div id="rankings">
         <div class="row">
             <div class="col-md-6">
-                <span id="title">Shopping Cart current month count</span>
+                <span id="title">Shopping Carts <br>registered in current month</span>
                 <div class="client-ranking">
                     <div class="ranked client__firstly">
                         <span class="value">{{ shoppingCarCreatedInCurrentMonth || 0 }}</span>
@@ -36,7 +37,7 @@
             </div>
 
             <div class="col-md-6">
-                <span id="title">Clients current month count</span>
+                <span id="title">Clients <br>registered in current month</span>
                 <div class="client-ranking">
                     <div class="ranked client__firstly">
                         <span class="value">{{ clientCreatedInCurrentMonth || 0 }}</span>

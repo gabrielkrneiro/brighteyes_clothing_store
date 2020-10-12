@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClientListDTO } from '../client.interfaces';
+import { Client, ClientListDTO } from '../client.interfaces';
 
 @Component({
   selector: 'app-client-table',
@@ -13,7 +13,9 @@ export class ClientTableComponent {
   @Output() removeObject = new EventEmitter<ClientListDTO>();
   @Output() findOne = new EventEmitter<ClientListDTO>();
 
-  constructor() {}
+  showDetails(client: Client): void {
+    console.log(client)
+  }
 
   removeButtonClicked(client: ClientListDTO): void {
     this.removeObject.next(client);
