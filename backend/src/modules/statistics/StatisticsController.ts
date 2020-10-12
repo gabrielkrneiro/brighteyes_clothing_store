@@ -8,6 +8,7 @@ import { Clothes } from '../clothes/Clothes'
 import { ClothesStatus } from '../clothes_status/ClothesStatus'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
 import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
+import { ShoppingCart } from '../shopping-cart/ShoppingCart'
 import { 
   ClientValuable, 
   ClothesAvailabilityMetrics, 
@@ -96,10 +97,9 @@ interface StatisticsResponse {
  * Metrics:
  *  [ ok ] - Quantity of clients registered in current year sorted by month.
  *  [ ok ] - Quantity of clothes in stock and out of stock 
- *  - Quantity of clients activated and deactivated
- *  - How many shopping carts were created in current month?
- *  - Which are the most valuable shopping cart?
- *  - Which are the customers who buy the most?
+ *  [ ok ] - Quantity of clients activated and deactivated
+ *  [ ok ] - Quantity of shopping cart created in current month?
+ *  [    ] - Which are the customers who buy the most?
  */
 
 export class StatisticsController extends AbstractController implements IController, IStatisticsController {
@@ -194,7 +194,16 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   async getHowManyShoppingCartWhereCreatedInCurrentMonth(): Promise<number> {
-    return 5;
+    const shoppingCartRepo = getRepository(ShoppingCart)
+    const shoppingCartList = await shoppingCartRepo.find()
+    const currentMonthName = getMonthNameByNumber[new Date().getMonth()]
+
+    let shoppingCartCreatedCurrentMonth = 0
+    shoppingCartList.forEach(o => {
+      const monthName = getMonthNameByNumber[o.createdAt.getMonth()]
+      if (monthName === currentMonthName) ++shoppingCartCreatedCurrentMonth
+    })
+    return shoppingCartCreatedCurrentMonth;
   }
 
   async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }> {
@@ -242,9 +251,6 @@ export class StatisticsController extends AbstractController implements IControl
     currentYearClientList.forEach(client => 
       this.increaseClientAvailabilityNumber(clientAvailabilityQuantity, client)
     )
-
-    console.log(clientAvailabilityQuantity)
-
     return clientAvailabilityQuantity
   }
 
