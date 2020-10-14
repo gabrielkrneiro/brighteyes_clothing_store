@@ -1,53 +1,42 @@
 <section>
   <h2>Client list</h2>
 
-  <div class="buttons-pdf-excel">
-    <div class="btn-group">
-      <button 
-        (click)='exportPDF()'
-        class="btn btn-danger">PDF
-      </button>
-      
-      <button
-        (click)='exportExcel()' 
-        class="btn btn-success">Excel
-      </button>
-    </div>
-  </div>
-  <table *ngIf="clientList" class="table table-responsive table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Address</th>
-        <th scope="col">CPF</th>
-        <th scope="col">Birthdate</th>
-        <th scope="col">Status</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let client of clientList | async as list">
-          <th scope="row">{{ client.id }}</th>
-          <td>{{ client.name }}</td>
-          <td>{{ client.address }}</td>
-          <td>{{ client.cpf }}</td>
-          <td>{{ client.birthdate }}</td>
-          <td>{{ client.status.name }}</td>
-          <td>
-            <button
-              (click)="updateButtonClicked(client)"
-              class="btn btn-primary btn-block">Update
-            </button>
-            
-            <button
-              (click)="removeButtonClicked(client)"
-              class="btn btn-danger btn-block"
-              [disabled]="client.status.name === 'DEACTIVATED'">Deactivate
-            </button>
-          </td>
-      </tr>
-    </tbody>
+  <table
+    *ngIf="clientList"
+    class="table table-responsive table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Address</th>
+          <th scope="col">CPF</th>
+          <th scope="col">Birthdate</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clientList | async as list">
+            <th scope="row">{{ client.id }}</th>
+            <td>{{ client.name }}</td>
+            <td>{{ client.address }}</td>
+            <td>{{ client.cpf }}</td>
+            <td>{{ client.birthdate }}</td>
+            <td>{{ client.status.name }}</td>
+            <td>
+              <button
+                (click)="updateButtonClicked(client)"
+                class="btn btn-primary btn-block">Update
+              </button>
+              
+              <button
+                (click)="removeButtonClicked(client)"
+                class="btn btn-danger btn-block"
+                [disabled]="client.status.name === 'DEACTIVATED'">Deactivate
+              </button>
+            </td>
+        </tr>
+      </tbody>
   </table>
   <!-- <nav aria-label="Page navigation example">
     <ul class="pagination">
@@ -59,3 +48,16 @@
     </ul>
   </nav> -->
 </section>
+
+<table id="pdfTable" >
+  <thead>
+    <th>name</th>
+    <th>old</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>gabriel</td>
+      <td>28</td>
+    </tr>
+  </tbody>
+</table>

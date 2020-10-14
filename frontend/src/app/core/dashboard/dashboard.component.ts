@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { DashboardService } from './dashboard.service'
-import { ClothesAvailabilityMetrics, StatisticsResponse, MonthEnum, Month, ClientAvailability } from './dashboard.interface'
-import { ClientStatusEnum } from 'src/app/client/client.interfaces';
+import { StatisticsResponse, Month } from './dashboard.interface'
 
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -43,7 +44,26 @@ export class DashboardComponent implements OnInit {
     this.clientRegisterMetrics = {
       label: 'Quantity of clients',
       data: response.client_registered_current_year_by_month.data
-    }
-
+    }  
   }
+
+  generatePdf() {
+    const div = document.getElementById("html2Pdf");
+    const options = {background: "white", height: div.clientHeight, width: div.clientWidth};
+
+    html2canvas(div, options).then((canvas) => {
+        let doc = new jsPDF("p", "mm", "a4");
+        let imgData = canvas.toDataURL("image/PNG");
+        doc.addImage({ imageData: imgData, x: 20, y: 0, width: 170, height: 270 });
+        let pdfOutput = doc.output();
+        let buffer = new ArrayBuffer(pdfOutput.length);
+        let array = new Uint8Array(buffer);
+        for (let i = 0; i < pdfOutput.length; i++) {
+            array[i] = pdfOutput.charCodeAt(i);
+        }
+        const fileName = "example.pdf";
+        doc.save(fileName);
+    });
+  }
+
 }
