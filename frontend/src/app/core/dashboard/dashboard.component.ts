@@ -6,6 +6,7 @@ import { StatisticsResponse, Month } from './dashboard.interface'
 
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -64,6 +65,14 @@ export class DashboardComponent implements OnInit {
         const fileName = "example.pdf";
         doc.save(fileName);
     });
+  }
+
+  async generateExcel() {
+    const data = await this.dashboardService.getClientListAsExcel().toPromise()
+    const blob = new Blob([data], { type: 'application/octet-stream' });
+    
+    console.log(data)
+    console.log(blob)  
   }
 
 }

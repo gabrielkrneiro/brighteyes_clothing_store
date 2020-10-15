@@ -9,12 +9,14 @@ import { ClothesStatus } from '../clothes_status/ClothesStatus'
 import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
 import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
 import { ShoppingCart } from '../shopping-cart/ShoppingCart'
-import { 
-  ClientValuable, 
-  ClothesAvailabilityMetrics, 
+import {
+  ClientValuable,
+  ClothesAvailabilityMetrics,
   ShoppingCartValuable,
   ClientAvailabilityMetrics
 } from './StatisticsInterface'
+import path from 'path'
+import Excel from 'exceljs'
 
 enum MonthEnum {
   JAN = 'Jan',
@@ -58,20 +60,13 @@ const getMonthNameByNumber = {
   8: 'Sep',
   9: 'Oct',
   10: 'Nov',
-  11 : 'Dec'
+  11: 'Dec'
 }
 
 interface Month {
-  name: MonthEnum,
+  name: MonthEnum
   value: number
 }
-
-// function increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
-//   const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
-//   QuantityClientsByMonth.forEach(o => {
-//     if (o.name === monthEnum) ++o.value
-//   })
-// }
 
 interface IStatisticsController {
   getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }>
@@ -91,6 +86,37 @@ interface StatisticsResponse {
     shopping_cart_rank: ShoppingCartValuable[],
     quantity_of_clients_registered_in_current_month: number
   }
+}
+
+async function worksheetFactory(
+  worksheetName: string,
+  data: any[],
+  fileName: string
+): Promise<string> {
+  const workbook = new Excel.Workbook()
+  const worksheet = workbook.addWorksheet(worksheetName)
+
+  const capitalize = (s: string): string => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
+  const keys = Object.keys(data[0])
+  worksheet.columns = keys.map((k) => ({
+    header: capitalize(k),
+    key: k,
+    width: k.length * 2
+  }))
+
+  data.forEach((d) => worksheet.addRow(d))
+  const fullFileName = fileName + Date.now() + '.xlsx'
+
+  // save under export.xlsx
+  const dest = path.resolve(__dirname, '..', '..', 'public', 'files', 'excel', fullFileName)
+  await workbook.xlsx.writeFile(dest)
+
+  console.log('File is written.')
+  return dest
 }
 
 /**
@@ -113,6 +139,41 @@ export class StatisticsController extends AbstractController implements IControl
 
   async init(): Promise<void> {
     this.route.get('/statistics', this.getStatistics)
+    this.route.get('/statistics/clients-as-excel', this.getClientListAsExcel)
+  }
+
+  getClientListAsExcel = async (_: Request, res: Response): Promise<any> => {
+    try {
+      const clientRepo = getRepository(Client)
+      const clientList = await clientRepo.find()
+      const filePath = await worksheetFactory('Client list', clientList, 'clientList')
+      return res.sendFile(filePath)
+    } catch (error) {
+      console.error(error.message)
+      return res.status(401).json({ error_message: error.message })
+    }
+  }
+
+  getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
+    const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
+    const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
+    const quantity_of_clients_registered_in_current_month = await this.getQuantityOfClientsRegisteredInCurrentMonth()
+    const shopping_cart_rank = await this.getShoppingCartRanking()
+    const client_registered_current_year_by_month = await this.getQuantityOfClientRegisteredByMonth()
+    const client_availability_quantity = await this.getQuantityActivatedDeactivatedClients()
+
+    const response: StatisticsResponse = {
+      data: {
+        number_of_shopping_carts_created_current_month,
+        clothes_availability_quantity,
+        quantity_of_clients_registered_in_current_month,
+        shopping_cart_rank,
+        client_registered_current_year_by_month,
+        client_availability_quantity
+      }
+    }
+
+    return res.json(response)
   }
 
   async getShoppingCartRanking(): Promise<ShoppingCartValuable[]> {
@@ -198,7 +259,7 @@ export class StatisticsController extends AbstractController implements IControl
     return shoppingCartCreatedCurrentMonth
   }
 
-  async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string, data: Month[] }> {
+  async getQuantityOfClientRegisteredByMonth(): Promise<{ label: string; data: Month[] }> {
     const QuantityClientsByMonth = [
       { name: MonthEnum.JAN, value: 0 },
       { name: MonthEnum.FEV, value: 0 },
@@ -267,27 +328,5 @@ export class StatisticsController extends AbstractController implements IControl
     QuantityClientsByMonth.forEach(o => {
       if (o.name === monthEnum) ++o.value
     })
-  }
-
-  getStatistics = async (_: Request, res: Response): Promise<Response<StatisticsResponse>> => {
-    const clothes_availability_quantity = await this.getQuantityInStockAndOutOfStockClothes()
-    const number_of_shopping_carts_created_current_month = await this.getHowManyShoppingCartWhereCreatedInCurrentMonth()
-    const quantity_of_clients_registered_in_current_month = await this.getQuantityOfClientsRegisteredInCurrentMonth()
-    const shopping_cart_rank = await this.getShoppingCartRanking()
-    const client_registered_current_year_by_month = await this.getQuantityOfClientRegisteredByMonth()
-    const client_availability_quantity = await this.getQuantityActivatedDeactivatedClients()
-
-    const response: StatisticsResponse = {
-      data: {
-        number_of_shopping_carts_created_current_month,
-        clothes_availability_quantity,
-        quantity_of_clients_registered_in_current_month,
-        shopping_cart_rank,
-        client_registered_current_year_by_month,
-        client_availability_quantity
-      }
-    }
-
-    return res.json(response)
   }
 }

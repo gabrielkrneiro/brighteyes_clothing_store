@@ -20,4 +20,11 @@ export class DashboardService {
         (response: { data: StatisticsResponse }) => response.data
       ))
   }
+
+  getClientListAsExcel(): Observable<any> {
+    return this.httpClient.get(
+      `http://${environment.BACKEND_ADDRESS}/statistics/clients-as-excel`,
+      { responseType: 'blob'}
+    )
+  }
 }
