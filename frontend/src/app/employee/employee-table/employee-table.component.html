@@ -1,7 +1,7 @@
 <section>
   <h2>Employee list</h2>
 
-  <div class="form-group">
+  <!-- <div class="form-group">
     <div style="display: flex">
       <input
         type="text"
@@ -12,7 +12,7 @@
       />
       <button class="btn btn-default">search</button>
     </div>
-  </div>
+  </div> -->
   <table class="table table-responsive">
     <thead class="thead-dark">
       <tr>
@@ -22,7 +22,6 @@
         <th scope="col">E-mail</th>
         <th scope="col">Title</th>
         <th scope="col">Status</th>
-        <th scope="col">Photo</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
@@ -30,26 +29,21 @@
       <tr *ngFor="let employee of employeeList | async">
         <th scope="row">{{ employee.id }}</th>
         <td>{{ employee.name }}</td>
-        <td>{{ employee.birthdate }}</td>
+        <td>{{ parseIsoToLocale(employee.birthdate) }}</td>
         <td>{{ employee.email }}</td>
         <td>{{ employee.title?.name || "" }}</td>
         <td>{{ employee.status?.name || "" }}</td>
-        <td>
-          <a [href]="employee.photo">{{ employee.photo }}</a>
-        </td>
+
         <td>
           <button
             (click)="updateButtonClicked(employee)"
-            class="btn btn-primary btn-block"
-          >
-            Update
+            class="btn btn-primary btn-block">Update
           </button>
+          
           <button
             [disabled]="employee.status.name === 'DEACTIVATED'"
             (click)="removeButtonClicked(employee)"
-            class="btn btn-danger btn-block"
-          >
-            Deactivate
+            class="btn btn-danger btn-block">Deactivate
           </button>
         </td>
       </tr>

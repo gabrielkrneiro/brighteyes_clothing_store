@@ -10,7 +10,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
-import { dateFormatter, dateParser } from './../../common/dateFormatter';
+import { dateFormatter, dateParser, parseFromISOToLocaleDate } from './../../common/dateFormatter';
 
 import {
   EmployeeCreateDTO,
@@ -23,7 +23,7 @@ const employeeMock = {
   name: 'Employee 007',
   email: 'employee007@gmail.com',
   password: 'senha123',
-  birthdate: dateParser(new Date('2001/12/25')),
+  birthdate: '18/12/1988',
   registeredBy: 1,
   status: 2,
   title: 4,
@@ -64,7 +64,10 @@ export class EmployeeFormComponent implements OnInit {
       name: [null, [Validators.required]],
       email: [null, [Validators.email, Validators.required]],
       status: [null, [Validators.required]],
-      birthdate: [null, [Validators.required]],
+      birthdate: [null, [
+        Validators.required,
+        Validators.pattern(/^(\d{2}\/){2}\d{4}$/)
+      ]],
       password: [null, [Validators.required]],
       title: [null, [Validators.required]],
       registeredBy: [null, [Validators.required]],
@@ -90,8 +93,8 @@ export class EmployeeFormComponent implements OnInit {
 
   sendEmployee(): void {
     const form = this.formGroup.value;
-    form.birthdate = dateFormatter(this.formGroup.controls.birthdate.value);
-    // console.log(form);
+    // form.birthdate = dateFormatter(this.formGroup.controls.birthdate.value);
+    form.birthdate = dateParser(form.birthdate)
     try {
       if (!this.isUpdating) {
         this.createEmployee.next(form);
@@ -109,6 +112,7 @@ export class EmployeeFormComponent implements OnInit {
     this.formGroup.patchValue({ title: employee.title.id });
     this.formGroup.patchValue({ status: employee.status.id });
     this.formGroup.patchValue({ registeredBy: employee.registeredBy?.id });
+    this.formGroup.patchValue({ birthdate: parseFromISOToLocaleDate(employee.birthdate) })
   }
 
   resetForm(): void {

@@ -48,7 +48,6 @@ export class EmployeeController extends AbstractController implements IControlle
           email: createdObject.email,
           title: createdObject.title,
           status: createdObject.status
-          // photo: createdObject.photo
         }
       })
     } catch (error) {

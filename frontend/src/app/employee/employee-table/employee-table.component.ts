@@ -11,6 +11,7 @@ import { EmployeeRemoveDTO, EmployeeUpdateDTO } from '../employee.interfaces';
 
 import { Employee } from '../employee.models';
 import { debounceTime } from 'rxjs/operators';
+import { parseFromISOToLocaleDate } from 'src/app/common/dateFormatter';
 
 @Component({
   selector: 'app-employee-table',
@@ -52,5 +53,9 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
 
   updateButtonClicked(employee: EmployeeUpdateDTO) {
     this.findOne.next(employee);
+  }
+
+  parseIsoToLocale(date: string) {
+    return parseFromISOToLocaleDate(date)
   }
 }

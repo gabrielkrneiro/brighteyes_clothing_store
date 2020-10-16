@@ -2,29 +2,27 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { dateFormatter, dateParser } from 'src/app/common/dateFormatter';
-
+import { dateParser, parseFromISOToLocaleDate } from 'src/app/common/dateFormatter';
 import {
   ClientCreateDTO,
   ClientDetailsDTO,
   ClientStatus,
   ClientUpdateDTO,
 } from '../client.interfaces';
+// import * as moment from 'moment'
 
-const clientMock = {
-  name: 'Teste 1',
-  birthdate: dateParser('12/12/2002'),
-  cpf: '123.123.123-12',
-  status: 2,
-  address: 'Rua klajskldfjasd, 00 - asdfasdf - Manaus/AM',
-};
+// const clientMock = {
+//   name: 'Teste 1',
+//   birthdate: '20/12/2002',
+//   cpf: '123.123.123-12',
+//   status: 2,
+//   address: 'Rua klajskldfjasd, 00 - asdfasdf - Manaus/AM',
+// };
 
 @Component({
   selector: 'app-client-form',
@@ -51,11 +49,15 @@ export class ClientFormComponent implements OnInit {
         Validators.required, 
         Validators.pattern(/^(\d{3}\.){2}\d{3}\-\d{2}$/)
       ]],
-      birthdate: [null, [Validators.required]],
+      birthdate: [null, [
+        Validators.required,
+        Validators.pattern(/^(\d{2}\/){2}\d{4}$/)
+      ]],
       status: [null, [Validators.required]],
     });
     this.isUpdating = false;
     // this.formGroup.patchValue(clientMock);
+    // this.formGroup.patchValue(clientMock)
   }
 
   isValid(attr: string): string {
@@ -70,12 +72,13 @@ export class ClientFormComponent implements OnInit {
     try {
       if (this.formGroup.invalid) return;
       const form = this.formGroup.value;
-      form.birthdate = dateFormatter(this.formGroup.controls.birthdate.value);
+      form.birthdate = dateParser(form.birthdate)
       if (!this.isUpdating) {
         this.createObject.next(form);
       } else {
         this.updateObject.next(form);
       }
+
     } catch (error) {
       throw new Error(error.message);
     }
@@ -85,7 +88,7 @@ export class ClientFormComponent implements OnInit {
     this.isUpdating = true;
     this.formGroup.patchValue(client);
     this.formGroup.patchValue({ status: client.status.id });
-    this.formGroup.patchValue({ birthdate: dateParser(client.birthdate) });
+    this.formGroup.patchValue({ birthdate: parseFromISOToLocaleDate(client.birthdate) });
   }
 
   resetForm(): void {

@@ -5,7 +5,6 @@ import { getRepository } from 'typeorm'
 import { Client } from '@src/modules/client/Client'
 import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
 import logger from '../logger/logger'
-import { dateFormatter } from '../formatDate'
 
 export class ClientSeeder implements ISeeder<Client> {
   objectList: Client[]
@@ -15,8 +14,8 @@ export class ClientSeeder implements ISeeder<Client> {
       {
         name: 'Client 1',
         address: 'Rua asdf, 123 - AEdasdfsd, asdfasdf',
-        birthdate: dateFormatter(new Date('10/14/1987')),
-        cpf: '123.123.123-123',
+        birthdate: new Date('10/14/1987').toISOString(),
+        cpf: '123.123.123-13',
         createdAt: new Date()
       }
     ]

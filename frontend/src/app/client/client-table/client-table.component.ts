@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ClientListDTO } from '../client.interfaces';
+import { parseFromISOToLocaleDate } from './../../common/dateFormatter'
 
 @Component({
   selector: 'app-client-table',
@@ -19,5 +20,9 @@ export class ClientTableComponent {
 
   updateButtonClicked(client: ClientListDTO): void {
     this.findOne.next(client);
+  }
+
+  parseIsoToLocale(date: string) {
+    return parseFromISOToLocaleDate(date)
   }
 }

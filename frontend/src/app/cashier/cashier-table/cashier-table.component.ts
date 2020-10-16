@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Clothes } from 'src/app/clothes/clothes.interface';
 import { ShoppingCart } from 'src/app/shopping-cart/shopping-cart.interface';
 import { calcTotalCost } from './../../common/calcTotalCost';
+import { parseFromISOToLocaleDate } from './../../common/dateFormatter'
 
 @Component({
   selector: 'app-cashier-table',
@@ -28,5 +29,9 @@ export class CashierTableComponent implements OnInit {
 
   sendPayment(event: { isOk: boolean; shoppingCartId: number }): void {
     this.sendPaymentToParent.next(event);
+  }
+
+  parseIsoToLocale(s: string) {
+    return parseFromISOToLocaleDate(s)
   }
 }

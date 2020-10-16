@@ -21,7 +21,7 @@
             <td>{{ client.name }}</td>
             <td>{{ client.address }}</td>
             <td>{{ client.cpf }}</td>
-            <td>{{ client.birthdate }}</td>
+            <td>{{ parseIsoToLocale(client.birthdate) }}</td>
             <td>{{ client.status.name }}</td>
             <td>
               <button
@@ -48,16 +48,3 @@
     </ul>
   </nav> -->
 </section>
-
-<table id="pdfTable" >
-  <thead>
-    <th>name</th>
-    <th>old</th>
-  </thead>
-  <tbody>
-    <tr>
-      <td>gabriel</td>
-      <td>28</td>
-    </tr>
-  </tbody>
-</table>

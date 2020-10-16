@@ -10,12 +10,12 @@ function dateParser(date: Date | string): any {
     return formatDate(date, 'yyyy-MM-dd', 'en');
   } else {
     const numbers = date.split('/');
-    return formatDate(
-      new Date(_.reverse(numbers).toString()),
-      'yyyy-MM-dd',
-      'en'
-    );
+    return new Date(`${numbers[1]}/${numbers[0]}/${numbers[2]}`)
   }
 }
 
-export { dateFormatter, dateParser };
+function parseFromISOToLocaleDate(dateIso: string) {
+  return new Date(dateIso).toLocaleDateString()
+}
+
+export { dateFormatter, dateParser, parseFromISOToLocaleDate };

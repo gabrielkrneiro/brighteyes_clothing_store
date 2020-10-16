@@ -5,6 +5,7 @@ import { Clothes } from 'src/app/clothes/clothes.interface';
 import { ShoppingCart } from '../shopping-cart.interface';
 import { ShoppingCartService } from '../shopping-cart.service';
 import { calcTotalCost } from './../../common/calcTotalCost';
+import { parseFromISOToLocaleDate } from './../../common/dateFormatter'
 
 @Component({
   selector: 'app-shopping-cart-table',
@@ -23,6 +24,10 @@ export class ShoppingCartTableComponent implements OnInit {
 
   totalValue(clothes: Clothes[]): number {
     return calcTotalCost(clothes);
+  }
+
+  parseDate(dateIso: string) {
+    return parseFromISOToLocaleDate(dateIso)
   }
 
   addClothes({

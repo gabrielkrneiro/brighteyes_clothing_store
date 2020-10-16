@@ -36,12 +36,15 @@
             [shoppingCart]="object"
           ></app-shopping-cart-modal>
         </td>
-        <td>{{ object.createdAt }}</td>
-        <td>{{ object.updatedAt }}</td>
+        <td>{{ parseDate(object.createdAt) }}</td>
+        <td>{{ parseDate(object.updatedAt) }}</td>
         <td>{{ totalValue(object?.clothes) }}</td>
         <td>
           <div>
-            <button (click)='updateButtonClicked(object)' class="btn btn-default">Update</button>
+            <button 
+              (click)='updateButtonClicked(object)' 
+              class="btn btn-primary">Update
+            </button>
           </div>
         </td>
       </tr>

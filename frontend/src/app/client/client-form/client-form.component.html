@@ -107,9 +107,16 @@
           class="col-form-label">Birthdate
         </label>
 
-        <input
+        <!-- <input
           formControlName="birthdate"
           type="date"
+          class="form-control"
+          id="birthdate"
+          placeholder="12/12/1212"
+          [ngClass]='[isValid("birthdate")]'/> -->
+
+        <input
+          formControlName="birthdate"
           class="form-control"
           id="birthdate"
           placeholder="12/12/1212"
@@ -120,6 +127,7 @@
           class="invalid-feedback" 
           *ngIf='showInvalidFeedback("birthdate"); else validFeedbackBirthdate'>
             <span *ngIf='formGroup.get("birthdate").errors?.required'>Birthdate is required</span>
+            <span *ngIf='formGroup.get("birthdate").errors?.pattern'>Birthdate is invalid</span>
         </div>
 
         <!-- valid data feedback -->
