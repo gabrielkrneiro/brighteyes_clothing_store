@@ -1,9 +1,10 @@
 <section>
     <div class="btn-group mb-4">
-        <button 
+        <a 
             (click)='generateExcel()'
+            [href]='clientAsExcelAddress'
             class="btn btn-success">Export to Excel
-        </button>
+        </a>
         <button 
             (click)='generatePdf()'
             class="btn btn-danger">Export to PDF

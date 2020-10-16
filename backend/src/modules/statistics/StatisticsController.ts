@@ -109,7 +109,7 @@ async function worksheetFactory(
   }))
 
   data.forEach((d) => worksheet.addRow(d))
-  const fullFileName = fileName + Date.now() + '.xlsx'
+  const fullFileName = fileName + `${new Date().getMonth()}${new Date().getFullYear()}` + '.xlsx'
 
   // save under export.xlsx
   const dest = path.resolve(__dirname, '..', '..', 'public', 'files', 'excel', fullFileName)

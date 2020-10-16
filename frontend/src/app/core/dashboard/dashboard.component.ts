@@ -6,6 +6,7 @@ import { StatisticsResponse, Month } from './dashboard.interface'
 
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,12 +21,14 @@ export class DashboardComponent implements OnInit {
   clientRegisterMetrics: { label: string, data: Month[] }
   shoppingCarCreatedInCurrentMonth: number
   clientCreatedInCurrentMonth: number
+  clientAsExcelAddress: string
 
   constructor(
     private dashboardService: DashboardService
   ) { }
 
   async ngOnInit(): Promise<void> {
+    this.clientAsExcelAddress = `http://${environment.BACKEND_ADDRESS}/statistics/clients-as-excel`
     this.statistics$ = this.dashboardService.getStatistics()
     const response = await this.statistics$.toPromise()
 
@@ -68,11 +71,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async generateExcel() {
-    const data = await this.dashboardService.getClientListAsExcel().toPromise()
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-    
-    console.log(data)
-    console.log(blob)  
+    await this.dashboardService.getClientListAsExcel().toPromise()
   }
 
 }
