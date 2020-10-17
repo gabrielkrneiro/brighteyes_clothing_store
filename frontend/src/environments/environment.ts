@@ -1,10 +1,16 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { IEnvironment } from './environment.interface';
 
 export const environment = {
-  production: false
-};
+  production: false,
+  jwtSecretkey: 'kl1hj2kl34h1&HJH',
+  logLevel: 'debug',
+  BACKEND_ADDRESS: 'localhost:3333',
+  googleClientId:
+    '321801975531-44gmjluuqpm2tptach8r98a86gqr3fg9.apps.googleusercontent.com',
+} as IEnvironment;
 
 /*
  * For easier debugging in development mode, you can import the following file

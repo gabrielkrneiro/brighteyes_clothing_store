@@ -5,7 +5,7 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm'
 
 import { ClothesStatus } from '../clothes_status/ClothesStatus'
@@ -19,10 +19,6 @@ export class Clothes {
   @ManyToOne(() => ClothesStatus)
   @JoinColumn({ name: 'clothes_status_id' })
   status: ClothesStatus
-
-  @ManyToMany(() => Employee)
-  @JoinTable({ name: 'clothes_employees' })
-  wareHouseEmployees: Employee[]
 
   @Column()
   name: string

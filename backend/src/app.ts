@@ -1,5 +1,5 @@
 import cors from 'cors'
-import express, { Response, Router } from 'express'
+import express, { Response, Router, Request } from 'express'
 import helmet from 'helmet'
 
 import { ClientController } from './modules/client/ClientController'
@@ -17,6 +17,11 @@ import { runSeeders } from './common/seeds/runSeeders'
 import { AuthController } from './modules/auth/AuthController'
 import logger from './common/logger/logger'
 import APP_CONFIG from './config/app.config'
+import { load } from 'yamljs'
+import path from 'path'
+
+import swaggerUi from 'swagger-ui-express'
+import { StatisticsController } from './modules/statistics/StatisticsController'
 
 export interface IApp {
   init(): Promise<void>
@@ -38,6 +43,7 @@ export class App implements IApp {
     const route = Router()
 
     await this.initApiSummarize(route)
+    await this.initSeeders(route)
 
     await this.initModule(ClientController, route)
     await this.initModule(ClothesController, route)
@@ -48,10 +54,11 @@ export class App implements IApp {
     await this.initModule(ShoppingCartStatusController, route)
     await this.initModule(ShoppingCartController, route)
     await this.initModule(AuthController, route)
+    await this.initModule(StatisticsController, route)
   }
 
-  async initApiSummarize(route: Router): Promise<void> {
-    route.get('/run-seeders', async (_, response: Response) => {
+  async initSeeders(route: Router): Promise<void> {
+    route.get('/run-seeders', async (_: Request, response: Response) => {
       try {
         runSeeders()
         return response.json({ message: 'Database seeded successfully' })
@@ -60,21 +67,23 @@ export class App implements IApp {
         return response.json({ message: error.message })
       }
     })
+  }
+
+  async initApiSummarize(route: Router): Promise<void> {
+    const swaggerDoc = load(path.resolve(__dirname, 'doc', 'swagger.yml'))
+    swaggerDoc.servers = swaggerDoc.servers.map((host: { url: string; description: string }) => {
+      host.url = host.url.replace(
+        'HOST_ADDRESS_AND_PORT', // this should be in swagger.yml to be replaced
+        `${APP_CONFIG.serve.host}:${APP_CONFIG.serve.port}`
+      )
+      return host
+    })
+
+    route.use('/apidoc', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
     route.get('/', (_, response: Response) => {
       response.json({
-        message: `Server is running on port ${process.env.PORT}`,
-        modules: {
-          authentication: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/auth/`,
-          clients: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clients/`,
-          clothes: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes/`,
-          clothes_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/clothes-status/`,
-          employees: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employees/`,
-          employee_client_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-client-status/`,
-          employee_title: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/employee-title/`,
-          shopping_cart_status: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart-status/`,
-          shopping_cart: `http://${process.env.HOST_ADDRESS}:${process.env.PORT}/shopping-cart/`
-        }
+        message: `Server is running on port ${APP_CONFIG.serve.port}`
       })
     })
   }
@@ -96,6 +105,7 @@ export class App implements IApp {
 
   initMiddlewares(): void {
     this.application.use(express.json())
+    this.application.use(express.static(path.join(__dirname, 'public')))
     this.application.use(cors())
     this.application.use(helmet())
     logger.info('Successfully loaded Middlewares')

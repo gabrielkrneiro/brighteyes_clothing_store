@@ -29,6 +29,9 @@ export class EmployeeTitleSeeder implements ISeeder<EmployeeTitle> {
       },
       {
         name: 'Cashier'
+      },
+      {
+        name: 'Admin'
       }
     ]
   }

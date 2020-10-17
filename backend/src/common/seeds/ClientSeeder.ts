@@ -14,10 +14,9 @@ export class ClientSeeder implements ISeeder<Client> {
       {
         name: 'Client 1',
         address: 'Rua asdf, 123 - AEdasdfsd, asdfasdf',
-        birthdate: new Date('10/14/1987'),
-        cpf: '123.123.123-123',
-        photo:
-          'https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=80'
+        birthdate: new Date('10/14/1987').toISOString(),
+        cpf: '123.123.123-13',
+        createdAt: new Date()
       }
     ]
   }

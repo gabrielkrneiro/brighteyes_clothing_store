@@ -9,13 +9,13 @@ export class Employee {
   id: number
 
   @ManyToOne(() => EmployeeTitle, (employeeTitle) => employeeTitle.id, {
-    eager: true,
+    eager: true
   })
   @JoinColumn({ name: 'employee_title_id' })
   title: EmployeeTitle
 
   @ManyToOne(() => EmployeeClientStatus, (employeeClientStatus) => employeeClientStatus.name, {
-    eager: true,
+    eager: true
   })
   @JoinColumn({ name: 'employee_status_id' })
   status: EmployeeClientStatus
@@ -27,11 +27,11 @@ export class Employee {
   @Column()
   name: string
 
-  @Column()
-  photo: string
+  // @Column()
+  // photo: string
 
   @Column()
-  birthdate: Date
+  birthdate: string
 
   @Column()
   password: string

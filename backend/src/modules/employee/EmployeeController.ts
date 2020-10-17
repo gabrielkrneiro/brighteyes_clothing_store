@@ -16,8 +16,8 @@ export class EmployeeController extends AbstractController implements IControlle
     super()
     this.ModelClassName = Employee
     this.route = route
-    this.findManyOptions = { relations: ['title', 'status'] }
-    this.findOneOptions = { relations: ['title', 'status'] }
+    this.findManyOptions = { relations: ['title', 'status', 'registeredBy'] }
+    this.findOneOptions = { relations: ['title', 'status', 'registeredBy'] }
     this.factory = new EmployeeFactory()
   }
 
@@ -38,20 +38,23 @@ export class EmployeeController extends AbstractController implements IControlle
       if (foundEmployee) {
         throw new Error('Employee already exists')
       }
+
       const createdObject = await repository.save(employeeData, this.saveOptions)
       return response.json({
         message: 'Employee created',
         data: {
+          id: createdObject.id,
           name: createdObject.name,
           email: createdObject.email,
-          photo: createdObject.photo,
-        },
+          title: createdObject.title,
+          status: createdObject.status
+        }
       })
     } catch (error) {
       console.error(error)
       return response.status(401).json({
         message: 'An error occurred',
-        error_message: error.message,
+        error_message: error.message
       })
     }
   }
