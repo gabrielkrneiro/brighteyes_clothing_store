@@ -1,10 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Client } from '../client/client.interfaces';
 import { ClientService } from '../client/client.service';
-import { EmployeeTitleEnum } from '../employee/employee.enum';
 import { Employee } from '../employee/employee.models';
 import { EmployeeService } from '../employee/employee.service';
 import { ShoppingCartFormComponent } from './shopping-cart-form/shopping-cart-form.component';
@@ -12,7 +10,6 @@ import {
   ShoppingCart,
   ShoppingCartCreateDTO,
   ShoppingCartStatus,
-  ShoppingCartStatusEnum,
   ShoppingCartUpdateDTO,
 } from './shopping-cart.interface';
 
@@ -76,7 +73,7 @@ export class ShoppingCartComponent implements OnInit {
         this.shoppingCartForm.resetForm();
       },
       ({ error }: HttpErrorResponse) => {
-        console.error(error.message);
+        alert(error.message)
       }
     );
   }

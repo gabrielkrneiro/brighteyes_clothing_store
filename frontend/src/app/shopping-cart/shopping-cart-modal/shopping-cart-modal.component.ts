@@ -1,21 +1,18 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
-  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-  BsModalService,
   BsModalRef,
   ModalDirective,
 } from 'ngx-bootstrap/modal';
-import { Observable } from 'rxjs';
 import { Clothes } from 'src/app/clothes/clothes.interface';
+import { environment } from 'src/environments/environment';
 import { ShoppingCart } from '../shopping-cart.interface';
 
 @Component({
@@ -42,7 +39,9 @@ export class ShoppingCartModalComponent implements OnInit {
     shoppingCartId: number;
   }>();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.totalCost = 0;
@@ -77,7 +76,6 @@ export class ShoppingCartModalComponent implements OnInit {
   }
 
   removeClothesButtonClicked(clothes: Clothes): void {
-    const inputValue = parseInt(this.formGroup.controls.searchInput.value);
     this.removeClothes.next({
       requestedClothesId: clothes.id,
       shoppingCartId: this.shoppingCart.id,
@@ -87,5 +85,11 @@ export class ShoppingCartModalComponent implements OnInit {
 
   resetForm(): void {
     this.searchInputValue = null;
+  }
+
+  fixClothesPhotoAddress(clothes: Clothes) {
+    return clothes.photo.includes('http') ? 
+      clothes.photo : 
+      `http://${environment.BACKEND_ADDRESS}/images/clothes/${clothes.photo}`
   }
 }

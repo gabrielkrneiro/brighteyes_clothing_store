@@ -1,5 +1,5 @@
 <!--Large modal-->
-<button class="btn btn-default btn-block" (click)="showModal()">List</button>
+<button class="btn btn-primary btn-block" (click)="showModal()">List</button>
 
 <div
   bsModal
@@ -36,7 +36,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Price</th>
-                <th scope="col">Photo</th>
+                <th class="text-center" scope="col">Photo</th>
               </tr>
             </thead>
             <tbody>
@@ -47,10 +47,9 @@
                 <td>
                   <a
                     target="_blank"
-                    class="btn btn-default btn-block"
-                    href="{{ clothes.photo }}"
-                    >Photo</a
-                  >
+                    class="btn btn-primary btn-block"
+                    href="{{ fixClothesPhotoAddress(clothes) }}">Photo
+                  </a>
                 </td>
               </tr>
             </tbody>

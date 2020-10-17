@@ -39,7 +39,12 @@
                     class="form-control" 
                     placeholder="Type clothes ID">
                 </div>
-                <div class="col-md-2"><button (click)='addClothesButtonClicked()' class='btn btn-default btn-block'>Add</button></div>
+                <div class="col-md-2">
+                  <button 
+                    (click)='addClothesButtonClicked()' 
+                    class='btn btn-primary btn-block'>Add
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -66,10 +71,9 @@
                 <td>
                   <a
                     target="_blank"
-                    class="btn btn-default btn-block"
-                    href="{{ clothes.photo }}"
-                    >Photo</a
-                  >
+                    class="btn btn-primary btn-block"
+                    href="{{ fixClothesPhotoAddress(clothes) }}">Photo
+                    </a>
                 </td>
                 <td>
                   <div>

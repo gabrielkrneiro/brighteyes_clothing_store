@@ -1,7 +1,9 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BsModalRef, ModalDirective } from 'ngx-bootstrap/modal';
+import { Clothes } from 'src/app/clothes/clothes.interface';
 import { ShoppingCart } from 'src/app/shopping-cart/shopping-cart.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cashier-modal',
@@ -32,5 +34,11 @@ export class CashierModalComponent implements OnInit {
     this.shoppingCart.clothes.forEach((c) => {
       this.totalCost = this.totalCost + c.price;
     });
+  }
+
+  fixClothesPhotoAddress(clothes: Clothes) {
+    return clothes.photo.includes('http') ? 
+      clothes.photo : 
+      `http://${environment.BACKEND_ADDRESS}/images/clothes/${clothes.photo}`
   }
 }

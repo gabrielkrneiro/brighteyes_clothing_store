@@ -18,6 +18,8 @@ export class ShoppingCartTableComponent implements OnInit {
   @Output() loadShoppingCartList = new EventEmitter<void>();
   @Output() findOne = new EventEmitter<ShoppingCart>();
 
+  a: boolean
+
   constructor(private shoppingCartService: ShoppingCartService) {}
 
   ngOnInit(): void {}
@@ -41,11 +43,10 @@ export class ShoppingCartTableComponent implements OnInit {
       .addClothesToShoppingCart(shoppingCartId, requestedClothesId)
       .subscribe(
         (response) => {
-          console.log(response);
           this.loadShoppingCartList.next();
         },
         ({ error }: HttpErrorResponse) => {
-          console.error(error.message);
+          alert('Requested clothes not found or its already added')
         }
       );
   }
