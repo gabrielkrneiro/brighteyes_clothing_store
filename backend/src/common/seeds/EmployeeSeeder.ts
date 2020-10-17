@@ -2,9 +2,9 @@ import { ISeeder } from './ISeeder'
 
 import { objectFactory } from './objectFactory'
 import { getRepository } from 'typeorm'
-import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
-import { Employee } from '@src/modules/employee/Employee'
-import { EmployeeTitle } from '@src/modules/employee_title/EmployeeTitle'
+import { EmployeeClientStatus } from './../../modules/employee_client_status/EmployeeClientStatus'
+import { Employee } from './../../modules/employee/Employee'
+import { EmployeeTitle } from './../../modules/employee_title/EmployeeTitle'
 import logger from '../logger/logger'
 import { dateFormatter } from '../formatDate'
 

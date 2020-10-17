@@ -1,6 +1,6 @@
-import { DTOController } from '@src/common/dto/DTOController'
-import { IController } from '@src/interfaces/IControllers'
-import { AbstractController } from '@src/modules/abstract.controller'
+import { DTOController } from './../../common/dto/DTOController'
+import { IController } from './../../interfaces/IControllers'
+import { AbstractController } from './../../modules/abstract.controller'
 import { Request, Response, Router } from 'express'
 import { getRepository } from 'typeorm'
 import { Client } from '../client/Client'
@@ -10,7 +10,6 @@ import { ClothesStatusEnum } from '../clothes_status/ClothesStatusEnum'
 import { EnumEmployeeClientStatus } from '../employee_client_status/IEmployeeClientStatus'
 import { ShoppingCart } from '../shopping-cart/ShoppingCart'
 import {
-  ClientValuable,
   ClothesAvailabilityMetrics,
   ShoppingCartValuable,
   ClientAvailabilityMetrics
@@ -33,34 +32,41 @@ enum MonthEnum {
   DEC = 'Dec'
 }
 
-enum getMonthEnumByMonthName {
-  'Jan' = MonthEnum.JAN,
-  'Fev' = MonthEnum.FEV,
-  'Mar' = MonthEnum.MAR,
-  'Apr' = MonthEnum.APR,
-  'May' = MonthEnum.MAY,
-  'Jun' = MonthEnum.JUN,
-  'Jul' = MonthEnum.JUL,
-  'Aug' = MonthEnum.AUG,
-  'Sep' = MonthEnum.SEP,
-  'Oct' = MonthEnum.OCT,
-  'Nov' = MonthEnum.NOV,
-  'Dec' = MonthEnum.DEC
+function getMonthEnumByMonthName(monthName: string) {
+  switch(monthName) {
+    case 'Jan': return MonthEnum.JAN
+    case 'Fev': return MonthEnum.FEV
+    case 'Mar': return MonthEnum.MAR
+    case 'Apr': return MonthEnum.APR
+    case 'May': return MonthEnum.MAY
+    case 'Jun': return MonthEnum.JUN
+    case 'Jul': return MonthEnum.JUL
+    case 'Aug': return MonthEnum.AUG
+    case 'Sep': return MonthEnum.SEP
+    case 'Oct': return MonthEnum.OCT
+    case 'Nov': return MonthEnum.NOV
+    case 'Dec': return MonthEnum.DEC
+    default: throw new Error('month name is invalid')
+  }
 }
 
-const getMonthNameByNumber = {
-  0: 'Jan',
-  1: 'Fev',
-  2: 'Mar',
-  3: 'Apr',
-  4: 'May',
-  5: 'Jun',
-  6: 'Jul',
-  7: 'Aug',
-  8: 'Sep',
-  9: 'Oct',
-  10: 'Nov',
-  11: 'Dec'
+function getMonthNameByNumber(index: number) {
+  switch(index) {
+    case 0: return 'Jan'
+    case 1: return 'Fev'
+    case 2: return 'Mar'
+    case 3: return 'Apr'
+    case 4: return 'May'
+    case 5: return 'Jun'
+    case 6: return 'Jul'
+    case 7: return 'Aug'
+    case 8: return 'Sep'
+    case 9: return 'Oct'
+    case 10: return 'Nov'
+    case 11: return 'Dec'
+    default: throw new Error('Invalid number to be used to get month name')
+  }
+
 }
 
 interface Month {
@@ -118,15 +124,6 @@ async function worksheetFactory(
   console.log('File is written.')
   return dest
 }
-
-/**
- * Metrics:
- *  [ ok ] - Quantity of clients registered in current year sorted by month.
- *  [ ok ] - Quantity of clothes in stock and out of stock
- *  [ ok ] - Quantity of clients activated and deactivated
- *  [ ok ] - Quantity of shopping cart created in current month?
- *  [    ] - Which are the customers who buy the most?
- */
 
 export class StatisticsController extends AbstractController implements IController, IStatisticsController {
   route: Router
@@ -197,12 +194,12 @@ export class StatisticsController extends AbstractController implements IControl
     const clientRepo = getRepository(Client)
     const clientList = await clientRepo.find()
     const currentDate = new Date()
-    const currentMonthName = getMonthNameByNumber[currentDate.getMonth()]
+    const currentMonthName = getMonthNameByNumber(currentDate.getMonth())
     const currentYear = currentDate.getFullYear()
 
     let clientRegisteredCurrentMonth = 0
     clientList.forEach((o) => {
-      const monthName = getMonthNameByNumber[o.createdAt.getMonth()]
+      const monthName = getMonthNameByNumber(o.createdAt.getMonth())
       if (monthName === currentMonthName && o.createdAt.getFullYear() === currentYear) {
         ++clientRegisteredCurrentMonth
       }
@@ -246,12 +243,12 @@ export class StatisticsController extends AbstractController implements IControl
     const shoppingCartRepo = getRepository(ShoppingCart)
     const shoppingCartList = await shoppingCartRepo.find()
     const currentDate = new Date()
-    const currentMonthName = getMonthNameByNumber[currentDate.getMonth()]
+    const currentMonthName = getMonthNameByNumber(currentDate.getMonth())
     const currentYear = currentDate.getFullYear()
 
     let shoppingCartCreatedCurrentMonth = 0
     shoppingCartList.forEach((o) => {
-      const monthName = getMonthNameByNumber[o.createdAt.getMonth()]
+      const monthName = getMonthNameByNumber(o.createdAt.getMonth())
       if (monthName === currentMonthName && o.createdAt.getFullYear() === currentYear) {
         ++shoppingCartCreatedCurrentMonth
       }
@@ -280,7 +277,7 @@ export class StatisticsController extends AbstractController implements IControl
 
     currentYearClientList.map(
       client => {
-        const monthName = getMonthNameByNumber[client.createdAt.getMonth()]
+        const monthName = getMonthNameByNumber(client.createdAt.getMonth())
         this.increaseClientNumberInMonth(QuantityClientsByMonth, monthName)
       }
     )
@@ -324,7 +321,7 @@ export class StatisticsController extends AbstractController implements IControl
   }
 
   private increaseClientNumberInMonth(QuantityClientsByMonth: Month[], month: string): void {
-    const monthEnum = getMonthEnumByMonthName[month] as MonthEnum
+    const monthEnum = getMonthEnumByMonthName(month) as MonthEnum
     QuantityClientsByMonth.forEach(o => {
       if (o.name === monthEnum) ++o.value
     })

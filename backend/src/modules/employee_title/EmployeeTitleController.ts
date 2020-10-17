@@ -1,10 +1,8 @@
 import { Router } from 'express'
 
-import { DTOController } from '@src/common/dto/DTOController'
-
-import { IController } from '@src/interfaces/IControllers'
-
-import { EmployeeTitle } from '@src/modules/employee_title/EmployeeTitle'
+import { DTOController } from './../../common/dto/DTOController'
+import { IController } from './../../interfaces/IControllers'
+import { EmployeeTitle } from './../../modules/employee_title/EmployeeTitle'
 import { AbstractController } from '../abstract.controller'
 
 export class EmployeeTitleController extends AbstractController implements IController {

@@ -1,7 +1,7 @@
 import multer, { Multer } from 'multer'
 import path from 'path'
 
-import APP_CONFIG from '@src/config/app.config'
+import APP_CONFIG from './../../config/app.config'
 
 function storage(module: string): Multer {
   const storage = multer.diskStorage({

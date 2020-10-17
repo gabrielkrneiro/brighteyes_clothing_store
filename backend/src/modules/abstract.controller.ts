@@ -1,4 +1,4 @@
-import { IAbstractController } from '@src/interfaces/IControllers'
+import { IAbstractController } from './../interfaces/IControllers'
 import { Request, Response } from 'express'
 import { FindManyOptions, FindOneOptions, getRepository, RemoveOptions, SaveOptions } from 'typeorm'
 

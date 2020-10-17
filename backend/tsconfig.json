@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "lib": ["ES6"],
     "outDir": "./dist",
     "rootDir": "./src",
@@ -14,6 +15,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "paths": {
       "@src/*": ["./src/*"]
@@ -23,5 +26,5 @@
     "sourceMap": true,
     "newLine": "lf"
   },
-  "include": ["src/**/*", "src/config"]
+  "include": ["src/**/*", "src/config", "src/docs/**/*", "src/public/**/*"]
 }

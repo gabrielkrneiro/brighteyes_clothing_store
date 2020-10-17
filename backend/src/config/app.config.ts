@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 config()
 /* eslint-disable */
-import logger from '@src/common/logger/logger'
+import logger from './../common/logger/logger'
 /* eslint-enable */
 
 function readVersionFile(): string {

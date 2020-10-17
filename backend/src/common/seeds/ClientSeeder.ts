@@ -2,8 +2,8 @@ import { ISeeder } from './ISeeder'
 
 import { objectFactory } from './objectFactory'
 import { getRepository } from 'typeorm'
-import { Client } from '@src/modules/client/Client'
-import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
+import { Client } from './../../modules/client/Client'
+import { EmployeeClientStatus } from './../../modules/employee_client_status/EmployeeClientStatus'
 import logger from '../logger/logger'
 
 export class ClientSeeder implements ISeeder<Client> {

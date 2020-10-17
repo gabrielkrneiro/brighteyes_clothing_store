@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
-import { EmployeeClientStatus } from '@src/modules/employee_client_status/EmployeeClientStatus'
+import { EmployeeClientStatus } from './../../modules/employee_client_status/EmployeeClientStatus'
 import { EmployeeTitle } from '../employee_title/EmployeeTitle'
 
 @Entity()

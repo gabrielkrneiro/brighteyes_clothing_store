@@ -3,7 +3,7 @@ import { ISeeder } from './ISeeder'
 import { objectFactory } from './objectFactory'
 import { ClothesStatus } from './../../modules/clothes_status/ClothesStatus'
 import { getRepository } from 'typeorm'
-import { ClothesStatusEnum } from '@src/modules/clothes_status/ClothesStatusEnum'
+import { ClothesStatusEnum } from './../../modules/clothes_status/ClothesStatusEnum'
 import logger from '../logger/logger'
 
 export class ClothesStatusSeeder implements ISeeder<ClothesStatus> {

@@ -5,9 +5,9 @@
   "author": "Gabriel Carneiro <gabrielcarneirocef@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --no-notify --ignore-watch node_modules src/server.ts",
+    "dev": "cd src && ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --no-notify --ignore-watch node_modules server.ts",
     "build": "babel src --extensions --out-dir dist --copy-files --no-copy-ignored",
-    "build2": "tsc",
+    "build2": "tsc && cp .env ./dist/ && cp package.json ./dist/ && cp ormconfig.json ./dist/ && cp -r ./src/doc ./dist/ && cp -r ./src/public ./dist/ && cd ./dist/ && yarn && ts-node server",
     "test": "jest",
     "start": "ts-node src/index.ts",
     "db:migrate": "ts-node src/common/seeds/runSeeders.ts"

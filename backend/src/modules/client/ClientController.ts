@@ -1,8 +1,8 @@
 import { Router } from 'express'
 
-import { Client } from '@src/modules/client/Client'
-import { IController } from '@src/interfaces/IControllers'
-import { DTOController } from '@src/common/dto/DTOController'
+import { Client } from './../../modules/client/Client'
+import { IController } from './../../interfaces/IControllers'
+import { DTOController } from './../../common/dto/DTOController'
 import { AbstractController } from '../abstract.controller'
 
 export class ClientController extends AbstractController implements IController {

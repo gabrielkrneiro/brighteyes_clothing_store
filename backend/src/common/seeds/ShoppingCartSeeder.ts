@@ -12,10 +12,9 @@ import { EmployeeTitleEnum } from './../../modules/employee_title/EmployeeTitleE
 import { Client } from './../../modules/client/Client'
 import { ShoppingCartStatus } from './../../modules/shopping_cart_status/ShoppingCartStatus'
 import { ShoppingCartEnum } from './../../modules/shopping_cart_status/ShoppingCartEnum'
-import { Clothes } from '@src/modules/clothes/Clothes'
+import { Clothes } from './../../modules/clothes/Clothes'
 import logger from '../logger/logger'
 
-// TODO: NAO ESTÁ RODANDO!!!!
 export class ShoppingCartSeeder implements ISeeder<ShoppingCart> {
   objectList: ShoppingCart[]
 

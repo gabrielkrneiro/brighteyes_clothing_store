@@ -1,10 +1,10 @@
 import { getRepository } from 'typeorm'
 import { Request, Response, Router } from 'express'
 
-import { DTOController } from '@src/common/dto/DTOController'
-import { IController } from '@src/interfaces/IControllers'
-import { AbstractController } from '@src/modules/abstract.controller'
-import { Employee } from '@src/modules/employee/Employee'
+import { DTOController } from './../../common/dto/DTOController'
+import { IController } from './../../interfaces/IControllers'
+import { AbstractController } from './../../modules/abstract.controller'
+import { Employee } from './../../modules/employee/Employee'
 import { EmployeeCreateDTO } from './EmployeeDTO'
 import { EmployeeFactory } from './EmployeeFactory'
 

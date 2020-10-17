@@ -1,8 +1,8 @@
 import { Router } from 'express'
 
-import { ShoppingCartStatus } from '@src/modules/shopping_cart_status/ShoppingCartStatus'
-import { IController } from '@src/interfaces/IControllers'
-import { DTOController } from '@src/common/dto/DTOController'
+import { ShoppingCartStatus } from './../../modules/shopping_cart_status/ShoppingCartStatus'
+import { IController } from './../../interfaces/IControllers'
+import { DTOController } from './../../common/dto/DTOController'
 import { AbstractController } from '../abstract.controller'
 
 export class ShoppingCartStatusController extends AbstractController implements IController {

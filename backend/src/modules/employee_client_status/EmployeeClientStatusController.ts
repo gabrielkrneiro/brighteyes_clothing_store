@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import { DTOController } from '@src/common/dto/DTOController'
-import { IController } from '@src/interfaces/IControllers'
+import { DTOController } from './../../common/dto/DTOController'
+import { IController } from './../../interfaces/IControllers'
 import { AbstractController } from '../abstract.controller'
 import { EmployeeClientStatus } from './EmployeeClientStatus'
 
